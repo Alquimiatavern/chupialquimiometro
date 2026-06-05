@@ -1541,8 +1541,156 @@ setInterval(()=>{
 initSplash();
 </script>
 
-  <!-- Firebase SDK (compat - works with global scope) -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <!-- Firebase REST API - No CORS issues -->
+  <script>
+    const FB_PROJECT = 'chupialquimiometro';
+    const FB_API_KEY = 'AIzaSyAKn-Vyi9zE3ggJbN2UqdUTi_zE7omzE2c';
+    const FB_BASE = `https://firestore.googleapis.com/v1/projects/${FB_PROJECT}/databases/(default)/documents`;
+    const FB_DOC = `${FB_BASE}/chupialquimiometro/estado`;
+    const FB_LISTEN = `https://firestore.googleapis.com/v1/projects/${FB_PROJECT}/databases/(default)/documents/chupialquimiometro/estado?key=${FB_API_KEY}`;
+
+    // Convert JS object to Firestore REST format
+    function toFirestore(obj) {
+      const fields = {};
+      for (const [k, v] of Object.entries(obj)) {
+        if (v === null || v === undefined) {
+          fields[k] = { nullValue: null };
+        } else if (typeof v === 'boolean') {
+          fields[k] = { booleanValue: v };
+        } else if (typeof v === 'number') {
+          fields[k] = { integerValue: String(v) };
+        } else if (typeof v === 'string') {
+          fields[k] = { stringValue: v };
+        } else if (Array.isArray(v)) {
+          fields[k] = { arrayValue: { values: v.map(item => toFirestoreValue(item)) } };
+        } else if (typeof v === 'object') {
+          fields[k] = { mapValue: { fields: toFirestore(v) } };
+        }
+      }
+      return fields;
+    }
+
+    function toFirestoreValue(v) {
+      if (v === null || v === undefined) return { nullValue: null };
+      if (typeof v === 'boolean') return { booleanValue: v };
+      if (typeof v === 'number') return { integerValue: String(v) };
+      if (typeof v === 'string') return { stringValue: v };
+      if (Array.isArray(v)) return { arrayValue: { values: v.map(toFirestoreValue) } };
+      if (typeof v === 'object') return { mapValue: { fields: toFirestore(v) } };
+      return { stringValue: String(v) };
+    }
+
+    // Convert Firestore REST format back to JS object
+    function fromFirestore(fields) {
+      const obj = {};
+      for (const [k, v] of Object.entries(fields)) {
+        obj[k] = fromFirestoreValue(v);
+      }
+      return obj;
+    }
+
+    function fromFirestoreValue(v) {
+      if (v.nullValue !== undefined) return null;
+      if (v.booleanValue !== undefined) return v.booleanValue;
+      if (v.integerValue !== undefined) return Number(v.integerValue);
+      if (v.doubleValue !== undefined) return Number(v.doubleValue);
+      if (v.stringValue !== undefined) return v.stringValue;
+      if (v.arrayValue !== undefined) return (v.arrayValue.values || []).map(fromFirestoreValue);
+      if (v.mapValue !== undefined) return fromFirestore(v.mapValue.fields || {});
+      return null;
+    }
+
+    // SAVE to Firestore via REST
+    window.guardarFirebase = async function() {
+      try {
+        window._lastSave = Date.now();
+        const stateToSave = {
+          general: S.general, noche: S.noche, activas: S.activas,
+          nombres: S.nombres, lastOp: S.lastOp,
+          chupSueltosHoy: S.chupSueltosHoy, bonosHoy: S.bonosHoy,
+          diaActual: S.diaActual, nocheVisible: S.nocheVisible,
+          hora: S.hora, horaInicio: S.horaInicio, horaFin: S.horaFin,
+          chupitoDia: S.chupitoDia, premios: S.premios,
+          nocheContenido: S.nocheContenido, mensajes: S.mensajes,
+          msgLastId: S.msgLastId, histGanadores: S.histGanadores,
+          nocheHist: S.nocheHist, histDias: S.histDias,
+          prevRank: S.prevRank, updatedAt: Date.now()
+        };
+        await fetch(`${FB_DOC}?key=${FB_API_KEY}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fields: toFirestore(stateToSave) })
+        });
+      } catch(e) {
+        console.warn('Firebase save error:', e);
+      }
+    };
+
+    // LOAD from Firestore via REST
+    window.cargarFirebase = async function() {
+      try {
+        const res = await fetch(`${FB_DOC}?key=${FB_API_KEY}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.fields) {
+            const state = fromFirestore(data.fields);
+            Object.assign(S, state);
+            NOMBRES_DEFAULT.forEach(p => {
+              if(S.general[p]===undefined) S.general[p]=0;
+              if(S.noche[p]===undefined) S.noche[p]=0;
+              if(S.activas[p]===undefined) S.activas[p]=false;
+            });
+            console.log('Estado cargado desde Firebase REST ✅');
+            renderAll();
+            applyChupitoDia();
+            applyHoraState();
+            updateMsgBadge();
+          }
+        }
+      } catch(e) {
+        console.warn('Firebase load error:', e);
+      }
+    };
+
+    // POLL for changes every 5 seconds
+    let _pollInterval = null;
+    function startPolling() {
+      if (_pollInterval) return;
+      _pollInterval = setInterval(async () => {
+        try {
+          const res = await fetch(`${FB_DOC}?key=${FB_API_KEY}`);
+          if (!res.ok) return;
+          const data = await res.json();
+          if (!data.fields) return;
+          const state = fromFirestore(data.fields);
+          const remoteTime = state.updatedAt || 0;
+          const ourSave = window._lastSave || 0;
+          if (remoteTime > ourSave + 2000) {
+            Object.assign(S, state);
+            NOMBRES_DEFAULT.forEach(p => {
+              if(S.general[p]===undefined) S.general[p]=0;
+              if(S.noche[p]===undefined) S.noche[p]=0;
+              if(S.activas[p]===undefined) S.activas[p]=false;
+            });
+            window._lastFirebaseUpdate = Date.now();
+            console.log('Actualización recibida ✅');
+            renderAll();
+            applyChupitoDia();
+            applyHoraState();
+            updateMsgBadge();
+          }
+        } catch(e) {}
+      }, 5000);
+    }
+
+    // Init: load state then start polling
+    window.addEventListener('load', () => {
+      setTimeout(async () => {
+        await window.cargarFirebase();
+        startPolling();
+      }, 800);
+    });
+  </script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
   <script>
     const firebaseConfig = {
