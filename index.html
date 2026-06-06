@@ -1,3 +1,4 @@
+HTML
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -17,7 +18,7 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:'Barlow Condensed',sans-serif;min-height:100vh;overflow-x:hidden;}
 
-/* ── SPLASH ── */
+/* ── SPLASH ORIGINAL ── */
 #splash{position:fixed;inset:0;background:#000;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;}
 #splash.hide{display:none;}
 .splash-brand{text-align:center;margin-bottom:24px;}
@@ -27,17 +28,10 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow Condensed',sans-
 .splash-sub1{font-family:'Bebas Neue',sans-serif;font-size:clamp(1rem,3vw,1.5rem);letter-spacing:.18em;color:var(--gold);margin-top:4px;}
 .splash-sub2{font-size:clamp(.7rem,2vw,.9rem);letter-spacing:.22em;color:#555;text-transform:uppercase;margin-top:2px;}
 .splash-divider{width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:16px auto;}
-.splash-sponsors{display:flex;align-items:center;justify-content:center;min-height:80px;margin-bottom:20px;}
-.sponsor-slot{text-align:center;opacity:0;transition:opacity .5s ease;}
-.sponsor-slot.visible{opacity:1;}
-.sponsor-placeholder{width:120px;height:70px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;}
-.sponsor-placeholder span{font-family:'Bebas Neue',sans-serif;font-size:.85rem;color:var(--muted);letter-spacing:.1em;}
-.sponsor-img{max-width:140px;max-height:80px;object-fit:contain;}
-.splash-enter{display:none;margin-top:8px;}
-.splash-enter.show{display:block;}
-.btn-enter{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.15em;padding:14px 48px;background:linear-gradient(135deg,var(--gold-d),var(--gold));color:#111;border:none;border-radius:5px;cursor:pointer;transition:all .2s;animation:pulse-enter 1.5s ease-in-out infinite;}
-@keyframes pulse-enter{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.4)}50%{box-shadow:0 0 0 12px rgba(201,168,76,0)}}
-.btn-enter:hover{background:linear-gradient(135deg,var(--gold),var(--gold-b));}
+.splash-enter{margin-top:15px;display:block;}
+.btn-enter{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.15em;padding:14px 54px;background:linear-gradient(135deg,var(--gold-d),var(--gold));color:#111;border:none;border-radius:5px;cursor:pointer;transition:all .2s;animation:pulse-enter 1.5s ease-in-out infinite;}
+@keyframes pulse-enter{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.55)}50%{box-shadow:0 0 0 14px rgba(201,168,76,0)}}
+.btn-enter:hover{background:linear-gradient(135deg,var(--gold),var(--gold-b));transform:scale(1.02);}
 
 /* ── HEADER ── */
 header{position:relative;text-align:center;padding:16px 12px 12px;background:linear-gradient(180deg,#111,var(--bg));border-bottom:1px solid #1f1f1f;overflow:hidden;}
@@ -78,7 +72,6 @@ header::before{content:'';position:absolute;top:-60px;left:50%;transform:transla
 .tabs{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);position:relative;}
 .tab{flex:1;padding:11px 6px;font-family:'Barlow Condensed',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:transparent;color:var(--muted);border:none;border-bottom:3px solid transparent;cursor:pointer;transition:all .2s;position:relative;}
 .tab:hover{color:#aaa;}.tab.on{color:var(--gold);border-bottom-color:var(--gold);}.tab-admin-discrete{flex:0 0 44px;font-size:1.1rem;color:var(--muted);opacity:.45;}.tab-admin-discrete:hover{opacity:.7;}.tab-admin-discrete.on{opacity:1;color:var(--gold);}
-/* badge bocadillo */
 .msg-badge{display:none;position:absolute;top:4px;right:2px;width:28px;height:28px;background:#25D366;border-radius:50%;align-items:center;justify-content:center;animation:badge-pulse 1.2s ease-in-out infinite;}
 .msg-badge.on{display:flex;}
 @keyframes badge-pulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(37,211,102,.5)}50%{transform:scale(1.1);box-shadow:0 0 0 4px rgba(37,211,102,0)}}
@@ -86,7 +79,8 @@ header::before{content:'';position:absolute;top:-60px;left:50%;transform:transla
 
 /* ── MAIN ── */
 .main{padding:14px;max-width:1400px;margin:0 auto;}
-.panel{display:none;}.panel.on{display:block;}
+.panel{display:none;}
+.panel.on{display:block;}
 
 /* ── DUAL ── */
 .dual{display:grid;grid-template-columns:3fr 2fr;gap:14px;align-items:start;}
@@ -99,7 +93,9 @@ header::before{content:'';position:absolute;top:-60px;left:50%;transform:transla
 /* ── PODIO ── */
 .podio{display:flex;justify-content:center;align-items:flex-end;gap:10px;padding:16px 12px 0;}
 .pi{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1;max-width:160px;}
-.pi.p1{order:2}.pi.p2{order:1}.pi.p3{order:3}
+.pi.p1{order:2}
+.pi.p2{order:1}
+.pi.p3{order:3}
 .pi-crown{font-size:1.3rem;}
 .pi-name{font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:.04em;text-align:center;line-height:1.15;word-break:break-word;}
 .pi-pts{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;line-height:1;}
@@ -109,7 +105,6 @@ header::before{content:'';position:absolute;top:-60px;left:50%;transform:transla
 .pi.p2 .pi-block{height:52px;background:linear-gradient(180deg,#909090,#505050);}
 .pi.p3 .pi-block{height:36px;background:linear-gradient(180deg,#A0622A,#5a3515);}
 .pi.p1 .pi-pts{color:var(--gold-b);}.pi.p2 .pi-pts{color:var(--silver);}.pi.p3 .pi-pts{color:var(--bronze);}
-/* diferencias */
 .gap-row{display:flex;justify-content:space-around;padding:8px 12px 0;flex-wrap:wrap;gap:6px;}
 .gap-item{font-size:.72rem;color:var(--muted);text-align:center;background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:4px 8px;}
 .gap-item strong{color:var(--red-b);font-family:'Bebas Neue',sans-serif;font-size:.95rem;}
@@ -155,7 +150,8 @@ header::before{content:'';position:absolute;top:-60px;left:50%;transform:transla
 .info-tabs{display:flex;gap:5px;margin-bottom:14px;flex-wrap:wrap;}
 .info-tab{flex:1;min-width:80px;padding:8px 6px;font-family:'Barlow Condensed',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--bg3);color:var(--muted);border:1px solid var(--border);border-radius:4px;cursor:pointer;transition:all .2s;text-align:center;}
 .info-tab.on{background:var(--gold-d);color:var(--text);border-color:var(--gold-d);}
-.info-panel{display:none;}.info-panel.on{display:block;}
+.info-panel{display:none;}
+.info-panel.on{display:block;}
 
 /* INFO content */
 .info-block{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:16px;margin-bottom:12px;}
@@ -168,17 +164,17 @@ header::before{content:'';position:absolute;top:-60px;left:50%;transform:transla
 .info-warning p:last-child{margin-bottom:0;}
 .info-tip{background:rgba(255,122,0,.06);border:1px solid rgba(255,122,0,.2);border-left:4px solid var(--orange);border-radius:4px;padding:10px 14px;margin:10px 0;font-size:.84rem;color:#ffbb77;}
 
-/* premios subpestañas */
 .premios-tabs{display:flex;gap:5px;margin-bottom:12px;}
 .premios-tab{flex:1;padding:7px;font-family:'Barlow Condensed',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--bg3);color:var(--muted);border:1px solid var(--border);border-radius:4px;cursor:pointer;text-align:center;transition:all .2s;}
 .premios-tab.on{background:var(--gold-d);color:var(--text);}
-.premios-panel{display:none;}.premios-panel.on{display:block;}
+.premios-panel{display:none;}
+.premios-panel.on{display:block;}
 .premio-item{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:12px 14px;margin-bottom:8px;}
 .premio-item-header{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
 .premio-icon{font-size:1.4rem;}
 .premio-title{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.08em;color:var(--gold);}
 .premio-desc{font-size:.85rem;color:#bbb;font-style:italic;}
-.noche-proxima{background:linear-gradient(135deg,rgba(255,122,0,.08),rgba(201,168,76,.05));border:1px solid rgba(255,122,0,.2);border-radius:6px;padding:14px;margin-bottom:12px;text-align:center;}
+.noche-proxima{background:linear-gradient(135deg,rgba(255,122,0,.08),rgba(201,168,76,.06));border:1px solid rgba(255,122,0,.2);border-radius:6px;padding:14px;margin-bottom:12px;text-align:center;}
 .noche-proxima-lbl{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.15em;margin-bottom:4px;}
 .noche-proxima-fecha{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--orange);letter-spacing:.08em;}
 .noche-proxima-premio{font-size:.85rem;color:#bbb;margin-top:4px;}
@@ -214,11 +210,13 @@ header::before{content:'';position:absolute;top:-60px;left:50%;transform:transla
 .pin-key:hover{background:var(--bg4);border-color:var(--gold-d);}
 .pin-key.clr{color:var(--muted);font-size:1rem;}
 .pin-error{color:var(--red-b);font-size:.85rem;margin-top:10px;min-height:20px;}
-.admin-inner{display:none;}.admin-inner.on{display:block;}
+.admin-inner{display:none;}
+.admin-inner.on{display:block;}
 .admin-tabs{display:flex;gap:5px;margin-bottom:14px;flex-wrap:wrap;}
 .admin-tab{flex:1;min-width:70px;padding:9px 6px;font-family:'Barlow Condensed',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;background:var(--bg3);color:var(--muted);border:1px solid var(--border);border-radius:4px;cursor:pointer;transition:all .2s;text-align:center;}
 .admin-tab.on{background:var(--gold-d);color:var(--text);border-color:var(--gold-d);}
-.admin-panel{display:none;}.admin-panel.on{display:block;}
+.admin-panel{display:none;}
+.admin-panel.on{display:block;}
 .admin-section{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px;margin-bottom:12px;}
 .admin-section-title{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.1em;color:var(--gold);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--border);}
 .op-peña-list{display:flex;flex-direction:column;gap:5px;max-height:360px;overflow-y:auto;}
@@ -253,7 +251,8 @@ header::before{content:'';position:absolute;top:-60px;left:50%;transform:transla
 .hist-pts{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--gold);}
 .hist-empty{color:var(--muted);font-size:.85rem;padding:10px 0;}
 .admin2-locked{display:block;}.admin2-locked.hide{display:none;}
-.admin2-content{display:none;}.admin2-content.on{display:block;}
+.admin2-content{display:none;}
+.admin2-content.on{display:block;}
 .admin-stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px;}
 .admin-stat{text-align:center;padding:12px;background:var(--bg3);border-radius:4px;border:1px solid var(--border);}
 .admin-stat-val{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--gold);line-height:1;}
@@ -279,15 +278,12 @@ header::before{content:'';position:absolute;top:-60px;left:50%;transform:transla
 .toggle-sw::after{content:'';position:absolute;width:12px;height:12px;background:#fff;border-radius:50%;top:3px;left:3px;transition:transform .2s;}
 .insc-card.on .toggle-sw{background:var(--green);}
 .insc-card.on .toggle-sw::after{transform:translateX(14px);}
-/* admin editable fields */
 .admin-edit-field{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);font-family:'Barlow Condensed',sans-serif;font-size:.92rem;padding:8px 10px;border-radius:4px;outline:none;margin-bottom:6px;}
 .admin-edit-field:focus{border-color:var(--gold-d);}
 textarea.admin-edit-field{resize:vertical;min-height:60px;}
-/* mensajes admin */
 .msg-admin-card{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:12px;margin-bottom:8px;}
 .msg-admin-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;}
 .msg-type-sel{background:var(--bg2);border:1px solid var(--border);color:var(--text);font-family:'Barlow Condensed',sans-serif;font-size:.82rem;padding:4px 8px;border-radius:3px;outline:none;cursor:pointer;}
-/* RESET */
 .reset-danger-box{background:rgba(204,26,26,.08);border:2px solid rgba(204,26,26,.3);border-radius:6px;padding:16px;text-align:center;}
 .reset-danger-title{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--red-b);letter-spacing:.1em;margin-bottom:8px;}
 .reset-danger-sub{font-size:.82rem;color:#ff9090;margin-bottom:14px;}
@@ -343,7 +339,7 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════ SPLASH ═══ -->
+<!-- ═══════════════════════════════════════════ SPLASH (ACTIVO) ═══ -->
 <div id="splash">
   <div class="splash-brand">
     <svg class="splash-logo-img" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -359,14 +355,10 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
     <div class="splash-sub1">San Juan 2026</div>
     <div class="splash-sub2">Los Corrales de Buelna</div>
     <div class="splash-divider"></div>
-    <div style="font-family:'Cinzel Decorative',serif;color:var(--gold);font-size:.9rem;letter-spacing:.2em;opacity:.7">Alquimia Tavern</div>
+    <div style="font-family:'Cinzel Decorative',serif;color:var(--gold);font-size:1rem;letter-spacing:.25em;">Alquimia Tavern</div>
   </div>
-  <div class="splash-sponsors" id="splash-sponsors">
-    <div class="sponsor-slot" id="sponsor-slot">
-      <div class="sponsor-placeholder"><span>🥃</span><span>PATROCINADOR</span></div>
-    </div>
-  </div>
-  <div class="splash-enter" id="splash-enter">
+
+  <div class="splash-enter">
     <button class="btn-enter" onclick="enterApp()">⚗️ ENTRAR</button>
   </div>
 </div>
@@ -474,7 +466,6 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
         <div class="premios-tab" id="ptab-noche" onclick="setPremiosTab('noche')">🌙 Ganador Noche</div>
       </div>
       <div class="premios-panel on" id="ppanel-general">
-        <!-- podio en tiempo real -->
         <div class="panel-box" id="premios-podio-box" style="margin-bottom:12px;"></div>
         <div class="info-block" id="premios-general-content"></div>
       </div>
@@ -506,7 +497,7 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
       </div>
     </div>
 
-  </div><!-- /panel-info -->
+  </div>
 
   <!-- ADMIN -->
   <div class="panel" id="panel-admin">
@@ -594,9 +585,8 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
           </div>
         </div>
 
-        <!-- CONTENIDO (premios, mensajes, chupito del día, próxima noche) -->
+        <!-- CONTENIDO -->
         <div class="admin-panel" id="apanel-contenido">
-          <!-- CHUPITO DEL DÍA -->
           <div class="admin-section">
             <div class="admin-section-title">🥃 Chupito del día</div>
             <div class="toggle-row" style="margin-bottom:10px;">
@@ -605,7 +595,6 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
             </div>
             <input class="admin-edit-field" type="text" id="chupito-dia-input" placeholder="Ej: Licor de Piruleta" oninput="updateChupitoDia()">
           </div>
-          <!-- PREMIOS GENERALES -->
           <div class="admin-section">
             <div class="admin-section-title">🏆 Premios Ranking General</div>
             <div style="font-size:.78rem;color:var(--muted);margin-bottom:8px;">🥇 Primer premio</div>
@@ -615,23 +604,18 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
             <div style="font-size:.78rem;color:var(--muted);margin-bottom:8px;">🥉 Tercer premio</div>
             <textarea class="admin-edit-field" id="premio-bronce" placeholder="Describe el premio de bronce..." oninput="savePremios()"></textarea>
           </div>
-          <!-- PRÓXIMA NOCHE CON PREMIO -->
           <div class="admin-section">
             <div class="admin-section-title">🌙 Próxima noche con premio</div>
             <input class="admin-edit-field" type="text" id="noche-proxima-fecha-input" placeholder="Ej: Sábado 28 de junio" oninput="saveNocheContenido()">
             <textarea class="admin-edit-field" id="noche-proxima-premio-input" placeholder="Describe el premio de la noche..." oninput="saveNocheContenido()"></textarea>
           </div>
-          <!-- HISTORIAL GANADORES NOCHE CON PREMIO -->
           <div class="admin-section">
-            <div class="admin-section-title">📜 Historial ganadores noche (con premio)</div>
-            <p style="font-size:.8rem;color:var(--muted);margin-bottom:10px;">Añade aquí los ganadores ya premiados con el detalle del premio entregado</p>
+            <div class="admin-section-title">📦 Historial ganadores noche (con premio)</div>
             <div id="hist-ganadores-admin"></div>
             <button class="btn-sm btn-gold" style="margin-top:8px;" onclick="addHistGanador()">+ Añadir ganador</button>
           </div>
-          <!-- MENSAJES -->
           <div class="admin-section">
             <div class="admin-section-title">💬 Mensajes para Info</div>
-            <p style="font-size:.8rem;color:var(--muted);margin-bottom:10px;">Los mensajes activos aparecen en la pestaña Info → Mensajes con el badge de notificación</p>
             <div id="mensajes-admin"></div>
             <button class="btn-sm btn-gold" style="margin-top:8px;" onclick="addMensaje()">+ Nuevo mensaje</button>
           </div>
@@ -696,7 +680,6 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
                 <div class="admin-stat" style="border-color:var(--gold-d);"><div class="admin-stat-val" id="a2-tot-eur">0€</div><div class="admin-stat-lbl">Total</div></div>
               </div>
             </div>
-            <!-- RESET COMPLETO -->
             <div class="admin-section">
               <div class="admin-section-title">🔄 Reset completo del sistema</div>
               <div class="reset-danger-box">
@@ -718,8 +701,8 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
     </div>
   </div>
 
-</div><!-- /main -->
-</div><!-- /app -->
+</div>
+</div>
 
 <button class="lock-btn" id="lock-btn" onclick="lockAdmin()" style="display:none">🔒 Cerrar admin</button>
 <div class="toast" id="toast"><span class="tn" id="toast-name"></span><span id="toast-msg"></span></div>
@@ -736,7 +719,7 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
       <div class="nk" onclick="nk('4')">4</div><div class="nk" onclick="nk('5')">5</div><div class="nk" onclick="nk('6')">6</div>
       <div class="nk" onclick="nk('7')">7</div><div class="nk" onclick="nk('8')">8</div><div class="nk" onclick="nk('9')">9</div>
       <div class="nk clr" onclick="nkC()">C</div><div class="nk" onclick="nk('0')">0</div><div class="nk bksp" onclick="nkBk()">⌫</div>
-      <div class="nk bono" onclick="nkBono()">🎫 BONO +15</div><div class="nk bksp" onclick="nkBk()" style="grid-column:3;">⌫</div>
+      <div class="nk bono" onclick="nkBono()">🎫 BONO +15</div>
     </div>
     <div class="np-bono-note">⚠️ BONO siempre +15 pts fijos (sin ×2 en Hora Doble)</div>
     <div class="np-hora-badge" id="np-hora-badge"></div>
@@ -751,18 +734,7 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
 
 <script>
 const PIN1="394549", PIN2="19761973";
-const NOMBRES_DEFAULT=["Peña Dickens","Vamos a liar la del pulpo","Malbebiendo","Pequeños Fiesteros","Perdiendo el Norte","Reyes de Copas","Sálvese quien beba","Si lo sé no vengo","La Coza Noztra","La Envodkada","Tarde pero llegamos","The Originals / Turbo Dickens","Los que Faltaban","El Beber me llama","Los Zánganos","Mañana te lo cuento","Resacón en la Penya","Los Bizcochitos","Dskalimba","Ceda el Vaso","Los Kiwis","El Código da Whisky","Autiblinders","Comando Garrafón","Los de Siempre","Vamos B-Viendo","Área 51","","","","","","","","","","","","","",""];
-const TOTAL_SLOTS=40;
-const SLOTS_EXTRA_START=27; // slots 27-39 son los 13 extras vacíos
-
-// PATROCINADORES (sustituir src por URLs reales cuando se tengan los logos)
-const SPONSORS = [
-  {name:"Patrocinador 1",src:null},
-  {name:"Patrocinador 2",src:null},
-  {name:"Patrocinador 3",src:null},
-  {name:"Patrocinador 4",src:null},
-  {name:"Patrocinador 5",src:null}
-];
+const NOMBRES_DEFAULT=["Peña Dickens","Vamos a liar la del pulpo","Malbebiendo","Pequeños Fiesteros","Perdiendo el Norte","Reyes de Copas","Sálvese quien beba","Si lo sé no vengo","La Coza Noztra","La Envodkada","Tarde pero llegamos","The Originals / Turbo Dickens","Los que Faltaban"," El Beber me llama","Los Zánganos","Mañana te lo cuento","Resacón en la Penya","Los Bizcochitos","Dskalimba","Ceda el Vaso","Los Kiwis","El Código da Whisky","Autiblinders","Comando Garrafón","Los de Siempre","Vamos B-Viendo","Área 51","","","","","","","","","","","","","",""];
 
 let S={
   nombres:[...NOMBRES_DEFAULT],
@@ -773,12 +745,11 @@ let S={
   nocheVisible:true,
   tab:'ranking',adminOpen:false,admin2Open:false,adminTab:'op',
   prevRank:{},diaActual:getDiaLabel(),
-  // nuevos
   chupitoDia:{activo:false,nombre:''},
   premios:{oro:'',plata:'',bronce:''},
   nocheContenido:{fecha:'',premio:''},
-  histGanadores:[], // [{dia,peña,pts,premio}]
-  mensajes:[], // [{id,titulo,cuerpo,tipo,activo}]
+  histGanadores:[], 
+  mensajes:[], 
   msgLastId:0,
   msgVisto:false
 };
@@ -790,7 +761,7 @@ function guardarLocalmente(){
     window.guardarFirebase();
   }
 }
-function cargarLocalmente(){try{const g=localStorage.getItem('chupialquimometro_v8');if(g){const p=JSON.parse(g);Object.assign(S,p);}}catch(e){console.warn('Estado corrupto, iniciando limpio');}}
+function cargarLocalmente(){try{const g=localStorage.getItem('chupialquimiometro_v8');if(g){const p=JSON.parse(g);Object.assign(S,p);}}catch(e){console.warn('Estado corrupto');}}
 
 cargarLocalmente();
 NOMBRES_DEFAULT.forEach(p=>{
@@ -800,34 +771,6 @@ NOMBRES_DEFAULT.forEach(p=>{
 });
 
 function getDiaLabel(){return new Date().toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});}
-
-// ── SPLASH ──
-function initSplash(){
-  let idx=0;
-  const slot=document.getElementById('sponsor-slot');
-  const enterDiv=document.getElementById('splash-enter');
-  function showSponsor(){
-    if(idx>=SPONSORS.length){return;}
-    const sp=SPONSORS[idx];
-    slot.innerHTML='';
-    const div=document.createElement('div');
-    if(sp.src){
-      const img=document.createElement('img');
-      img.src=sp.src; img.className='sponsor-img'; img.alt=sp.name;
-      div.appendChild(img);
-    } else {
-      div.className='sponsor-placeholder';
-      div.innerHTML=`<span>🥃</span><span style="font-family:'Bebas Neue',sans-serif;font-size:.8rem;color:var(--muted);letter-spacing:.1em">${sp.name}</span>`;
-    }
-    div.style.opacity='0'; div.style.transition='opacity .5s';
-    slot.appendChild(div);
-    setTimeout(()=>div.style.opacity='1',50);
-    if(idx===0){enterDiv.classList.add('show');}
-    idx++;
-    if(idx<SPONSORS.length)setTimeout(showSponsor,1500);
-  }
-  setTimeout(showSponsor,1200);
-}
 
 function enterApp(){
   document.getElementById('splash').classList.add('hide');
@@ -839,7 +782,6 @@ function enterApp(){
   updateMsgBadge();
 }
 
-// ── FORMAT ──
 function fmtCountdown(totalSecs){
   const h=Math.floor(totalSecs/3600),m=Math.floor((totalSecs%3600)/60),s=totalSecs%60;
   const hh=String(h).padStart(2,'0'),mm=String(m).padStart(2,'0'),ss=String(s).padStart(2,'0');
@@ -851,7 +793,7 @@ let pinBuf="";
 function pinKey(d){if(pinBuf.length>=6)return;pinBuf+=d;updPinDots();if(pinBuf.length===6)setTimeout(checkPin,150);}
 function pinBksp(){pinBuf=pinBuf.slice(0,-1);updPinDots();}
 function pinClear(){pinBuf="";updPinDots();document.getElementById('pin-error').textContent="";}
-function updPinDots(){for(let i=0;i<6;i++)document.getElementById('pd'+i).classList.toggle('filled',i<pinBuf.length);}
+function updPinDots(){for(let i=0;i<6;i++)document.getElementById('pd'+i).classList.toggle('filled',i<pinBuf.length); }
 function checkPin(){
   if(pinBuf===PIN1){
     document.getElementById('pin-screen').style.display='none';
@@ -940,7 +882,6 @@ function setInfoTab(t){
     S.msgVisto=true;updateMsgBadge();guardarLocalmente();
     renderMensajesPublic();
   }
-  if(t==='func'||t==='proyecto'){}
 }
 
 function setPremiosTab(t){
@@ -979,18 +920,22 @@ function updateChupitoDia(){
 function applyChupitoDia(){
   const bar=document.getElementById('chupito-dia-bar');
   const nombre=document.getElementById('chupito-dia-nombre');
-  if(S.chupitoDia.activo&&S.chupitoDia.nombre){
-    bar.classList.add('on');
-    nombre.textContent=S.chupitoDia.nombre;
-  }else{bar.classList.remove('on');}
+  if(bar && nombre) {
+    if(S.chupitoDia.activo&&S.chupitoDia.nombre){
+      bar.classList.add('on');
+      nombre.textContent=S.chupitoDia.nombre;
+    }else{bar.classList.remove('on');}
+  }
 }
 
 // ── MSG BADGE ──
 function updateMsgBadge(){
   const activosCnt=S.mensajes.filter(m=>m.activo).length;
   const badge=document.getElementById('msg-badge');
-  if(activosCnt>0&&!S.msgVisto){badge.classList.add('on');}
-  else{badge.classList.remove('on');}
+  if(badge) {
+    if(activosCnt>0&&!S.msgVisto){badge.classList.add('on');}
+    else{badge.classList.remove('on');}
+  }
 }
 
 // ── HORA DOBLE ──
@@ -1003,7 +948,7 @@ function applyHoraState(){
   if(S.hora){
     if(btn){btn.classList.add('on');btn.textContent='🔥 Desactivar Hora Doble';}
     if(banner)banner.classList.add('on');
-    if(sbox){sbox.classList.add('on');sbox.textContent='🔥 ACTIVA — puntos ×2 · BONO siempre +15 fijos';}
+    if(sbox){sbox.classList.add('on');sbox.textContent='🔥 ACTIVA — puntos manuales ×2 · BONO siempre +15 fijos';}
     playBeep();
   }else{
     if(btn){btn.classList.remove('on');btn.textContent='Activar Hora Doble';}
@@ -1026,12 +971,12 @@ function renderCountdown(){
   if(S.hora){
     const left=finS-nowS;
     if(left>0){cdTime.innerHTML=fmtCountdown(left);cdTime.className='cd-time active';cdSched.innerHTML=`🔥 Activa · termina ${S.horaFin}`;}
-    else{cdTime.innerHTML='00<span style="font-size:.6em;opacity:.65;font-family:Barlow Condensed,sans-serif">h</span>:00<span style="font-size:.6em;opacity:.65;font-family:Barlow Condensed,sans-serif">m</span>:00<span style="font-size:.6em;opacity:.65;font-family:Barlow Condensed,sans-serif">s</span>';cdTime.className='cd-time';cdSched.innerHTML='Hora Doble terminada';}
+    else{cdTime.innerHTML='00h:00m:00s';cdTime.className='cd-time';cdSched.innerHTML='Hora Doble terminada';}
   }else{
     const left2=iniS-nowS;
     if(left2>0){cdTime.innerHTML=fmtCountdown(left2);cdTime.className='cd-time';cdSched.innerHTML=`Próxima Hora Doble: ${sched}`;}
     else if(nowS>=iniS&&nowS<finS){cdTime.innerHTML='¡AHORA!';cdTime.className='cd-time active';cdSched.innerHTML=`Hora Doble: ${sched}`;}
-    else{cdTime.innerHTML='--<span style="font-size:.6em;opacity:.65;font-family:Barlow Condensed,sans-serif">h</span>:--<span style="font-size:.6em;opacity:.65;font-family:Barlow Condensed,sans-serif">m</span>:--<span style="font-size:.6em;opacity:.65;font-family:Barlow Condensed,sans-serif">s</span>';cdTime.className='cd-time';cdSched.innerHTML=`Hora Doble: ${sched}`;}
+    else{cdTime.innerHTML='--h:--m:--s';cdTime.className='cd-time';cdSched.innerHTML=`Hora Doble: ${sched}`;}
   }
 }
 setInterval(()=>{renderCountdown();checkAutoHora();},1000);
@@ -1052,7 +997,7 @@ function nkC(){npVal="";updNpDisp();}
 function nkBk(){npVal=npVal.slice(0,-1);updNpDisp();}
 function nkBono(){applyOp('bono');}
 function updNpDisp(){const el=document.getElementById('np-disp');if(!npVal){el.textContent="0";el.classList.add('empty');}else{el.textContent=npVal;el.classList.remove('empty');}}
-function updNpHora(){document.getElementById('np-hora-badge').textContent=S.hora?'🔥 HORA DOBLE activa — puntos manuales ×2':'';}
+function updNpHora(){const badge=document.getElementById('np-hora-badge'); if(badge) badge.textContent=S.hora?'🔥 HORA DOBLE activa — puntos manuales ×2':'';}
 function doSumar(){applyOp('sumar');}
 function doRestar(subTipo){applyOp('restar',subTipo);}
 
@@ -1064,7 +1009,7 @@ function applyOp(tipo,subTipo){
   savePrevRank();
   if(tipo==='restar'){
     if(subTipo==='bono'){
-      S.general[npPeña]=Math.max(0,S.general[npPeña]-15);S.noche[npPeña]=Math.max(0,S.noche[npPeña]-15);S.bonosHoy=Math.max(0,S.bonosHoy-1);
+      S.general[npPeña]=Math.max(0,S.general[npPe Peña]-15);S.noche[npPeña]=Math.max(0,S.noche[npPeña]-15);S.bonosHoy=Math.max(0,S.bonosHoy-1);
       S.lastOp[npPeña]={label:`−15🎫`,tipo:'neg'};setLastOp(npPeña,`−15 pts · Bono anulado (Caja −25€)`,'err');showToast(npPeña,`Bono anulado (−25€)`,'#CC1A1A');
     }else{
       S.general[npPeña]=Math.max(0,S.general[npPeña]-pts);S.noche[npPeña]=Math.max(0,S.noche[npPeña]-pts);S.chupSueltosHoy=Math.max(0,S.chupSueltosHoy-rawPts);
@@ -1084,7 +1029,6 @@ function setLastOp(peña,msg,cls){const el=document.getElementById('op-last');if
 
 // ── NOCHE ──
 function confirmResetNoche(){
-  // Check if there are unsaved points
   const ranked=getRanked(S.noche);
   const hayPuntos=ranked.length&&ranked[0][1]>0;
   const msg=hayPuntos
@@ -1102,11 +1046,8 @@ function saveNocheWinner(){
   if(!ranked.length||ranked[0][1]===0){showToast('Sin datos','No hay puntos de noche','#CC1A1A');return;}
   const[name,pts]=ranked[0];
   const dia=getDiaLabel();
-  // Guardar en historial interno de noche
   S.nocheHist.push({dia,nombre:name,pts});
-  // Auto-crear entrada en histGanadores con visible:false y premio vacío
   S.histGanadores.push({dia,peña:name,pts:String(pts),premio:'',visible:false});
-  // Reset automático de la noche tras guardar — evita borrado accidental sin guardar
   S.nombres.forEach(p=>S.noche[p]=0);
   renderNocheHist();
   renderHistGanadoresAdmin();
@@ -1137,29 +1078,23 @@ function saveNocheContenido(){
 }
 
 function renderContenidoAdmin(){
-  // chupito del día
   const tog=document.getElementById('tog-chupito');
   if(tog)tog.classList.toggle('on',S.chupitoDia.activo);
   const inp=document.getElementById('chupito-dia-input');
   if(inp)inp.value=S.chupitoDia.nombre;
-  // premios
   const po=document.getElementById('premio-oro');if(po)po.value=S.premios.oro||'';
   const pp=document.getElementById('premio-plata');if(pp)pp.value=S.premios.plata||'';
   const pb=document.getElementById('premio-bronce');if(pb)pb.value=S.premios.bronce||'';
-  // noche
   const nf=document.getElementById('noche-proxima-fecha-input');if(nf)nf.value=S.nocheContenido.fecha||'';
   const np2=document.getElementById('noche-proxima-premio-input');if(np2)np2.value=S.nocheContenido.premio||'';
-  // hist ganadores
   renderHistGanadoresAdmin();
-  // mensajes
   renderMensajesAdmin();
 }
 
-// historial ganadores con premio (admin)
 function renderHistGanadoresAdmin(){
   const el=document.getElementById('hist-ganadores-admin');if(!el)return;
   el.innerHTML='';
-  if(!S.histGanadores.length){el.innerHTML='<p style="font-size:.8rem;color:var(--muted);">Sin ganadores registrados aún. Se crean automáticamente al guardar un ganador en Hora/Noche.</p>';return;}
+  if(!S.histGanadores.length){el.innerHTML='<p style="font-size:.8rem;color:var(--muted);">Sin ganadores registrados aún.</p>';return;}
   S.histGanadores.forEach((g,i)=>{
     const visible=!!g.visible;
     el.innerHTML+=`<div class="msg-admin-card" style="border-left:3px solid ${visible?'var(--green)':'var(--muted)'};">
@@ -1171,35 +1106,19 @@ function renderHistGanadoresAdmin(){
         </div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px;">
-        <div>
-          <div style="font-size:.68rem;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:.1em;">Día</div>
-          <input class="admin-edit-field" style="margin:0" placeholder="Día" value="${g.dia||''}" oninput="S.histGanadores[${i}].dia=this.value;guardarLocalmente();">
-        </div>
-        <div>
-          <div style="font-size:.68rem;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:.1em;">Peña</div>
-          <input class="admin-edit-field" style="margin:0" placeholder="Peña" value="${g.peña||''}" oninput="S.histGanadores[${i}].peña=this.value;guardarLocalmente();">
-        </div>
+        <div><input class="admin-edit-field" style="margin:0" placeholder="Día" value="${g.dia||''}" oninput="S.histGanadores[${i}].dia=this.value;guardarLocalmente();"></div>
+        <div><input class="admin-edit-field" style="margin:0" placeholder="Peña" value="${g.peña||''}" oninput="S.histGanadores[${i}].peña=this.value;guardarLocalmente();"></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px;">
-        <div>
-          <div style="font-size:.68rem;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:.1em;">Puntos noche</div>
-          <input class="admin-edit-field" style="margin:0" placeholder="Pts" value="${g.pts||''}" oninput="S.histGanadores[${i}].pts=this.value;guardarLocalmente();">
-        </div>
-        <div>
-          <div style="font-size:.68rem;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:.1em;">Premio entregado</div>
-          <input class="admin-edit-field" style="margin:0" placeholder='Premio o "NOCHE SIN PREMIO"' value="${g.premio||''}" oninput="S.histGanadores[${i}].premio=this.value;guardarLocalmente();renderHistGanadoresPublic();">
-        </div>
+        <div><input class="admin-edit-field" style="margin:0" placeholder="Pts" value="${g.pts||''}" oninput="S.histGanadores[${i}].pts=this.value;guardarLocalmente();"></div>
+        <div><input class="admin-edit-field" style="margin:0" placeholder="Premio entregado" value="${g.premio||''}" oninput="S.histGanadores[${i}].premio=this.value;guardarLocalmente();renderHistGanadoresPublic();"></div>
       </div>
       <button class="btn-sm btn-ghost" onclick="S.histGanadores.splice(${i},1);guardarLocalmente();renderHistGanadoresAdmin();renderHistGanadoresPublic();">✕ Eliminar</button>
     </div>`;
   });
 }
-function addHistGanador(){
-  S.histGanadores.push({dia:'',peña:'',pts:'',premio:'',visible:false});
-  guardarLocalmente();renderHistGanadoresAdmin();
-}
+function addHistGanador(){S.histGanadores.push({dia:'',peña:'',pts:'',premio:'',visible:false});guardarLocalmente();renderHistGanadoresAdmin();}
 
-// mensajes admin
 function renderMensajesAdmin(){
   const el=document.getElementById('mensajes-admin');if(!el)return;
   el.innerHTML='';
@@ -1223,29 +1142,20 @@ function renderMensajesAdmin(){
     </div>`;
   });
 }
-function addMensaje(){
-  S.mensajes.push({id:++S.msgLastId,titulo:'',cuerpo:'',tipo:'info',activo:false});
-  guardarLocalmente();renderMensajesAdmin();
-}
+function addMensaje(){S.mensajes.push({id:++S.msgLastId,titulo:'',cuerpo:'',tipo:'info',activo:false});guardarLocalmente();renderMensajesAdmin();}
 
-// mensajes público
 function renderMensajesPublic(){
   const el=document.getElementById('msg-list-public');if(!el)return;
   const activos=S.mensajes.filter(m=>m.activo);
   if(!activos.length){el.innerHTML='<div class="msg-empty">No hay mensajes en este momento</div>';return;}
   el.innerHTML='';
   activos.forEach(m=>{
-    el.innerHTML+=`<div class="msg-card ${m.tipo}">
-      <div class="msg-card-title">${m.titulo||'Mensaje'}</div>
-      <div class="msg-card-body">${m.cuerpo||''}</div>
-    </div>`;
+    el.innerHTML+=`<div class="msg-card ${m.tipo}"><div class="msg-card-title">${m.titulo||'Mensaje'}</div><div class="msg-card-body">${m.cuerpo||''}</div></div>`;
   });
 }
 
-// ── RANKING ──
 function savePrevRank(){const act=getActivas().sort((a,b)=>S.general[b]-S.general[a]);S.prevRank={};act.forEach((n,i)=>S.prevRank[n]=i+1);}
 function getRanked(obj){return getActivas().map(p=>[p,obj[p]||0]).sort((a,b)=>b[1]-a[1]);}
-
 function renderRanking(){renderGeneral();renderNocheBox();}
 
 function renderGeneral(){
@@ -1254,15 +1164,14 @@ function renderGeneral(){
   const act=getActivas();
   box.innerHTML=`<div class="panel-box-header"><div class="panel-box-title">🏆 Clasificación General</div><div class="panel-box-sub">${act.length} peñas</div></div>`;
   if(!act.length){box.innerHTML+=`<div class="empty"><div class="ei">📋</div><p>Activa peñas en Admin → Inscripciones</p></div>`;return;}
-  const pend=27-act.length;
-  if(pend>0)box.innerHTML+=`<div class="pending-note" style="margin:10px;">⚠️ ${pend} peña${pend>1?'s':''} pendiente${pend>1?'s':''}</div>`;
+  const pend=40-act.length;
+  if(pend>0)box.innerHTML+=`<div class="pending-note" style="margin:10px;">⚠️ ${pend} plaza${pend>1?'s':''} disponible${pend>1?'s':''} en la lista</div>`;
   const top3=ranked.slice(0,3);
   if(top3.some(([,v])=>v>0)){
     const order=[top3[1],top3[0],top3[2]],cls=['p2','p1','p3'],crowns=['🥈','🥇','🥉'],nums=['2','1','3'];
     let h='<div class="podio">';
     order.forEach((item,i)=>{if(!item)return;const[n,p]=item;const sh=n.length>16?n.slice(0,16)+'…':n;h+=`<div class="pi ${cls[i]}"><div class="pi-crown">${crowns[i]}</div><div class="pi-name">${sh}</div><div class="pi-pts">${p}</div><div class="pi-lbl">pts</div><div class="pi-block">${nums[i]}</div></div>`;});
     h+='</div>';
-    // diferencias
     const p1=ranked[0]?ranked[0][1]:0,p2=ranked[1]?ranked[1][1]:0,p3=ranked[2]?ranked[2][1]:0,p4=ranked[3]?ranked[3][1]:0;
     let gaps='<div class="gap-row">';
     if(ranked[0])gaps+=`<div class="gap-item">1º→2º: <strong>+${p1-p2}</strong> pts</div>`;
@@ -1302,17 +1211,8 @@ function renderNocheBox(){
   box.innerHTML+='</div>';
 }
 
-// ── INFO PANELS ──
-function renderInfoPanels(){
-  renderMensajesPublic();
-  renderPremiosInfo();
-}
-
-function renderPremiosInfo(){
-  renderPremiosPodio();
-  renderNocheContenido();
-  renderHistGanadoresPublic();
-}
+function renderInfoPanels(){renderMensajesPublic();renderPremiosInfo();}
+function renderPremiosInfo(){renderPremiosPodio();renderNocheContenido();renderHistGanadoresPublic();}
 
 function renderPremiosPodio(){
   const box=document.getElementById('premios-podio-box');if(!box)return;
@@ -1331,14 +1231,10 @@ function renderPremiosPodio(){
   if(ranked[3])gaps+=`<div class="gap-item fourth">4º al podio: <strong>${p3-p4}</strong></div>`;
   gaps+='</div>';
   box.innerHTML+=h+gaps;
-
-  // premios
   const pc=document.getElementById('premios-general-content');if(!pc)return;
   pc.innerHTML='<h3>Premios</h3>';
   const items=[{icon:'🥇',titulo:'Primer Premio',desc:S.premios.oro},{icon:'🥈',titulo:'Segundo Premio',desc:S.premios.plata},{icon:'🥉',titulo:'Tercer Premio',desc:S.premios.bronce}];
-  items.forEach(item=>{
-    pc.innerHTML+=`<div class="premio-item"><div class="premio-item-header"><span class="premio-icon">${item.icon}</span><span class="premio-title">${item.titulo}</span></div><div class="premio-desc">${item.desc||'Premio por confirmar'}</div></div>`;
-  });
+  items.forEach(item=>{pc.innerHTML+=`<div class="premio-item"><div class="premio-item-header"><span class="premio-icon">${item.icon}</span><span class="premio-title">${item.titulo}</span></div><div class="premio-desc">${item.desc||'Premio por confirmar'}</div></div>`;});
 }
 
 function renderNocheContenido(){
@@ -1366,7 +1262,6 @@ function renderHistGanadoresPublic(){
   });
 }
 
-// ── ADMIN2 ──
 function calcDia(d){
   const chupBono=(d.bonos||0)*15,chupTot=(d.chupSueltos||0)+chupBono;
   const eurSueltos=(d.chupSueltos||0)*2,eurBonos=(d.bonos||0)*25,eurTot=eurSueltos+eurBonos;
@@ -1399,61 +1294,28 @@ function cerrarDia(){
   renderAdmin2();showToast('Día cerrado','Contadores reiniciados','#27AE60');guardarLocalmente();
 }
 function exportarDatos(){
-  const hoy=calcDia({chupSueltos:S.chupSueltosHoy,bonos:S.bonosHoy});
-  const data={generado:new Date().toISOString(),feria:'San Juan 2026 · Los Corrales de Buelna',
-    // estado completo para restauración total
-    estadoCompleto:{
-      nombres:S.nombres,general:S.general,noche:S.noche,activas:S.activas,lastOp:S.lastOp,
-      chupSueltosHoy:S.chupSueltosHoy,bonosHoy:S.bonosHoy,diaActual:S.diaActual,
-      nocheVisible:S.nocheVisible,hora:S.hora,horaInicio:S.horaInicio,horaFin:S.horaFin,
-      chupitoDia:S.chupitoDia,premios:S.premios,nocheContenido:S.nocheContenido,
-      mensajes:S.mensajes,msgLastId:S.msgLastId,histGanadores:S.histGanadores,
-      nocheHist:S.nocheHist,histDias:S.histDias,prevRank:S.prevRank
-    },
-    histDias:S.histDias.map(d=>({...d,...calcDia(d)})),diaActual:{dia:S.diaActual,...hoy},nocheHist:S.nocheHist,histGanadores:S.histGanadores};
+  const data={generado:new Date().toISOString(),S};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-  const now=new Date();
-  const fecha=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
-  const hora=String(now.getHours()).padStart(2,'0')+'h'+String(now.getMinutes()).padStart(2,'0')+'m';
-  const filename='chupialquimometro_'+fecha+'_'+hora+'.json';
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;a.click();
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='chupialquimometro_backup.json';a.click();
 }
-
-// ── IMPORTAR JSON ──
 function importarDatos(){
-  const input=document.createElement('input');
-  input.type='file';input.accept='.json';
+  const input=document.createElement('input');input.type='file';input.accept='.json';
   input.onchange=function(e){
     const file=e.target.files[0];if(!file)return;
     const reader=new FileReader();
     reader.onload=function(ev){
       try{
         const data=JSON.parse(ev.target.result);
-        if(!data.estadoCompleto){showToast('Error','Archivo no compatible o versión antigua','#CC1A1A');return;}
-        const ec=data.estadoCompleto;
-        // Restaurar estado completo
-        Object.assign(S,ec);
-        // Asegurarse de que todos los slots existen
-        NOMBRES_DEFAULT.forEach((p,i)=>{
-          if(S.nombres[i]===undefined)S.nombres[i]=p;
-          if(S.general[S.nombres[i]]===undefined)S.general[S.nombres[i]]=0;
-          if(S.noche[S.nombres[i]]===undefined)S.noche[S.nombres[i]]=0;
-          if(S.activas[S.nombres[i]]===undefined)S.activas[S.nombres[i]]=false;
-        });
-        guardarLocalmente();
-        renderAll();
-        applyChupitoDia();
-        applyHoraState();
-        updateMsgBadge();
-        showToast('✅ Importación completa','Todos los datos restaurados','#27AE60');
-      }catch(err){showToast('Error al importar','Archivo JSON inválido','#CC1A1A');console.error(err);}
+        if(data.S) { S=data.S; } else { S=data; }
+        guardarLocalmente();renderAll();applyChupitoDia();applyHoraState();updateMsgBadge();
+        showToast('✅ Éxito','Datos cargados','#27AE60');
+      }catch(err){showToast('Error','Archivo inválido','#CC1A1A');}
     };
     reader.readAsText(file);
   };
   input.click();
 }
 
-// ── OP LIST ──
 function renderOpList(){
   const el=document.getElementById('op-peña-list');if(!el)return;
   const act=getActivas().sort((a,b)=>S.general[b]-S.general[a]);
@@ -1466,7 +1328,6 @@ function renderOpList(){
   });
 }
 
-// ── INSC ──
 function renderInsc(){
   const grid=document.getElementById('insc-grid');if(!grid)return;
   grid.innerHTML='';
@@ -1483,11 +1344,10 @@ function renderInsc(){
     const card=document.createElement('div');
     card.className='insc-card '+(on?'on':'off');
     const displayName=named?p:('Plaza extra '+(i-26));
-    card.innerHTML='<div class="insc-n" style="'+(esExtra?'color:var(--orange)':'')+'">'+String(i+1).padStart(2,'0')+'</div><div class="insc-name-wrap"><div class="insc-name-txt" id="int-'+i+'" style="'+((!named)?'color:var(--muted);font-style:italic;':'')+'">'+displayName+'</div><input class="insc-name-input" id="ini-'+i+'" value="'+p.replace(/"/g,'&quot;')+'" onkeydown="inpKey(event,'+i+')" placeholder="Nombre de la pe\u00f1a..."></div><div class="insc-actions"><button class="btn-edit" id="ibe-'+i+'" onclick="toggleEdit('+i+')">\u270f\ufe0f</button><button class="toggle-sw'+(on?' on':'')+'" onclick="toggleActivaIdx('+i+')"></button></div>';
+    card.innerHTML='<div class="insc-n" style="'+(esExtra?'color:var(--orange)':'')+'">'+String(i+1).padStart(2,'0')+'</div><div class="insc-name-wrap"><div class="insc-name-txt" id="int-'+i+'" style="'+((!named)?'color:var(--muted);font-style:italic;':'')+'">'+displayName+'</div><input class="insc-name-input" id="ini-'+i+'" value="'+p.replace(/"/g,'&quot;')+'" onkeydown="inpKey(event,'+i+')" placeholder="Nombre de la peña..."></div><div class="insc-actions"><button class="btn-edit" id="ibe-'+i+'" onclick="toggleEdit('+i+')">✏️</button><button class="toggle-sw'+(on?' on':'')+'" onclick="toggleActivaIdx('+i+')"></button></div>';
     grid.appendChild(card);
   });
-  const el=document.getElementById('insc-cnt');
-  if(el)el.textContent=getActivas().length+'/40';
+  const el=document.getElementById('insc-cnt');if(el)el.textContent=getActivas().length+'/40';
 }
 function toggleEdit(i){const txt=document.getElementById('int-'+i),inp=document.getElementById('ini-'+i),btn=document.getElementById('ibe-'+i);if(inp.style.display==='block'){saveName(i);return;}txt.style.display='none';inp.style.display='block';inp.focus();inp.select();btn.textContent='💾';btn.classList.add('saving');}
 function saveName(i){
@@ -1502,13 +1362,18 @@ function inpKey(e,i){if(e.key==='Enter')saveName(i);if(e.key==='Escape'){const t
 // ── RENDER ALL ──
 function renderAll(){
   renderRanking();
-  if(S.adminOpen){renderOpList();renderInsc();updateNocheLiderAdmin();if(S.admin2Open)renderAdmin2();}
+  if(S.adminOpen){
+    renderOpList();
+    renderInsc();
+    updateNocheLiderAdmin();
+    if(S.admin2Open)renderAdmin2();
+  }
   if(S.tab==='info')renderInfoPanels();
-  const el=document.getElementById('insc-cnt');if(el)el.textContent=getActivas().length;
-  applyChupitoDia();updateMsgBadge();
+  const el=document.getElementById('insc-cnt');if(el)el.textContent=getActivas().length+'/40';
+  applyChupitoDia();
+  updateMsgBadge();
 }
 
-// ── TOAST ──
 let toastT=null;
 function showToast(name,msg,color='#C9A84C'){
   const t=document.getElementById('toast');if(!t)return;t.style.borderLeftColor=color;
@@ -1520,216 +1385,84 @@ function showToast(name,msg,color='#C9A84C'){
 
 document.getElementById('np-overlay').addEventListener('click',function(e){if(e.target===this)closeNp();});
 
-// ── TV SYNC COUNTDOWN ──
-// ── TV SYNC COUNTDOWN ──
 window._lastFirebaseUpdate = Date.now();
 setInterval(()=>{
-  const el = document.getElementById('tv-sync-cd');
-  if(!el) return;
+  const el = document.getElementById('tv-sync-cd');if(!el) return;
   const elapsed = Math.floor((Date.now() - (window._lastFirebaseUpdate||Date.now())) / 1000);
-  const left = Math.max(0, 30 - elapsed);
+  const left = Math.max(0, 5 - elapsed);
   if(left === 0){
     el.style.color = 'var(--green)';
-    el.textContent = '✓ actualizada';
+    el.textContent = '✓ activa';
   } else {
     el.style.color = 'var(--muted)';
-    el.textContent = 'actualiza en ' + left + 's';
+    el.textContent = 'en ' + left + 's';
   }
 }, 1000);
 
-// ── INIT ──
-initSplash();
+// Inicialización inicial limpia
+renderAll();
+renderCountdown();
+applyHoraState();
+applyChupitoDia();
+updateMsgBadge();
 </script>
 
-  <!-- Firebase REST API - JSON string approach -->
-  <script>
-    const FB_PROJECT = 'chupialquimiometro';
-    const FB_API_KEY = 'AIzaSyAKn-Vyi9zE3ggJbN2UqdUTi_zE7omzE2c';
-    const FB_DOC_URL = `https://firestore.googleapis.com/v1/projects/${FB_PROJECT}/databases/(default)/documents/chupialquimiometro/estado?key=${FB_API_KEY}`;
+<!-- MOTOR ORIGINAL SINCRO RESTABLECIDO -->
+<script>
+  const FB_REST_URL = "https://firestore.googleapis.com/v1/projects/chupialquimiometro/databases/(default)/documents/chupialquimiometro/estado";
+  window._lastSave = 0;
 
-    // SAVE: store entire state as a single JSON string — avoids all type conversion issues
-    window.guardarFirebase = async function() {
-      try {
-        window._lastSave = Date.now();
-        const payload = {
-          fields: {
-            data: { stringValue: JSON.stringify(S) },
-            updatedAt: { integerValue: String(Date.now()) }
-          }
-        };
-        const res = await fetch(FB_DOC_URL, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        if (!res.ok) {
-          const err = await res.text();
-          console.warn('Firebase save error:', err);
+  window.guardarFirebase = async function() {
+    try {
+      window._lastSave = Date.now();
+      S.updatedAt = window._lastSave;
+      const payload = {
+        fields: {
+          json: { stringValue: JSON.stringify(S) }
         }
-      } catch(e) {
-        console.warn('Firebase save error:', e);
-      }
-    };
-
-    // LOAD: parse the JSON string back into state
-    window.cargarFirebase = async function() {
-      try {
-        const res = await fetch(FB_DOC_URL);
-        if (res.ok) {
-          const doc = await res.json();
-          if (doc.fields && doc.fields.data && doc.fields.data.stringValue) {
-            const state = JSON.parse(doc.fields.data.stringValue);
-            Object.assign(S, state);
-            NOMBRES_DEFAULT.forEach(p => {
-              if(S.general[p]===undefined) S.general[p]=0;
-              if(S.noche[p]===undefined) S.noche[p]=0;
-              if(S.activas[p]===undefined) S.activas[p]=false;
-            });
-            console.log('Estado cargado desde Firebase ✅');
-            renderAll();
-            applyChupitoDia();
-            applyHoraState();
-            updateMsgBadge();
-          }
-        }
-      } catch(e) {
-        console.warn('Firebase load error:', e);
-      }
-    };
-
-    // POLL every 5 seconds for changes from other devices
-    let _pollInterval = null;
-    function startPolling() {
-      if (_pollInterval) return;
-      _pollInterval = setInterval(async () => {
-        try {
-          const res = await fetch(FB_DOC_URL);
-          if (!res.ok) return;
-          const doc = await res.json();
-          if (!doc.fields || !doc.fields.updatedAt) return;
-          const remoteTime = Number(doc.fields.updatedAt.integerValue || 0);
-          const ourSave = window._lastSave || 0;
-          if (remoteTime > ourSave + 2000) {
-            if (doc.fields.data && doc.fields.data.stringValue) {
-              const state = JSON.parse(doc.fields.data.stringValue);
-              Object.assign(S, state);
-              NOMBRES_DEFAULT.forEach(p => {
-                if(S.general[p]===undefined) S.general[p]=0;
-                if(S.noche[p]===undefined) S.noche[p]=0;
-                if(S.activas[p]===undefined) S.activas[p]=false;
-              });
-              window._lastFirebaseUpdate = Date.now();
-              console.log('Actualización recibida ✅', new Date().toLocaleTimeString());
-              renderAll();
-              applyChupitoDia();
-              applyHoraState();
-              updateMsgBadge();
-            }
-          }
-        } catch(e) {}
-      }, 5000);
+      };
+      await fetch(FB_REST_URL, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    } catch(e) {
+      console.warn('Error ferial guardando en nube:', e);
     }
+  };
 
-    // Init on load
-    window.addEventListener('load', () => {
-      setTimeout(async () => {
-        await window.cargarFirebase();
-        startPolling();
-      }, 800);
-    });
-  </script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyAKn-Vyi9zE3ggJbN2UqdUTi_zE7omzE2c",
-      authDomain: "chupialquimiometro.firebaseapp.com",
-      projectId: "chupialquimiometro",
-      storageBucket: "chupialquimiometro.firebasestorage.app",
-      messagingSenderId: "271396030462",
-      appId: "1:271396030462:web:04f3d9ce9373f019e922af"
-    };
+  window.cargarFirebase = async function() {
+    try {
+      const res = await fetch(FB_REST_URL);
+      if (!res.ok) return;
+      const doc = await res.json();
+      if (doc && doc.fields && doc.fields.json && doc.fields.json.stringValue) {
+        const remoteState = JSON.parse(doc.fields.json.stringValue);
+        const remoteTime = remoteState.updatedAt || 0;
+        const ourSave = window._lastSave || 0;
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const STATE_DOC = db.collection('chupialquimiometro').doc('estado');
-
-    // ── SAVE TO FIREBASE ──
-    window.guardarFirebase = function() {
-      try {
-        STATE_DOC.set({
-          general: S.general,
-          noche: S.noche,
-          activas: S.activas,
-          nombres: S.nombres,
-          lastOp: S.lastOp,
-          chupSueltosHoy: S.chupSueltosHoy,
-          bonosHoy: S.bonosHoy,
-          diaActual: S.diaActual,
-          nocheVisible: S.nocheVisible,
-          hora: S.hora,
-          horaInicio: S.horaInicio,
-          horaFin: S.horaFin,
-          chupitoDia: S.chupitoDia,
-          premios: S.premios,
-          nocheContenido: S.nocheContenido,
-          mensajes: S.mensajes,
-          msgLastId: S.msgLastId,
-          histGanadores: S.histGanadores,
-          nocheHist: S.nocheHist,
-          histDias: S.histDias,
-          prevRank: S.prevRank,
-          updatedAt: Date.now()
-        }).catch(e => console.warn('Firebase save error:', e));
-      } catch(e) {
-        console.warn('Firebase error:', e);
-      }
-    };
-
-    // ── LISTEN FOR REAL-TIME CHANGES ──
-    STATE_DOC.onSnapshot((snap) => {
-      if (!snap.exists) return;
-      const data = snap.data();
-      if (!data) return;
-      // Only update if change came from another device (not our own save)
-      if (data.updatedAt && data.updatedAt > (window._lastSave||0) + 2000) {
-        Object.assign(S, data);
-        NOMBRES_DEFAULT.forEach(p => {
-          if(S.general[p]===undefined) S.general[p]=0;
-          if(S.noche[p]===undefined) S.noche[p]=0;
-          if(S.activas[p]===undefined) S.activas[p]=false;
-        });
-        window._lastFirebaseUpdate = Date.now();
-        if(document.getElementById('app').style.display !== 'none'){
+        if (remoteTime > ourSave + 1000 && !S.adminOpen) {
+          S = remoteState;
+          window._lastFirebaseUpdate = Date.now();
           renderAll();
-          applyChupitoDia();
-          applyHoraState();
-          updateMsgBadge();
         }
       }
-    });
+    } catch(e) {
+      console.warn('Error ferial leyendo de nube:', e);
+    }
+  };
 
-    // ── LOAD INITIAL STATE ──
-    window.cargarFirebase = function() {
-      STATE_DOC.get().then((snap) => {
-        if (snap.exists) {
-          const data = snap.data();
-          if(data) {
-            Object.assign(S, data);
-            NOMBRES_DEFAULT.forEach(p => {
-              if(S.general[p]===undefined) S.general[p]=0;
-              if(S.noche[p]===undefined) S.noche[p]=0;
-              if(S.activas[p]===undefined) S.activas[p]=false;
-            });
-          }
-        }
-      }).catch(e => console.warn('Firebase load error:', e));
-    };
+  setInterval(async () => {
+    if (S.adminOpen) {
+      await window.guardarFirebase();
+    } else {
+      await window.cargarFirebase();
+    }
+  }, 4000);
 
-    // Load from Firebase on page ready
-    window.addEventListener('load', function() {
-      window.cargarFirebase();
-    });
-  </script>
-
+  window.addEventListener('load', () => {
+    setTimeout(window.cargarFirebase, 500);
+  });
+</script>
 </body>
 </html>
