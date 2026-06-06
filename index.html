@@ -18,27 +18,25 @@ HTML
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:'Barlow Condensed',sans-serif;min-height:100vh;overflow-x:hidden;}
 
-/* ── SPLASH ── */
+/* ── SPLASH (CON BOTÓN INMEDIATO) ── */
 #splash{position:fixed;inset:0;background:#000;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;}
 #splash.hide{display:none;}
-.splash-brand{text-align:center;margin-bottom:24px;}
+.splash-brand{text-align:center;margin-bottom:20px;}
 .splash-logo-img{width:110px;height:110px;margin-bottom:12px;filter:drop-shadow(0 0 16px rgba(201,168,76,.5));}
 .splash-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,6vw,3rem);letter-spacing:.06em;color:#EDE8DF;text-shadow:0 0 30px rgba(201,168,76,.4);}
 .splash-title em{font-style:normal;color:var(--gold);}
 .splash-sub1{font-family:'Bebas Neue',sans-serif;font-size:clamp(1rem,3vw,1.5rem);letter-spacing:.18em;color:var(--gold);margin-top:4px;}
 .splash-sub2{font-size:clamp(.7rem,2vw,.9rem);letter-spacing:.22em;color:#555;text-transform:uppercase;margin-top:2px;}
 .splash-divider{width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:16px auto;}
-.splash-sponsors{display:flex;align-items:center;justify-content:center;min-height:80px;margin-bottom:20px;}
-.sponsor-slot{text-align:center;opacity:0;transition:opacity .5s ease;}
-.sponsor-slot.visible{opacity:1;}
-.sponsor-placeholder{width:120px;height:70px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;}
-.sponsor-placeholder span{font-family:'Bebas Neue',sans-serif;font-size:.85rem;color:var(--muted);letter-spacing:.1em;}
-.sponsor-img{max-width:140px;max-height:80px;object-fit:contain;}
-.splash-enter{display:none;margin-top:8px;}
-.splash-enter.show{display:block;}
-.btn-enter{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.15em;padding:14px 48px;background:linear-gradient(135deg,var(--gold-d),var(--gold));color:#111;border:none;border-radius:5px;cursor:pointer;transition:all .2s;animation:pulse-enter 1.5s ease-in-out infinite;}
-@keyframes pulse-enter{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.4)}50%{box-shadow:0 0 0 12px rgba(201,168,76,0)}}
-.btn-enter:hover{background:linear-gradient(135deg,var(--gold),var(--gold-b));}
+.splash-sponsors{display:flex;align-items:center;justify-content:center;min-height:70px;margin-bottom:10px;}
+.sponsor-slot{text-align:center;transition:opacity .4s ease;}
+.sponsor-placeholder{width:150px;height:55px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px;}
+.sponsor-placeholder span{font-family:'Bebas Neue',sans-serif;font-size:.8rem;color:var(--muted);letter-spacing:.05em;}
+.sponsor-img{max-width:140px;max-height:60px;object-fit:contain;}
+.splash-enter{margin-top:15px;display:block;}
+.btn-enter{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.15em;padding:14px 54px;background:linear-gradient(135deg,var(--gold-d),var(--gold));color:#111;border:none;border-radius:5px;cursor:pointer;transition:all .2s;animation:pulse-enter 1.5s ease-in-out infinite;}
+@keyframes pulse-enter{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.55)}50%{box-shadow:0 0 0 14px rgba(201,168,76,0)}}
+.btn-enter:hover{background:linear-gradient(135deg,var(--gold),var(--gold-b));transform:scale(1.02);}
 
 /* ── HEADER ── */
 header{position:relative;text-align:center;padding:16px 12px 12px;background:linear-gradient(180deg,#111,var(--bg));border-bottom:1px solid #1f1f1f;overflow:hidden;}
@@ -189,10 +187,7 @@ header::before{content:'';position:absolute;top:-60px;left:50%;transform:transla
 /* MENSAJES */
 .msg-list{display:flex;flex-direction:column;gap:8px;}
 .msg-card{border-radius:5px;padding:14px 16px;}
-.msg-card.info{background:rgba(26,58,107,.2);border:1px solid rgba(26,58,107,.4);}
-.msg-card.promo{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);}
-.msg-card.urgente{background:rgba(204,26,26,.1);border:1px solid rgba(204,26,26,.3);}
-.msg-card-title{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.08em;margin-bottom:4px;}
+.msg-card ${m.tipo} .msg-card-title{color:#87aadd;}
 .msg-card.info .msg-card-title{color:#87aadd;}
 .msg-card.promo .msg-card-title{color:var(--gold);}
 .msg-card.urgente .msg-card-title{color:var(--red-b);}
@@ -265,6 +260,7 @@ header::before{content:'';position:absolute;top:-60px;left:50%;transform:transla
 .insc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:5px;}
 .insc-card{display:flex;align-items:center;gap:8px;padding:9px 10px;background:var(--bg3);border:1px solid var(--border);border-left:3px solid #333;border-radius:4px;transition:all .2s;}
 .insc-card.on{border-left-color:var(--green);}.insc-card.off{opacity:.45;}
+.insc-n覆{font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--muted);min-width:22px;}
 .insc-n{font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--muted);min-width:22px;}
 .insc-name-wrap{flex:1;}
 .insc-name-txt{font-size:.88rem;font-weight:600;}
@@ -338,7 +334,7 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════ SPLASH ═══ -->
+<!-- ═══════════════════════════════════════════ SPLASH (ACTIVO) ═══ -->
 <div id="splash">
   <div class="splash-brand">
     <svg class="splash-logo-img" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -356,12 +352,15 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
     <div class="splash-divider"></div>
     <div style="font-family:'Cinzel Decorative',serif;color:var(--gold);font-size:.9rem;letter-spacing:.2em;opacity:.7">Alquimia Tavern</div>
   </div>
+  
   <div class="splash-sponsors" id="splash-sponsors">
     <div class="sponsor-slot" id="sponsor-slot">
-      <div class="sponsor-placeholder"><span>🥃</span><span>PATROCINADOR</span></div>
+      <div class="sponsor-placeholder"><span>🥃</span><span>Alquimia Tavern</span></div>
     </div>
   </div>
-  <div class="splash-enter" id="splash-enter">
+
+  <!-- El botón dorado ahora sale encendido y listo inmediatamente -->
+  <div class="splash-enter">
     <button class="btn-enter" onclick="enterApp()">⚗️ ENTRAR</button>
   </div>
 </div>
@@ -486,7 +485,7 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
       <div class="info-block">
         <h3>El Chupialquimómetro — Un proyecto propio</h3>
         <p>El Chupialquimómetro es una iniciativa creada íntegramente por el equipo de <strong>Alquimia Tavern</strong> para animar las Fiestas de San Juan de Los Corrales de Buelna y hacer la experiencia de las peñas aún más divertida y competitiva.</p>
-        <p>Se trata de un <strong>proyecto nuevo, en su primera edición</strong>, desarrollado con mucha ilusión pero también con la honestidad de reconocer que es un sistema en periodo de prueba y perfeccionamiento. Como cualquier proyecto tecnológico en sus inicios, puede cometer errores, puede pausarse, puede bloquearse o comportarse de forma inesperada.</p>
+        <p>Se trata de un <strong>proyecto nuevo, en su primera edición</strong>, desarrollado con mucha ilusión pero también con la honestidad de reconocer que es un sistema en periodo de prueba y perfeccionamiento. Como cualquier proyecto tecnológico en sus inicios, puede cometer errores, puede pausarse, puede blokearse o comportarse de forma inesperada.</p>
         <p>Ante cualquier incidencia técnica, el equipo de Alquimia Tavern hará todo lo posible por resolverla de la forma más justa y rápida posible. Nuestro compromiso es con el buen ambiente y el disfrute de todos los participantes.</p>
         <p><strong>El Chupialquimómetro nace para sumar, no para generar conflictos.</strong> Gracias por ser parte de esta primera edición.</p>
         <p style="margin-top:12px;color:var(--gold);font-style:italic;">— El equipo de Alquimia Tavern · Desde 1999</p>
@@ -613,7 +612,7 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
             <textarea class="admin-edit-field" id="noche-proxima-premio-input" placeholder="Describe el premio de la noche..." oninput="saveNocheContenido()"></textarea>
           </div>
           <div class="admin-section">
-            <div class="admin-section-title">📜 Historial ganadores noche (con premio)</div>
+            <div class="admin-section-title">📦 Historial ganadores noche (con premio)</div>
             <div id="hist-ganadores-admin"></div>
             <button class="btn-sm btn-gold" style="margin-top:8px;" onclick="addHistGanador()">+ Añadir ganador</button>
           </div>
@@ -738,15 +737,12 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
 <script>
 const PIN1="394549", PIN2="19761973";
 const NOMBRES_DEFAULT=["Peña Dickens","Vamos a liar la del pulpo","Malbebiendo","Pequeños Fiesteros","Perdiendo el Norte","Reyes de Copas","Sálvese quien beba","Si lo sé no vengo","La Coza Noztra","La Envodkada","Tarde pero llegamos","The Originals / Turbo Dickens","Los que Faltaban","El Beber me llama","Los Zánganos","Mañana te lo cuento","Resacón en la Penya","Los Bizcochitos","Dskalimba","Ceda el Vaso","Los Kiwis","El Código da Whisky","Autiblinders","Comando Garrafón","Los de Siempre","Vamos B-Viendo","Área 51","","","","","","","","","","","","","",""];
-const TOTAL_SLOTS=40;
-const SLOTS_EXTRA_START=27;
 
 const SPONSORS = [
-  {name:"Distribuciones Buelna",src:null},
-  {name:"Licores Cantabria",src:null},
-  {name:"Hielo Glacial",src:null},
-  {name:"Alquimia Gastro-Pub",src:null},
-  {name:"Cafés El Dromedario",src:null}
+  {name:"Distribuciones Buelna"},
+  {name:"Licores Cantabria"},
+  {name:"Hielo Glacial"},
+  {name:"Cafés El Dromedario"}
 ];
 
 let S={
@@ -785,32 +781,23 @@ NOMBRES_DEFAULT.forEach(p=>{
 
 function getDiaLabel(){return new Date().toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});}
 
-// ── SPLASH ──
+// Patrocinadores en segundo plano sin interrumpir el botón
 function initSplash(){
   let idx=0;
   const slot=document.getElementById('sponsor-slot');
-  const enterDiv=document.getElementById('splash-enter');
+  if(!slot) return;
   function showSponsor(){
-    if(idx stream>=SPONSORS.length){idx=0;}
+    if(idx>=SPONSORS.length){idx=0;}
     const sp=SPONSORS[idx];
-    slot.innerHTML='';
-    const div=document.createElement('div');
-    if(sp.src){
-      const img=document.createElement('img');
-      img.src=sp.src; img.className='sponsor-img'; img.alt=sp.name;
-      div.appendChild(img);
-    } else {
-      div.className='sponsor-placeholder';
-      div.innerHTML=`<span>🥃</span><span style="font-family:'Bebas Neue',sans-serif;font-size:.8rem;color:var(--muted);letter-spacing:.1em">${sp.name}</span>`;
-    }
-    div.style.opacity='0'; div.style.transition='opacity .5s';
-    slot.appendChild(div);
-    setTimeout(()=>div.style.opacity='1',50);
-    if(idx===0){enterDiv.classList.add('show');}
-    idx++;
-    setTimeout(showSponsor,2000);
+    slot.style.opacity='0';
+    setTimeout(()=>{
+      slot.innerHTML=`<div class="sponsor-placeholder"><span>🥃</span><span style="font-family:'Bebas Neue',sans-serif;font-size:.75rem;color:var(--gold);letter-spacing:.05em">${sp.name}</span></div>`;
+      slot.style.opacity='1';
+      idx++;
+    },400);
+    setTimeout(showSponsor,3000);
   }
-  setTimeout(showSponsor,500);
+  showSponsor();
 }
 
 function enterApp(){
@@ -977,7 +964,6 @@ function updateMsgBadge(){
 
 // ── HORA DOBLE ──
 function toggleHoraManual(){S.hora=!S.hora;S.horaAuto=false;applyHoraState();guardarLocalmente();}
-function toggleHoraManualState(){ S.hora=!S.hora; S.horaAuto=false; applyHoraState(); guardarLocalmente(); }
 function activarHoraAuto(){S.hora=true;S.horaAuto=true;applyHoraState();showToast('Hora Doble','Activada por horario 🔥','#FF7A00');guardarLocalmente();}
 function applyHoraState(){
   const btn=document.getElementById('btn-hora-toggle');
@@ -986,7 +972,7 @@ function applyHoraState(){
   if(S.hora){
     if(btn){btn.classList.add('on');btn.textContent='🔥 Desactivar Hora Doble';}
     if(banner)banner.classList.add('on');
-    if(sbox){sbox.classList.add('on');sbox.textContent='🔥 ACTIVA — puntos ×2 · BONO siempre +15 fijos';}
+    if(sbox){sbox.classList.add('on');sbox.textContent='🔥 ACTIVA — puntos manuales ×2 · BONO siempre +15 fijos';}
     playBeep();
   }else{
     if(btn){btn.classList.remove('on');btn.textContent='Activar Hora Doble';}
@@ -1412,7 +1398,7 @@ window._lastFirebaseUpdate = Date.now();
 setInterval(()=>{
   const el = document.getElementById('tv-sync-cd');if(!el) return;
   const elapsed = Math.floor((Date.now() - (window._lastFirebaseUpdate||Date.now())) / 1000);
-  const left = Math.max(0, 5 - elapsed); // Sincronización rápida de 5 segundos feriales
+  const left = Math.max(0, 5 - elapsed);
   if(left === 0){
     el.style.color = 'var(--green)';
     el.textContent = '✓ activa';
@@ -1425,7 +1411,7 @@ setInterval(()=>{
 initSplash();
 </script>
 
-<!-- MOTOR EXCLUSIVO FIREBASE REST: Máxima rapidez ferial libre de fallos CORS -->
+<!-- MOTOR EXCLUSIVO FIREBASE REST -->
 <script>
   const FB_REST_URL = "https://firestore.googleapis.com/v1/projects/chupialquimiometro/databases/(default)/documents/chupialquimiometro/estado";
   window._lastSave = 0;
@@ -1459,7 +1445,6 @@ initSplash();
         const remoteTime = remoteState.updatedAt || 0;
         const ourSave = window._lastSave || 0;
 
-        // Si la nube tiene datos más nuevos y nosotros NO somos el iPad operador con panel abierto, actualizamos
         if (remoteTime > ourSave + 1000 && !S.adminOpen) {
           S = remoteState;
           window._lastFirebaseUpdate = Date.now();
@@ -1471,18 +1456,14 @@ initSplash();
     }
   };
 
-  // Bucle infinito de refresco cada 5 segundos para la tele de la barra y móviles QR
   setInterval(async () => {
     if (S.adminOpen) {
-      // Si somos el operador de barra, forzamos el volcado a la nube
       await window.guardarFirebase();
     } else {
-      // Si somos la televisión o un cliente en terraza, leemos
       await window.cargarFirebase();
     }
   }, 5000);
 
-  // Carga inicial al arrancar la caseta
   window.addEventListener('load', () => {
     setTimeout(window.cargarFirebase, 500);
   });
