@@ -1,4 +1,3 @@
-HTML
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -338,6 +337,19 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
 </style>
 </head>
 <body>
+<script>
+function enterApp(){
+  var splash=document.getElementById('splash');
+  var app=document.getElementById('app');
+  if(splash) splash.classList.add('hide');
+  if(app) app.style.display='block';
+  if(typeof renderAll==='function') renderAll();
+  if(typeof renderCountdown==='function') renderCountdown();
+  if(typeof applyHoraState==='function') applyHoraState();
+  if(typeof applyChupitoDia==='function') applyChupitoDia();
+  if(typeof updateMsgBadge==='function') updateMsgBadge();
+}
+</script>
 
 <!-- ═══════════════════════════════════════════ SPLASH (ACTIVO) ═══ -->
 <div id="splash">
@@ -734,7 +746,11 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
 
 <script>
 const PIN1="394549", PIN2="19761973";
-const NOMBRES_DEFAULT=["Peña Dickens","Vamos a liar la del pulpo","Malbebiendo","Pequeños Fiesteros","Perdiendo el Norte","Reyes de Copas","Sálvese quien beba","Si lo sé no vengo","La Coza Noztra","La Envodkada","Tarde pero llegamos","The Originals / Turbo Dickens","Los que Faltaban"," El Beber me llama","Los Zánganos","Mañana te lo cuento","Resacón en la Penya","Los Bizcochitos","Dskalimba","Ceda el Vaso","Los Kiwis","El Código da Whisky","Autiblinders","Comando Garrafón","Los de Siempre","Vamos B-Viendo","Área 51","","","","","","","","","","","","","",""];
+const NOMBRES_DEFAULT=["Peña Dickens","Vamos a liar la del pulpo","Malbebiendo","Pequeños Fiesteros","Perdiendo el Norte","Reyes de Copas","Sálvese quien beba","Si lo sé no vengo","La Coza Noztra","La Envodkada","Tarde pero llegamos","The Originals / Turbo Dickens","Los que Faltaban","El Beber me llama","Los Zánganos","Mañana te lo cuento","Resacón en la Penya","Los Bizcochitos","Dskalimba","Ceda el Vaso","Los Kiwis","El Código da Whisky","Autiblinders","Comando Garrafón","Los de Siempre","Vamos B-Viendo","Área 51","","","","","","","","","","","","","",""];
+const TOTAL_SLOTS=40;
+const SLOTS_EXTRA_START=27;
+
+function getDiaLabel(){return new Date().toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});}
 
 let S={
   nombres:[...NOMBRES_DEFAULT],
@@ -748,8 +764,8 @@ let S={
   chupitoDia:{activo:false,nombre:''},
   premios:{oro:'',plata:'',bronce:''},
   nocheContenido:{fecha:'',premio:''},
-  histGanadores:[], 
-  mensajes:[], 
+  histGanadores:[],
+  mensajes:[],
   msgLastId:0,
   msgVisto:false
 };
@@ -769,8 +785,6 @@ NOMBRES_DEFAULT.forEach(p=>{
   if(S.noche[p]===undefined)S.noche[p]=0;
   if(S.activas[p]===undefined)S.activas[p]=false;
 });
-
-function getDiaLabel(){return new Date().toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});}
 
 function enterApp(){
   document.getElementById('splash').classList.add('hide');
@@ -1009,7 +1023,7 @@ function applyOp(tipo,subTipo){
   savePrevRank();
   if(tipo==='restar'){
     if(subTipo==='bono'){
-      S.general[npPeña]=Math.max(0,S.general[npPe Peña]-15);S.noche[npPeña]=Math.max(0,S.noche[npPeña]-15);S.bonosHoy=Math.max(0,S.bonosHoy-1);
+      S.general[npPeña]=Math.max(0,S.general[npPeña]-15);S.noche[npPeña]=Math.max(0,S.noche[npPeña]-15);S.bonosHoy=Math.max(0,S.bonosHoy-1);
       S.lastOp[npPeña]={label:`−15🎫`,tipo:'neg'};setLastOp(npPeña,`−15 pts · Bono anulado (Caja −25€)`,'err');showToast(npPeña,`Bono anulado (−25€)`,'#CC1A1A');
     }else{
       S.general[npPeña]=Math.max(0,S.general[npPeña]-pts);S.noche[npPeña]=Math.max(0,S.noche[npPeña]-pts);S.chupSueltosHoy=Math.max(0,S.chupSueltosHoy-rawPts);
@@ -1409,7 +1423,7 @@ updateMsgBadge();
 
 <!-- MOTOR ORIGINAL SINCRO RESTABLECIDO -->
 <script>
-  const FB_REST_URL = "https://firestore.googleapis.com/v1/projects/chupialquimiometro/databases/(default)/documents/chupialquimiometro/estado";
+  const FB_REST_URL = "https://firestore.googleapis.com/v1/projects/chupialquimiometro/databases/(default)/documents/chupialquimiometro/estado?key=AIzaSyAKn-Vyi9zE3ggJbN2UqdUTi_zE7omzE2c";
   window._lastSave = 0;
 
   window.guardarFirebase = async function() {
