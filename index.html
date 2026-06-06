@@ -18,23 +18,23 @@ HTML
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:'Barlow Condensed',sans-serif;min-height:100vh;overflow-x:hidden;}
 
-/* ── SPLASH ELEGANTE (SIN ERRORES) ── */
+/* ── SPLASH ORIGINAL ── */
 #splash{position:fixed;inset:0;background:#000;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;}
 #splash.hide{display:none;}
-.splash-brand{text-align:center;margin-bottom:30px;}
-.splash-logo-img{width:120px;height:120px;margin-bottom:16px;filter:drop-shadow(0 0 16px rgba(201,168,76,.5));}
-.splash-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,6vw,3.5rem);letter-spacing:.06em;color:#EDE8DF;text-shadow:0 0 30px rgba(201,168,76,.4);}
+.splash-brand{text-align:center;margin-bottom:24px;}
+.splash-logo-img{width:110px;height:110px;margin-bottom:12px;filter:drop-shadow(0 0 16px rgba(201,168,76,.5));}
+.splash-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,6vw,3rem);letter-spacing:.06em;color:#EDE8DF;text-shadow:0 0 30px rgba(201,168,76,.4);}
 .splash-title em{font-style:normal;color:var(--gold);}
-.splash-sub1{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.2rem,3vw,1.8rem);letter-spacing:.18em;color:var(--gold);margin-top:4px;}
-.splash-sub2{font-size:clamp(.75rem,2vw,1rem);letter-spacing:.22em;color:#555;text-transform:uppercase;margin-top:2px;}
-.splash-divider{width:220px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:20px auto;}
-.splash-enter{margin-top:25px;display:block;}
-.btn-enter{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.15em;padding:16px 60px;background:linear-gradient(135deg,var(--gold-d),var(--gold));color:#111;border:none;border-radius:5px;cursor:pointer;transition:all .2s;animation:pulse-enter 1.5s ease-in-out infinite;}
+.splash-sub1{font-family:'Bebas Neue',sans-serif;font-size:clamp(1rem,3vw,1.5rem);letter-spacing:.18em;color:var(--gold);margin-top:4px;}
+.splash-sub2{font-size:clamp(.7rem,2vw,.9rem);letter-spacing:.22em;color:#555;text-transform:uppercase;margin-top:2px;}
+.splash-divider{width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:16px auto;}
+.splash-enter{margin-top:15px;display:block;}
+.btn-enter{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.15em;padding:14px 54px;background:linear-gradient(135deg,var(--gold-d),var(--gold));color:#111;border:none;border-radius:5px;cursor:pointer;transition:all .2s;animation:pulse-enter 1.5s ease-in-out infinite;}
 @keyframes pulse-enter{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.55)}50%{box-shadow:0 0 0 14px rgba(201,168,76,0)}}
 .btn-enter:hover{background:linear-gradient(135deg,var(--gold),var(--gold-b));transform:scale(1.02);}
 
 /* ── HEADER ── */
-header{position:relative;text-align:center;padding:16px 12px 12px;background:linear-gradient(180deg,#111,var(--bg));border-bottom:1px solid #1f1f1f;overflow:hidden;}
+header{position:relative;text-align:center;padding:166px 12px 12px;padding:16px 12px 12px;background:linear-gradient(180deg,#111,var(--bg));border-bottom:1px solid #1f1f1f;overflow:hidden;}
 header::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:600px;height:220px;background:radial-gradient(ellipse,rgba(201,168,76,.10),transparent 70%);pointer-events:none;}
 .header-inner{display:flex;align-items:center;justify-content:space-between;padding:0 24px;gap:0;}
 .header-brand{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:140px;padding:0 8px;}
@@ -331,7 +331,6 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
 </head>
 <body>
 
-<!-- ── SPLASH TOTALMENTE LIMPIO Y REPARADO ── -->
 <div id="splash">
   <div class="splash-brand">
     <svg class="splash-logo-img" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -355,7 +354,6 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
   </div>
 </div>
 
-<!-- ── APLICACIÓN PRINCIPAL ── -->
 <div id="app" style="display:none;">
 
 <header>
@@ -400,7 +398,6 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
 
 <div class="main">
 
-  <!-- PANELS -->
   <div class="panel on" id="panel-ranking">
     <div class="dual">
       <div class="panel-box" id="box-general"></div>
@@ -412,7 +409,7 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
     <div class="info-tabs">
       <div class="info-tab on" id="itab-mensajes" onclick="setInfoTab('mensajes')">💬 Mensajes</div>
       <div class="info-tab" id="itab-premios" onclick="setInfoTab('premios')">🏆 Premios</div>
-      <div class="info-tab" id="itab-func" onclick="setInfoTab('func')">📖 Instrucciones</div>
+      <div class="info-tab" id="itab-func" onclick="setInfoTab('func')">📖 Instructions</div>
       <div class="info-tab" id="itab-proyecto" onclick="setInfoTab('proyecto')">⚠️ Aviso</div>
     </div>
 
@@ -423,16 +420,29 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
       </div>
       <div class="info-block">
         <h3>¿En qué consiste el Chupialquimómetro?</h3>
-        <p>El Chupialquimómetro es el concurso oficial de chupitos de las Fiestas de San Juan de Los Corrales de Buelna. Las peñas inscritas compiten entre sí acumulando puntos a lo largo de los 10 días de feria. Cada chupito consumido suma puntos al marcador de tu peña.</p>
+        <p>El Chupialquimómetro es el concurso oficial de chupitos de las Fiestas de San Juan de Los Corrales de Buelna. Las peñas inscritas compiten entre sí acumulando puntos a lo largo de los 10 días de feria. Cada chupito consumido suma puntos al marcador de tu peña. Cuantos más chupitos, más puntos. Cuantos más puntos, más cerca del podio.</p>
       </div>
       <div class="info-block">
         <h3>¿Cómo se suman los puntos?</h3>
-        <p>Cada chupito consumido suma <strong>1 punto</strong> al marcador de tu peña. En la barra podéis adquirir el <strong>Bono Peñero</strong>: 15 chupitos por 25€ (precio normal 30€). Al comprar el bono, los 15 puntos se suman de golpe al marcador.</p>
+        <p>Cada chupito consumido suma <strong>1 punto</strong> al marcador de tu peña. En la barra podéis adquirir el <strong>Bono Peñero</strong>: 15 chupitos por 25€ (precio normal 30€). Al comprar el bono, los 15 puntos se suman de golpe al marcador — veréis cómo vuestra peña da un salto en la clasificación delante de todos.</p>
       </div>
       <div class="info-block">
         <h3>🔥 Hora Doble</h3>
-        <p>En determinadas franjas horarias, anunciadas en pantalla y por megafonía, <strong>los puntos valen el doble</strong>. Si en Hora Doble pedís 3 chupitos, sumaréis 6 puntos.</p>
-        <div class="info-tip">⚠️ El Bono Peñero siempre suma 15 puntos fijos, independientemente de si hay Hora Doble activa.</div>
+        <p>En determinadas franjas horarias, anunciadas en pantalla y por megafonía, <strong>los puntos valen el doble</strong>. Si en Hora Doble pedís 3 chupitos, sumaréis 6 puntos. Es el momento de atacar si queréis remontar posiciones. Atentos a la cuenta atrás en pantalla.</p>
+        <div class="info-tip">⚠️ El Bono Peñero siempre suma 15 puntos fijos, independientemente de si hay Hora Doble activa. La Hora Doble solo aplica a los chupitos consumidos en el momento.</div>
+      </div>
+      <div class="info-block">
+        <h3>🏆 El Gran Podio Final</h3>
+        <p>Al terminar las fiestas, las <strong>tres peñas con más puntos acumulados</strong> se llevan los premios del podio. Los premios están detallados en la pestaña <strong>Premios</strong>. La lucha por el 2º y 3º puesto es tan importante como la del 1º — no os rindáis.</p>
+      </div>
+      <div class="info-block">
+        <h3>🌙 Ganador de la Noche</h3>
+        <p>En determinadas noches habrá un premio especial para la peña que <strong>más puntos consiga esa noche concreta</strong>. El marcador nocturno se reinicia cada noche. Consultad en <strong>Premios</strong> qué noches están activas y qué se lleva el ganador.</p>
+      </div>
+      <div class="info-block">
+        <h3>📡 Actualización del marcador en TV</h3>
+        <p>El marcador de la pantalla grande de la caseta se actualiza automáticamente en tiempo real. Si acabáis de sumar puntos y no los veis al instante en la TV, esperad unos segundos — la sincronización es prácticamente inmediata. Podéis ver el estado de la última actualización en la barra superior del marcador.</p>
+        <p>En vuestro móvil, escaneando el código QR de la barra, veréis el marcador actualizado en tiempo real sin ningún desfase.</p>
       </div>
     </div>
 
@@ -457,7 +467,10 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
     <div class="info-panel" id="ipanel-proyecto">
       <div class="info-block">
         <h3>El Chupialquimómetro — Un proyecto propio</h3>
-        <p>El Chupialquimómetro es una initiative creada íntegramente por el equipo de <strong>Alquimia Tavern</strong> para animar las Fiestas de San Juan.</p>
+        <p>El Chupialquimómetro es una iniciativa creada íntegramente por el equipo de <strong>Alquimia Tavern</strong> para animar las Fiestas de San Juan de Los Corrales de Buelna y hacer la experiencia de las peñas aún más divertida y competitiva.</p>
+        <p>Se trata de un <strong>proyecto nuevo, en su primera edición</strong>, desarrollado con mucha ilusión pero también con la honestidad de reconocer que es un sistema en periodo de prueba y perfeccionamiento. Como cualquier proyecto tecnológico en sus inicios, puede cometer errores, puede pausarse, puede bloquearse o comportarse de forma inesperada.</p>
+        <p>Ante cualquier incidencia técnica, el equipo de Alquimia Tavern hará todo lo posible por resolverla de la forma más justa y rápida posible. Nuestro compromiso es con el buen ambiente y el disfrute de todos los participantes.</p>
+        <p><strong>El Chupialquimómetro nace para sumar, no para generar conflictos.</strong> Gracias por ser parte de esta primera edición.</p>
         <p style="margin-top:12px;color:var(--gold);font-style:italic;">— El equipo de Alquimia Tavern · Desde 1999</p>
       </div>
     </div>
@@ -467,9 +480,9 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
         <div class="msg-empty">No hay mensajes en este momento</div>
       </div>
     </div>
+
   </div>
 
-  <!-- ADMIN -->
   <div class="panel" id="panel-admin">
     <div class="admin-outer">
       <div class="admin-pin-wrap" id="pin-screen">
@@ -488,7 +501,6 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
         </div>
         <div class="pin-error" id="pin-error"></div>
       </div>
-      
       <div class="admin-inner" id="admin-inner">
         <div class="admin-tabs">
           <div class="admin-tab on" id="atab-op" onclick="setAdminTab('op')">🧮 Puntos</div>
@@ -501,6 +513,7 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
         <div class="admin-panel on" id="apanel-op">
           <div class="admin-section">
             <div class="admin-section-title">➕ Añadir / Restar puntos</div>
+            <p style="font-size:.8rem;color:var(--muted);margin-bottom:10px;">Ordenadas por clasificación · Toca una peña para abrir el teclado</p>
             <div class="op-peña-list" id="op-peña-list"></div>
             <div class="op-last" id="op-last">Última operación: <em style="color:var(--muted)">ninguna aún</em></div>
           </div>
@@ -531,6 +544,25 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
               <button class="btn-sm btn-ghost" onclick="activarHoraAuto()">▶ Activar por horario</button>
             </div>
           </div>
+          <div class="admin-section">
+            <div class="admin-section-title">🌙 Control de Noche</div>
+            <div class="toggle-row" style="margin-bottom:12px;">
+              <div><div class="toggle-row-label">Mostrar "Ganador de la Noche" en ranking</div><div class="toggle-row-sub">Desactívalo en noches sin premio</div></div>
+              <button class="tog-sw on" id="tog-noche" onclick="toggleNocheVisible()"></button>
+            </div>
+            <div style="margin-bottom:10px;">
+              <div style="font-size:.8rem;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.1em;">Líder actual de la noche</div>
+              <div id="noche-lider-admin" style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--orange);">—</div>
+            </div>
+            <div style="margin-bottom:14px;">
+              <div style="font-size:.8rem;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.1em;">Historial ganadores noche</div>
+              <div class="hist-list" id="hist-list"></div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button class="btn-ghost" onclick="confirmResetNoche()">↺ Reiniciar marcador noche</button>
+              <button class="btn-sm btn-gold" onclick="saveNocheWinner()">💾 Guardar ganador y reiniciar noche</button>
+            </div>
+          </div>
         </div>
 
         <div class="admin-panel" id="apanel-contenido">
@@ -542,12 +574,37 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
             </div>
             <input class="admin-edit-field" type="text" id="chupito-dia-input" placeholder="Ej: Licor de Piruleta" oninput="updateChupitoDia()">
           </div>
+          <div class="admin-section">
+            <div class="admin-section-title">🏆 Premios Ranking General</div>
+            <div style="font-size:.78rem;color:var(--muted);margin-bottom:8px;">🥇 Primer premio</div>
+            <textarea class="admin-edit-field" id="premio-oro" placeholder="Describe el premio de oro..." oninput="savePremios()"></textarea>
+            <div style="font-size:.78rem;color:var(--muted);margin-bottom:8px;">🥈 Segundo premio</div>
+            <textarea class="admin-edit-field" id="premio-plata" placeholder="Describe el premio de plata..." oninput="savePremios()"></textarea>
+            <div style="font-size:.78rem;color:var(--muted);margin-bottom:8px;">🥉 Tercer premio</div>
+            <textarea class="admin-edit-field" id="premio-bronce" placeholder="Describe el premio de bronce..." oninput="savePremios()"></textarea>
+          </div>
+          <div class="admin-section">
+            <div class="admin-section-title">🌙 Próxima noche con premio</div>
+            <input class="admin-edit-field" type="text" id="noche-proxima-fecha-input" placeholder="Ej: Sábado 28 de junio" oninput="saveNocheContenido()">
+            <textarea class="admin-edit-field" id="noche-proxima-premio-input" placeholder="Describe el premio de la noche..." oninput="saveNocheContenido()"></textarea>
+          </div>
+          <div class="admin-section">
+            <div class="admin-section-title">📦 Historial ganadores noche (con premio)</div>
+            <div id="hist-ganadores-admin"></div>
+            <button class="btn-sm btn-gold" style="margin-top:8px;" onclick="addHistGanador()">+ Añadir ganador</button>
+          </div>
+          <div class="admin-section">
+            <div class="admin-section-title">💬 Mensajes para Info</div>
+            <div id="mensajes-admin"></div>
+            <button class="btn-sm btn-gold" style="margin-top:8px;" onclick="addMensaje()">+ Nuevo mensaje</button>
+          </div>
         </div>
 
         <div class="admin-panel" id="apanel-admin2">
           <div class="admin2-locked" id="admin2-locked">
             <div class="admin-section" style="text-align:center;">
               <div class="admin-pin-title" style="font-size:1.4rem;margin-bottom:4px;">🔒 Admin 2</div>
+              <div class="admin-pin-sub">Acceso restringido · dirección</div>
               <div class="pin-dots" id="pin2-dots" style="justify-content:center;margin-bottom:14px;">
                 <div class="pin-dot" id="p2d0"></div><div class="pin-dot" id="p2d1"></div><div class="pin-dot" id="p2d2"></div><div class="pin-dot" id="p2d3"></div>
                 <div class="pin-dot" id="p2d4"></div><div class="pin-dot" id="p2d5"></div><div class="pin-dot" id="p2d6"></div><div class="pin-dot" id="p2d7"></div>
@@ -563,11 +620,57 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
           </div>
           <div class="admin2-content" id="admin2-content">
             <div class="admin-section">
-              <div class="admin-section-title">📊 Contadores de caja</div>
+              <div class="admin-section-title">📅 Día actual</div>
+              <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px;">🥃 Chupitos</div>
               <div class="admin-stat-grid">
-                <div class="admin-stat"><div class="admin-stat-val" id="a2-chup-tot-hoy">0</div><div class="admin-stat-lbl">Chupitos hoy</div></div>
-                <div class="admin-stat"><div class="admin-stat-val" id="a2-eur-tot-hoy">0€</div><div class="admin-stat-lbl">Total Caja hoy</div></div>
+                <div class="admin-stat"><div class="admin-stat-val" id="a2-chup-sueltos-hoy">0</div><div class="admin-stat-lbl">Sueltos</div></div>
+                <div class="admin-stat"><div class="admin-stat-val" id="a2-chup-bono-hoy">0</div><div class="admin-stat-lbl">Vía bono</div></div>
+                <div class="admin-stat" style="border-color:var(--gold-d);"><div class="admin-stat-val" id="a2-chup-tot-hoy">0</div><div class="admin-stat-lbl">Total</div></div>
               </div>
+              <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin:10px 0 6px;">💰 Recaudación</div>
+              <div class="admin-stat-grid">
+                <div class="admin-stat"><div class="admin-stat-val" id="a2-eur-sueltos-hoy">0€</div><div class="admin-stat-lbl">Sueltos ×2€</div></div>
+                <div class="admin-stat"><div class="admin-stat-val" id="a2-eur-bonos-hoy">0€</div><div class="admin-stat-lbl">Bonos ×25€</div></div>
+                <div class="admin-stat" style="border-color:var(--gold-d);"><div class="admin-stat-val" id="a2-eur-tot-hoy">0€</div><div class="admin-stat-lbl">Total</div></div>
+              </div>
+            </div>
+            <div class="admin-section">
+              <div class="admin-section-title">📊 Histórico por día</div>
+              <div style="overflow-x:auto;">
+                <table class="daily-table">
+                  <thead><tr><th>Día</th><th class="num">Ch.sueltos</th><th class="num">Bonos</th><th class="num">Ch.bono</th><th class="num">Total ch.</th><th class="num">€sueltos</th><th class="num">€bonos</th><th class="num">Total€</th></tr></thead>
+                  <tbody id="daily-tbody"></tbody>
+                </table>
+              </div>
+            </div>
+            <div class="admin-section">
+              <div class="admin-section-title">📦 Totales acumulados</div>
+              <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px;">🥃 Chupitos</div>
+              <div class="admin-stat-grid">
+                <div class="admin-stat"><div class="admin-stat-val" id="a2-tot-chup-sueltos">0</div><div class="admin-stat-lbl">Sueltos</div></div>
+                <div class="admin-stat"><div class="admin-stat-val" id="a2-tot-chup-bono">0</div><div class="admin-stat-lbl">Vía bono</div></div>
+                <div class="admin-stat" style="border-color:var(--gold-d);"><div class="admin-stat-val" id="a2-tot-chup">0</div><div class="admin-stat-lbl">Total</div></div>
+              </div>
+              <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin:10px 0 6px;">💰 Recaudación</div>
+              <div class="admin-stat-grid">
+                <div class="admin-stat"><div class="admin-stat-val" id="a2-tot-eur-sueltos">0€</div><div class="admin-stat-lbl">Sueltos ×2€</div></div>
+                <div class="admin-stat"><div class="admin-stat-val" id="a2-tot-eur-bonos">0€</div><div class="admin-stat-lbl">Bonos ×25€</div></div>
+                <div class="admin-stat" style="border-color:var(--gold-d);"><div class="admin-stat-val" id="a2-tot-eur">0€</div><div class="admin-stat-lbl">Total</div></div>
+              </div>
+            </div>
+            <div class="admin-section">
+              <div class="admin-section-title">🔄 Reset completo del sistema</div>
+              <div class="reset-danger-box">
+                <div class="reset-danger-title">⚠️ ZONA DE PELIGRO</div>
+                <div class="reset-danger-sub">Esta acción borra TODOS los puntos, contadores de caja, historial de noche y marcadores. Úsalo solo para pruebas antes de la feria. No se puede deshacer.</div>
+                <button class="btn-danger" onclick="confirmResetTotal()">🔄 RESET TOTAL DEL SISTEMA</button>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;">
+              <button class="btn-sm btn-gold" onclick="cerrarDia()">📅 Cerrar día</button>
+              <button class="btn-sm btn-export" onclick="exportarDatos()">⬇ Exportar JSON</button>
+              <button class="btn-sm" style="background:rgba(26,58,107,.2);color:#87aadd;border:1px solid rgba(26,58,107,.4);" onclick="importarDatos()">⬆ Importar JSON</button>
+              <button class="btn-sm btn-ghost" onclick="lockAdmin2()">🔒 Cerrar Admin 2</button>
             </div>
           </div>
         </div>
@@ -582,12 +685,11 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
 <button class="lock-btn" id="lock-btn" onclick="lockAdmin()" style="display:none">🔒 Cerrar admin</button>
 <div class="toast" id="toast"><span class="tn" id="toast-name"></span><span id="toast-msg"></span></div>
 
-<!-- NUMPAD MODAL -->
 <div class="modal-overlay" id="np-overlay">
   <div class="numpad-modal">
     <div class="np-title">Operación de puntos</div>
     <div class="np-peña" id="np-peña">—</div>
-    <div class="np-pts-info">General: <span id="np-gen">0</span> pts</div>
+    <div class="np-pts-info">General: <span id="np-gen">0</span> pts &nbsp;·&nbsp; Noche: <span id="np-noche" style="color:var(--orange)">0</span> pts</div>
     <div class="np-display empty" id="np-disp">0</div>
     <div class="np-grid">
       <div class="nk" onclick="nk('1')">1</div><div class="nk" onclick="nk('2')">2</div><div class="nk" onclick="nk('3')">3</div>
@@ -596,9 +698,11 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:70
       <div class="nk clr" onclick="nkC()">C</div><div class="nk" onclick="nk('0')">0</div><div class="nk bksp" onclick="nkBk()">⌫</div>
       <div class="nk bono" onclick="nkBono()">🎫 BONO +15</div>
     </div>
+    <div class="np-bono-note">⚠️ BONO siempre +15 pts fijos (sin ×2 en Hora Doble)</div>
     <div class="np-hora-badge" id="np-hora-badge"></div>
     <div class="np-restar-options">
-      <div class="btn-sub-restar chup" onclick="doRestar('chupito')">− CORREGIR</div>
+      <div class="btn-sub-restar chup" onclick="doRestar('chupito')">− CORREGIR CHUPITO</div>
+      <div class="btn-sub-restar bono" onclick="doRestar('bono')">− ANULAR BONO</div>
     </div>
     <div class="np-actions"><button class="btn-sumar" onclick="doSumar()">✚ SUMAR</button></div>
     <button class="btn-cancelar" onclick="closeNp()">Cancelar</button>
@@ -621,16 +725,11 @@ let S={
   chupitoDia:{activo:false,nombre:''},
   premios:{oro:'',plata:'',bronce:''},
   nocheContenido:{fecha:'',premio:''},
-  histGanadores:[], mensajes:[], msgLastId:0, msgVisto:false
+  histGanadores:[], 
+  mensajes:[], 
+  msgLastId:0,
+  msgVisto:false
 };
-
-function enterApp(){
-  document.getElementById('splash').classList.add('hide');
-  document.getElementById('app').style.display='block';
-  renderAll();
-  renderCountdown();
-  applyHoraState();
-}
 
 function guardarLocalmente(){
   try{localStorage.setItem('chupialquimiometro_v8',JSON.stringify(S));}catch(e){}
@@ -639,7 +738,7 @@ function guardarLocalmente(){
     window.guardarFirebase();
   }
 }
-function cargarLocalmente(){try{const g=localStorage.getItem('chupialquimometro_v8');if(g){const p=JSON.parse(g);Object.assign(S,p);}}catch(e){}}
+function cargarLocalmente(){try{const g=localStorage.getItem('chupialquimiometro_v8');if(g){const p=JSON.parse(g);Object.assign(S,p);}}catch(e){console.warn('Estado corrupto, iniciando limpio');}}
 
 cargarLocalmente();
 NOMBRES_DEFAULT.forEach(p=>{
@@ -650,12 +749,80 @@ NOMBRES_DEFAULT.forEach(p=>{
 
 function getDiaLabel(){return new Date().toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});}
 
-function fmtCountdown(totalSecs){
-  const h=Math.floor(totalSecs/3600),m=Math.floor((totalSecs%3600)/60),s=totalSecs%60;
-  return `${String(h).padStart(2,'0')}h:${String(m).padStart(2,'0')}m:${String(s).padStart(2,'0')}s`;
+function enterApp(){
+  document.getElementById('splash').classList.add('hide');
+  document.getElementById('app').style.display='block';
+  renderAll();
+  renderCountdown();
+  applyHoraState();
+  applyChupitoDia();
+  updateMsgBadge();
 }
 
-// ── NAVEGACIÓN CORREGIDA ──
+function fmtCountdown(totalSecs){
+  const h=Math.floor(totalSecs/3600),m=Math.floor((totalSecs%3600)/60),s=totalSecs%60;
+  const hh=String(h).padStart(2,'0'),mm=String(m).padStart(2,'0'),ss=String(s).padStart(2,'0');
+  return `${hh}<span style="font-size:.6em;opacity:.65;font-family:Barlow Condensed,sans-serif">h</span>:${mm}<span style="font-size:.6em;opacity:.65;font-family:Barlow Condensed,sans-serif">m</span>:${ss}<span style="font-size:.6em;opacity:.65;font-family:Barlow Condensed,sans-serif">s</span>`;
+}
+
+// ── PIN1 ──
+let pinBuf="";
+function pinKey(d){if(pinBuf.length>=6)return;pinBuf+=d;updPinDots();if(pinBuf.length===6)setTimeout(checkPin,150);}
+function pinBksp(){pinBuf=pinBuf.slice(0,-1);updPinDots();}
+function pinClear(){pinBuf="";updPinDots();document.getElementById('pin-error').textContent="";}
+function updPinDots(){for(let i=0;i<6;i++)document.getElementById('pd'+i).classList.toggle('filled',i<pinBuf.length); }
+function checkPin(){
+  if(pinBuf===PIN1){
+    document.getElementById('pin-screen').style.display='none';
+    document.getElementById('admin-inner').classList.add('on');
+    document.getElementById('lock-btn').style.display='block';
+    S.adminOpen=true;renderOpList();renderInsc();updateNocheLiderAdmin();
+    renderContenidoAdmin();guardarLocalmente();
+  }else{document.getElementById('pin-error').textContent="PIN incorrecto";pinBuf="";updPinDots();setTimeout(()=>document.getElementById('pin-error').textContent="",2000);}
+}
+function lockAdmin(){
+  pinBuf="";updPinDots();
+  document.getElementById('pin-screen').style.display='block';
+  document.getElementById('admin-inner').classList.remove('on');
+  document.getElementById('lock-btn').style.display='none';
+  S.adminOpen=false;lockAdmin2();
+  if(S.tab==='admin')setTab('ranking');
+  guardarLocalmente();
+}
+
+// ── PIN2 ──
+let pin2Buf="";
+function pin2Key(d){if(pin2Buf.length>=8)return;pin2Buf+=d;updPin2Dots();if(pin2Buf.length===8)setTimeout(checkPin2,150);}
+function pin2Bksp(){pin2Buf=pin2Buf.slice(0,-1);updPin2Dots();}
+function pin2Clear(){pin2Buf="";updPin2Dots();document.getElementById('pin2-error').textContent="";}
+function updPin2Dots(){for(let i=0;i<8;i++)document.getElementById('p2d'+i).classList.toggle('filled',i<pin2Buf.length);}
+function checkPin2(){
+  if(pin2Buf===PIN2){
+    document.getElementById('admin2-locked').classList.add('hide');
+    document.getElementById('admin2-content').classList.add('on');
+    S.admin2Open=true;renderAdmin2();guardarLocalmente();
+  }else{document.getElementById('pin2-error').textContent="PIN incorrecto";pin2Buf="";updPin2Dots();setTimeout(()=>document.getElementById('pin2-error').textContent="",2000);}
+}
+function lockAdmin2(){
+  pin2Buf="";updPin2Dots();
+  document.getElementById('admin2-locked').classList.remove('hide');
+  document.getElementById('admin2-content').classList.remove('on');
+  S.admin2Open=false;guardarLocalmente();
+}
+
+// ── RESET TOTAL ──
+function confirmResetTotal(){
+  if(!confirm('⚠️ RESET TOTAL: se borrarán TODOS los puntos, contadores y marcadores.\n\n¿Estás seguro? Esta acción no se puede deshacer.'))return;
+  if(!confirm('Segunda confirmación: ¿Borrar TODO y empezar desde cero?'))return;
+  NOMBRES_DEFAULT.forEach(p=>{S.general[p]=0;S.noche[p]=0;});
+  S.lastOp={};S.chupSueltosHoy=0;S.bonosHoy=0;
+  S.histDias=[];S.nocheHist=[];S.prevRank={};
+  S.histGanadores=[];S.diaActual=getDiaLabel();
+  guardarLocalmente();renderAll();renderAdmin2();
+  showToast('RESET TOTAL','Sistema reiniciado a cero','#FF7A00');
+}
+
+// ── TABS ──
 function setTab(t){
   S.tab=t;
   ['ranking','info','admin'].forEach(x=>{
@@ -664,6 +831,7 @@ function setTab(t){
   });
   if(t==='ranking')renderRanking();
   if(t==='admin'&&S.adminOpen){renderOpList();renderInsc();}
+  if(t==='info')renderInfoPanels();
   guardarLocalmente();
 }
 
@@ -675,6 +843,8 @@ function setAdminTab(t){
     if(te)te.classList.toggle('on',x===t);
     if(pe)pe.classList.toggle('on',x===t);
   });
+  if(t==='hora'){renderNocheHist();updateNocheLiderAdmin();}
+  if(t==='contenido')renderContenidoAdmin();
   if(t==='admin2'&&S.admin2Open)renderAdmin2();
   guardarLocalmente();
 }
@@ -684,119 +854,446 @@ function setInfoTab(t){
     document.getElementById('itab-'+x).classList.toggle('on',x===t);
     document.getElementById('ipanel-'+x).classList.toggle('on',x===t);
   });
+  if(t==='premios')renderPremiosInfo();
+  if(t==='mensajes'){
+    S.msgVisto=true;updateMsgBadge();guardarLocalmente();
+    renderMensajesPublic();
+  }
 }
 
-// ── PIN ──
-let pinBuf="";
-function pinKey(d){if(pinBuf.length>=6)return;pinBuf+=d;updPinDots();if(pinBuf.length===6)setTimeout(checkPin,150);}
-function pinBksp(){pinBuf=pinBuf.slice(0,-1);updPinDots();}
-function pinClear(){pinBuf="";updPinDots();}
-function updPinDots(){for(let i=0;i<6;i++)document.getElementById('pd'+i).classList.toggle('filled',i<pinBuf.length); }
-function checkPin(){
-  if(pinBuf===PIN1){
-    document.getElementById('pin-screen').style.display='none';
-    document.getElementById('admin-inner').classList.add('on');
-    document.getElementById('lock-btn').style.display='block';
-    S.adminOpen=true;renderOpList();renderInsc();
-  }else{pinBuf="";updPinDots();}
-}
-function lockAdmin(){
-  pinBuf="";updPinDots();
-  document.getElementById('pin-screen').style.display='block';
-  document.getElementById('admin-inner').classList.remove('on');
-  document.getElementById('lock-btn').style.display='none';
-  S.adminOpen=false;
-  if(S.tab==='admin')setTab('ranking');
+function setPremiosTab(t){
+  ['general','noche'].forEach(x=>{
+    document.getElementById('ptab-'+x).classList.toggle('on',x===t);
+    document.getElementById('ppanel-'+x).classList.toggle('on',x===t);
+  });
+  if(t==='general')renderPremiosPodio();
+  if(t==='noche')renderNocheContenido();
 }
 
-// ── PIN2 ──
-let pin2Buf="";
-function pin2Key(d){if(pin2Buf.length>=8)return;pin2Buf+=d;updPin2Dots();if(pin2Buf.length===8)setTimeout(checkPin2,150);}
-function pin2Bksp(){pin2Buf=pin2Buf.slice(0,-1);updPin2Dots();}
-function pin2Clear(){pin2Buf="";updPin2Dots();}
-function updPin2Dots(){for(let i=0;i<8;i++)document.getElementById('p2d'+i).classList.toggle('filled',i<pin2Buf.length);}
-function checkPin2(){
-  if(pin2Buf===PIN2){
-    document.getElementById('admin2-locked').classList.add('hide');
-    document.getElementById('admin2-content').classList.add('on');
-    S.admin2Open=true;renderAdmin2();
-  }else{pin2Buf="";updPin2Dots();}
-}
-
+// ── ACTIVAS ──
 function getActivas(){return S.nombres.filter(p=>S.activas[p]&&p&&p.trim()!=='');}
-function toggleActivaIdx(i){const p=S.nombres[i];if(!p)return;S.activas[p]=!S.activas[p];renderAll();guardarLocalmente();}
+function toggleActivaIdx(i){
+  const p=S.nombres[i];
+  if(!p||p.trim()===''){showToast('Sin nombre','Edita el nombre antes de activar','#FF7A00');return;}
+  S.activas[p]=!S.activas[p];
+  renderAll();
+  showToast(p,S.activas[p]?'✅ Inscrita':'❌ Baja',S.activas[p]?'#27AE60':'#CC1A1A');
+  guardarLocalmente();
+}
+function toggleActiva(p){S.activas[p]=!S.activas[p];renderAll();showToast(p,S.activas[p]?'✅ Inscrita':'❌ Baja',S.activas[p]?'#27AE60':'#CC1A1A');guardarLocalmente();}
 function bulkToggle(v){S.nombres.forEach(p=>S.activas[p]=v);renderAll();guardarLocalmente();}
-function toggleNocheVisible(){S.nocheVisible=!S.nocheVisible;renderRanking();guardarLocalmente();}
-function toggleChupitoDia(){S.chupitoDia.activo=!S.chupitoDia.activo;applyChupitoDia();guardarLocalmente();}
-function updateChupitoDia(){S.chupitoDia.nombre=document.getElementById('chupito-dia-input').value;applyChupitoDia();guardarLocalmente();}
+function toggleNocheVisible(){S.nocheVisible=!S.nocheVisible;document.getElementById('tog-noche').classList.toggle('on',S.nocheVisible);renderRanking();showToast('Ganador de la Noche',S.nocheVisible?'Visible':'Oculto',S.nocheVisible?'#27AE60':'#FF7A00');guardarLocalmente();}
+
+// ── CHUPITO DEL DÍA ──
+function toggleChupitoDia(){
+  S.chupitoDia.activo=!S.chupitoDia.activo;
+  document.getElementById('tog-chupito').classList.toggle('on',S.chupitoDia.activo);
+  applyChupitoDia();guardarLocalmente();
+}
+function updateChupitoDia(){
+  S.chupitoDia.nombre=document.getElementById('chupito-dia-input').value;
+  applyChupitoDia();guardarLocalmente();
+}
 function applyChupitoDia(){
   const bar=document.getElementById('chupito-dia-bar');
-  if(S.chupitoDia.activo&&S.chupitoDia.nombre){bar.style.display='flex';document.getElementById('chupito-dia-nombre').textContent=S.chupitoDia.nombre;}
-  else{bar.style.display='none';}
+  const nombre=document.getElementById('chupito-dia-nombre');
+  if(bar && nombre) {
+    if(S.chupitoDia.activo&&S.chupitoDia.nombre){
+      bar.classList.add('on');
+      nombre.textContent=S.chupitoDia.nombre;
+    }else{bar.classList.remove('on');}
+  }
 }
 
-function toggleHoraManual(){S.hora=!S.hora;applyHoraState();guardarLocalmente();}
+// ── MSG BADGE ──
+function updateMsgBadge(){
+  const activosCnt=S.mensajes.filter(m=>m.activo).length;
+  const badge=document.getElementById('msg-badge');
+  if(badge) {
+    if(activosCnt>0&&!S.msgVisto){badge.classList.add('on');}
+    else{badge.classList.remove('on');}
+  }
+}
+
+// ── HORA DOBLE ──
+function toggleHoraManual(){S.hora=!S.hora;S.horaAuto=false;applyHoraState();guardarLocalmente();}
+function activarHoraAuto(){S.hora=true;S.horaAuto=true;applyHoraState();showToast('Hora Doble','Activada por horario 🔥','#FF7A00');guardarLocalmente();}
 function applyHoraState(){
+  const btn=document.getElementById('btn-hora-toggle');
   const banner=document.getElementById('hora-banner');
-  if(banner)banner.style.display=S.hora?'flex':'none';
+  const sbox=document.getElementById('hora-status-box');
+  if(S.hora){
+    if(btn){btn.classList.add('on');btn.textContent='🔥 Desactivar Hora Doble';}
+    if(banner)banner.classList.add('on');
+    if(sbox){sbox.classList.add('on');sbox.textContent='🔥 ACTIVA — puntos manuales ×2 · BONO siempre +15 fijos';}
+    playBeep();
+  }else{
+    if(btn){btn.classList.remove('on');btn.textContent='Activar Hora Doble';}
+    if(banner)banner.classList.remove('on');
+    if(sbox){sbox.classList.remove('on');sbox.textContent='Estado: Desactivada';}
+  }
+  if(document.getElementById('np-overlay').classList.contains('on'))updNpHora();
+  renderCountdown();
 }
-function updateHoraSchedule(){S.horaInicio=document.getElementById('hora-inicio').value;S.horaFin=document.getElementById('hora-fin').value;guardarLocalmente();}
-
+function updateHoraSchedule(){S.horaInicio=document.getElementById('hora-inicio').value;S.horaFin=document.getElementById('hora-fin').value;renderCountdown();guardarLocalmente();}
+function parseTime(t){const[h,m]=t.split(':').map(Number);return h*60+m;}
+function nowMins(){const n=new Date();return n.getHours()*60+n.getMinutes();}
 function renderCountdown(){
-  const cdTime=document.getElementById('cd-time');
-  if(cdTime)cdTime.textContent=S.hora?"ACTIVA":"--h:--m:--s";
+  const now=new Date();
+  const nowS=now.getHours()*3600+now.getMinutes()*60+now.getSeconds();
+  const iniS=parseTime(S.horaInicio)*60,finS=parseTime(S.horaFin)*60;
+  const cdTime=document.getElementById('cd-time'),cdSched=document.getElementById('cd-schedule');
+  if(!cdTime)return;
+  const sched=`<strong>${S.horaInicio}</strong> – <strong>${S.horaFin}</strong>`;
+  if(S.hora){
+    const left=finS-nowS;
+    if(left>0){cdTime.innerHTML=fmtCountdown(left);cdTime.className='cd-time active';cdSched.innerHTML=`🔥 Activa · termina ${S.horaFin}`;}
+    else{cdTime.innerHTML='00h:00m:00s';cdTime.className='cd-time';cdSched.innerHTML='Hora Doble terminada';}
+  }else{
+    const left2=iniS-nowS;
+    if(left2>0){cdTime.innerHTML=fmtCountdown(left2);cdTime.className='cd-time';cdSched.innerHTML=`Próxima Hora Doble: ${sched}`;}
+    else if(nowS>=iniS&&nowS<finS){cdTime.innerHTML='¡AHORA!';cdTime.className='cd-time active';cdSched.innerHTML=`Hora Doble: ${sched}`;}
+    else{cdTime.innerHTML='--h:--m:--s';cdTime.className='cd-time';cdSched.innerHTML=`Hora Doble: ${sched}`;}
+  }
 }
-setInterval(renderCountdown,1000);
+setInterval(()=>{renderCountdown();checkAutoHora();},1000);
+function checkAutoHora(){
+  if(!S.horaAuto)return;
+  const ini=parseTime(S.horaInicio),fin=parseTime(S.horaFin),now=nowMins();
+  if(now>=ini&&now<fin&&!S.hora){S.hora=true;applyHoraState();guardarLocalmente();}
+  if(now>=fin&&S.hora&&S.horaAuto){S.hora=false;S.horaAuto=false;applyHoraState();guardarLocalmente();}
+}
+function playBeep(){try{const ctx=new(window.AudioContext||window.webkitAudioContext)();[440,550,660].forEach((f,i)=>{const o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.frequency.value=f;g.gain.value=.15;o.start(ctx.currentTime+i*.12);o.stop(ctx.currentTime+i*.12+.1);});}catch(e){}}
 
-// ── NUMPAD OPERACIONES ──
+// ── NUMPAD ──
 let npPeña=null,npVal="";
-function openNp(p){npPeña=p;npVal="";document.getElementById('np-peña').textContent=p;document.getElementById('np-gen').textContent=S.general[p]||0;updNpDisp();document.getElementById('np-overlay').classList.add('on');}
-function closeNp(){document.getElementById('np-overlay').classList.remove('on');}
+function openNp(p){npPeña=p;npVal="";document.getElementById('np-peña').textContent=p;document.getElementById('np-gen').textContent=S.general[p]||0;document.getElementById('np-noche').textContent=S.noche[p]||0;updNpDisp();updNpHora();document.getElementById('np-overlay').classList.add('on');}
+function closeNp(){document.getElementById('np-overlay').classList.remove('on');npPeña=null;npVal="";}
 function nk(d){if(npVal.length>=4)return;npVal+=d;updNpDisp();}
 function nkC(){npVal="";updNpDisp();}
 function nkBk(){npVal=npVal.slice(0,-1);updNpDisp();}
-function updNpDisp(){const el=document.getElementById('np-disp');el.textContent=npVal||"0";}
 function nkBono(){applyOp('bono');}
+function updNpDisp(){const el=document.getElementById('np-disp');if(!npVal){el.textContent="0";el.classList.add('empty');}else{el.textContent=npVal;el.classList.remove('empty');}}
+function updNpHora(){const badge=document.getElementById('np-hora-badge'); if(badge) badge.textContent=S.hora?'🔥 HORA DOBLE activa — puntos manuales ×2':'';}
 function doSumar(){applyOp('sumar');}
-function doRestar(){applyOp('restar');}
+function doRestar(subTipo){applyOp('restar',subTipo);}
 
-function applyOp(tipo){
+function applyOp(tipo,subTipo){
   if(!npPeña)return;
   let rawPts=tipo==='bono'?15:(parseInt(npVal)||0);
+  if(rawPts===0&&tipo!=='bono'){closeNp();return;}
   let pts=(tipo!=='bono'&&S.hora)?rawPts*2:rawPts;
+  savePrevRank();
   if(tipo==='restar'){
-    S.general[npPeña]=Math.max(0,S.general[npPeña]-pts);
+    if(subTipo==='bono'){
+      S.general[npPeña]=Math.max(0,S.general[npPeña]-15);S.noche[npPeña]=Math.max(0,S.noche[npPeña]-15);S.bonosHoy=Math.max(0,S.bonosHoy-1);
+      S.lastOp[npPeña]={label:`−15🎫`,tipo:'neg'};setLastOp(npPeña,`−15 pts · Bono anulado (Caja −25€)`,'err');showToast(npPeña,`Bono anulado (−25€)`,'#CC1A1A');
+    }else{
+      S.general[npPeña]=Math.max(0,S.general[npPeña]-pts);S.noche[npPeña]=Math.max(0,S.noche[npPeña]-pts);S.chupSueltosHoy=Math.max(0,S.chupSueltosHoy-rawPts);
+      S.lastOp[npPeña]={label:`−${pts}`,tipo:'neg'};setLastOp(npPeña,`−${pts} pts · corrección`,'err');showToast(npPeña,`−${pts} pts (corrección)`,'#CC1A1A');
+    }
+  }else if(tipo==='bono'){
+    S.general[npPeña]+=15;S.noche[npPeña]+=15;S.bonosHoy+=1;
+    S.lastOp[npPeña]={label:'+15🎫',tipo:'pos'};setLastOp(npPeña,'🎫 BONO +15 pts (25€)','ok');showToast(npPeña,'🎫 BONO +15 pts (25€)','#C9A84C');
   }else{
-    S.general[npPeña]+=pts;
-    if(tipo==='bono')S.bonosHoy++; else S.chupSueltosHoy+=rawPts;
+    S.general[npPeña]+=pts;S.noche[npPeña]+=pts;S.chupSueltosHoy+=rawPts;
+    const opLabel=`+${pts}${S.hora?'🔥':''}`;
+    S.lastOp[npPeña]={label:opLabel,tipo:'pos'};setLastOp(npPeña,`+${pts} pts${S.hora?' 🔥×2':''}`,'ok');showToast(npPeña,`+${pts} pts${S.hora?' 🔥×2':''}`, '#C9A84C');
   }
   guardarLocalmente();closeNp();renderAll();
 }
+function setLastOp(peña,msg,cls){const el=document.getElementById('op-last');if(el){el.className='op-last '+cls;el.innerHTML=`Última operación: <strong>${peña}</strong> · ${msg}`;}}
 
+// ── NOCHE ──
+function confirmResetNoche(){
+  const ranked=getRanked(S.noche);
+  const hayPuntos=ranked.length&&ranked[0][1]>0;
+  const msg=hayPuntos
+    ? `⚠️ HAY PUNTOS SIN GUARDAR\n\nEl líder actual es ${ranked[0][0]} con ${ranked[0][1]} pts.\n\n¿Seguro que quieres reiniciar SIN guardar el ganador?\n\nSi quieres guardar primero, cancela y pulsa "Guardar ganador actual".`
+    : '¿Reiniciar el marcador de la NOCHE?';
+  if(confirm(msg)){
+    S.nombres.forEach(p=>S.noche[p]=0);
+    renderAll();updateNocheLiderAdmin();
+    showToast('NOCHE REINICIADA','¡Nueva noche!','#FF7A00');
+    guardarLocalmente();
+  }
+}
+function saveNocheWinner(){
+  const ranked=getRanked(S.noche);
+  if(!ranked.length||ranked[0][1]===0){showToast('Sin datos','No hay puntos de noche','#CC1A1A');return;}
+  const[name,pts]=ranked[0];
+  const dia=getDiaLabel();
+  S.nocheHist.push({dia,nombre:name,pts});
+  S.histGanadores.push({dia,peña:name,pts:String(pts),premio:'',visible:false});
+  S.nombres.forEach(p=>S.noche[p]=0);
+  renderNocheHist();
+  renderHistGanadoresAdmin();
+  renderAll();
+  updateNocheLiderAdmin();
+  showToast('Ganador guardado y noche reiniciada',`${name} · ${pts} pts`,'#27AE60');
+  guardarLocalmente();
+}
+function renderNocheHist(){
+  const el=document.getElementById('hist-list');if(!el)return;
+  if(!S.nocheHist.length){el.innerHTML='<div class="hist-empty">Sin ganadores guardados aún</div>';return;}
+  el.innerHTML='';
+  [...S.nocheHist].reverse().forEach(h=>{el.innerHTML+=`<div class="hist-row"><div class="hist-day">${h.dia}</div><div class="hist-name">${h.nombre}</div><div class="hist-pts">${h.pts}</div></div>`;});
+}
+function updateNocheLiderAdmin(){const ranked=getRanked(S.noche);const el=document.getElementById('noche-lider-admin');if(el)el.textContent=ranked.length&&ranked[0][1]>0?`${ranked[0][0]} · ${ranked[0][1]} pts`:'— Sin puntos aún';}
+
+// ── PREMIOS & CONTENIDO ──
+function savePremios(){
+  S.premios.oro=document.getElementById('premio-oro').value;
+  S.premios.plata=document.getElementById('premio-plata').value;
+  S.premios.bronce=document.getElementById('premio-bronce').value;
+  guardarLocalmente();renderPremiosInfo();
+}
+function saveNocheContenido(){
+  S.nocheContenido.fecha=document.getElementById('noche-proxima-fecha-input').value;
+  S.nocheContenido.premio=document.getElementById('noche-proxima-premio-input').value;
+  guardarLocalmente();
+}
+
+function renderContenidoAdmin(){
+  const tog=document.getElementById('tog-chupito');
+  if(tog)tog.classList.toggle('on',S.chupitoDia.activo);
+  const inp=document.getElementById('chupito-dia-input');
+  if(inp)inp.value=S.chupitoDia.nombre;
+  const po=document.getElementById('premio-oro');if(po)po.value=S.premios.oro||'';
+  const pp=document.getElementById('premio-plata');if(pp)pp.value=S.premios.plata||'';
+  const pb=document.getElementById('premio-bronce');if(pb)pb.value=S.premios.bronce||'';
+  const nf=document.getElementById('noche-proxima-fecha-input');if(nf)nf.value=S.nocheContenido.fecha||'';
+  const np2=document.getElementById('noche-proxima-premio-input');if(np2)np2.value=S.nocheContenido.premio||'';
+  renderHistGanadoresAdmin();
+  renderMensajesAdmin();
+}
+
+function renderHistGanadoresAdmin(){
+  const el=document.getElementById('hist-ganadores-admin');if(!el)return;
+  el.innerHTML='';
+  if(!S.histGanadores.length){el.innerHTML='<p style="font-size:.8rem;color:var(--muted);">Sin ganadores registrados aún.</p>';return;}
+  S.histGanadores.forEach((g,i)=>{
+    const visible=!!g.visible;
+    el.innerHTML+=`<div class="msg-admin-card" style="border-left:3px solid ${visible?'var(--green)':'var(--muted)'};">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:6px;">
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:.9rem;color:${visible?'var(--green)':'var(--muted)'};letter-spacing:.1em;">${visible?'✅ VISIBLE EN INFO':'⛔ OCULTO'}</span>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:.75rem;color:var(--muted);">Visible S/N</span>
+          <button class="tog-sw ${visible?'on':''}" onclick="S.histGanadores[${i}].visible=!S.histGanadores[${i}].visible;guardarLocalmente();renderHistGanadoresAdmin();renderHistGanadoresPublic();"></button>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px;">
+        <div><input class="admin-edit-field" style="margin:0" placeholder="Día" value="${g.dia||''}" oninput="S.histGanadores[${i}].dia=this.value;guardarLocalmente();"></div>
+        <div><input class="admin-edit-field" style="margin:0" placeholder="Peña" value="${g.peña||''}" oninput="S.histGanadores[${i}].peña=this.value;guardarLocalmente();"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px;">
+        <div><input class="admin-edit-field" style="margin:0" placeholder="Pts" value="${g.pts||''}" oninput="S.histGanadores[${i}].pts=this.value;guardarLocalmente();"></div>
+        <div><input class="admin-edit-field" style="margin:0" placeholder="Premio entregado" value="${g.premio||''}" oninput="S.histGanadores[${i}].premio=this.value;guardarLocalmente();renderHistGanadoresPublic();"></div>
+      </div>
+      <button class="btn-sm btn-ghost" onclick="S.histGanadores.splice(${i},1);guardarLocalmente();renderHistGanadoresAdmin();renderHistGanadoresPublic();">✕ Eliminar</button>
+    </div>`;
+  });
+}
+function addHistGanador(){S.histGanadores.push({dia:'',peña:'',pts:'',premio:'',visible:false});guardarLocalmente();renderHistGanadoresAdmin();}
+
+function renderMensajesAdmin(){
+  const el=document.getElementById('mensajes-admin');if(!el)return;
+  el.innerHTML='';
+  if(!S.mensajes.length){el.innerHTML='<p style="font-size:.8rem;color:var(--muted);">Sin mensajes creados</p>';return;}
+  S.mensajes.forEach((m,i)=>{
+    el.innerHTML+=`<div class="msg-admin-card">
+      <div class="msg-admin-header">
+        <select class="msg-type-sel" onchange="S.mensajes[${i}].tipo=this.value;guardarLocalmente();updateMsgBadge();">
+          <option value="info" ${m.tipo==='info'?'selected':''}>ℹ️ Informativo</option>
+          <option value="promo" ${m.tipo==='promo'?'selected':''}>🥃 Promoción</option>
+          <option value="urgente" ${m.tipo==='urgente'?'selected':''}>🔴 Urgente</option>
+        </select>
+        <div class="toggle-row" style="flex:1;padding:4px 8px;border:none;background:transparent;">
+          <span style="font-size:.78rem;color:var(--muted);">Activo</span>
+          <button class="tog-sw ${m.activo?'on':''}" onclick="S.mensajes[${i}].activo=!S.mensajes[${i}].activo;S.msgVisto=false;this.classList.toggle('on',S.mensajes[${i}].activo);guardarLocalmente();updateMsgBadge();renderMensajesPublic();"></button>
+        </div>
+        <button class="btn-sm btn-ghost" onclick="S.mensajes.splice(${i},1);guardarLocalmente();updateMsgBadge();renderMensajesAdmin();renderMensajesPublic();">✕</button>
+      </div>
+      <input class="admin-edit-field" placeholder="Título del mensaje" value="${m.titulo||''}" oninput="S.mensajes[${i}].titulo=this.value;guardarLocalmente();renderMensajesPublic();">
+      <textarea class="admin-edit-field" placeholder="Texto del mensaje..." oninput="S.mensajes[${i}].cuerpo=this.value;guardarLocalmente();renderMensajesPublic();">${m.cuerpo||''}</textarea>
+    </div>`;
+  });
+}
+function addMensaje(){S.mensajes.push({id:++S.msgLastId,titulo:'',cuerpo:'',tipo:'info',activo:false});guardarLocalmente();renderMensajesAdmin();}
+
+function renderMensajesPublic(){
+  const el=document.getElementById('msg-list-public');if(!el)return;
+  const activos=S.mensajes.filter(m=>m.activo);
+  if(!activos.length){el.innerHTML='<div class="msg-empty">No hay mensajes en este momento</div>';return;}
+  el.innerHTML='';
+  activos.forEach(m=>{
+    el.innerHTML+=`<div class="msg-card ${m.tipo}"><div class="msg-card-title">${m.titulo||'Mensaje'}</div><div class="msg-card-body">${m.cuerpo||''}</div></div>`;
+  });
+}
+
+function savePrevRank(){const act=getActivas().sort((a,b)=>S.general[b]-S.general[a]);S.prevRank={};act.forEach((n,i)=>S.prevRank[n]=i+1);}
 function getRanked(obj){return getActivas().map(p=>[p,obj[p]||0]).sort((a,b)=>b[1]-a[1]);}
+function renderRanking(){renderGeneral();renderNocheBox();}
 
-function renderRanking(){
+function renderGeneral(){
   const box=document.getElementById('box-general');if(!box)return;
   const ranked=getRanked(S.general);
-  box.innerHTML=`<div class="panel-box-header"><div class="panel-box-title">🏆 Clasificación General</div></div><div class="rlist">`;
+  const act=getActivas();
+  box.innerHTML=`<div class="panel-box-header"><div class="panel-box-title">🏆 Clasificación General</div><div class="panel-box-sub">${act.length} peñas</div></div>`;
+  if(!act.length){box.innerHTML+=`<div class="empty"><div class="ei">📋</div><p>Activa peñas en Admin → Inscripciones</p></div>`;return;}
+  const pend=40-act.length;
+  if(pend>0)box.innerHTML+=`<div class="pending-note" style="margin:10px;">⚠️ ${pend} plaza${pend>1?'s':''} disponible${pend>1?'s':''} en la lista</div>`;
+  const top3=ranked.slice(0,3);
+  if(top3.some(([,v])=>v>0)){
+    const order=[top3[1],top3[0],top3[2]],cls=['p2','p1','p3'],crowns=['🥈','🥇','🥉'],nums=['2','1','3'];
+    let h='<div class="podio">';
+    order.forEach((item,i)=>{if(!item)return;const[n,p]=item;const sh=n.length>16?n.slice(0,16)+'…':n;h+=`<div class="pi ${cls[i]}"><div class="pi-crown">${crowns[i]}</div><div class="pi-name">${sh}</div><div class="pi-pts">${p}</div><div class="pi-lbl">pts</div><div class="pi-block">${nums[i]}</div></div>`;});
+    h+='</div>';
+    const p1=ranked[0]?ranked[0][1]:0,p2=ranked[1]?ranked[1][1]:0,p3=ranked[2]?ranked[2][1]:0,p4=ranked[3]?ranked[3][1]:0;
+    let gaps='<div class="gap-row">';
+    if(ranked[0])gaps+=`<div class="gap-item">1º→2º: <strong>+${p1-p2}</strong> pts</div>`;
+    if(ranked[1])gaps+=`<div class="gap-item">2º→3º: <strong>+${p2-p3}</strong> pts</div>`;
+    if(ranked[3])gaps+=`<div class="gap-item fourth">4º al podio: <strong>${p3-p4}</strong> pts</div>`;
+    gaps+='</div>';
+    box.innerHTML+=h+gaps;
+  }
+  box.innerHTML+=`<div class="section-lbl">Ranking en vivo</div><div class="rlist">`;
   ranked.forEach(([n,p],i)=>{
-    box.innerHTML+=`<div class="rrow"><div class="rn">${i+1}</div><div class="rname">${n}</div><div class="rpts-wrap"><div class="rpts">${p}</div><div class="rpts-lbl">pts</div></div></div>`;
+    const pos=i+1,rc=pos<=3?`r${pos}`:'';
+    const prev=S.prevRank[n];
+    let chg='<span class="rchg eq">—</span>';
+    if(prev&&prev!==pos){const d=prev-pos;chg=d>0?`<span class="rchg up">▲${d}</span>`:`<span class="rchg dn">▼${Math.abs(d)}</span>`;}
+    const op=S.lastOp[n];
+    const opHtml=op?`<span class="rop ${op.tipo}">${op.label}</span>`:`<span class="rop empty">—</span>`;
+    box.innerHTML+=`<div class="rrow ${rc}"><div class="rn">${pos}</div><div class="rname">${n}</div><div class="rpts-wrap"><div class="rpts">${p}</div><div class="rpts-lbl">pts</div></div>${opHtml}${chg}</div>`;
   });
   box.innerHTML+='</div>';
 }
 
+function renderNocheBox(){
+  const box=document.getElementById('box-noche');if(!box)return;
+  const ranked=getRanked(S.noche);
+  box.innerHTML=`<div class="panel-box-header"><div class="panel-box-title">🌙 Ganador de la Noche</div><div class="panel-box-sub">${S.nocheVisible?'activo':'oculto'}</div></div>`;
+  if(!getActivas().length){box.innerHTML+=`<div class="empty"><div class="ei">🌙</div><p>Sin peñas inscritas</p></div>`;return;}
+  if(!S.nocheVisible){
+    box.innerHTML+=`<div class="noche-off-msg">🌙 Premio de noche no activo esta jornada</div>`;
+    box.innerHTML+=`<div class="section-lbl">Ranking de noche</div><div class="rlist">`;
+    ranked.forEach(([n,p],i)=>{const pos=i+1,rc=pos<=3?`r${pos}`:'';box.innerHTML+=`<div class="rrow rrow-n ${rc}"><div class="rn">${pos}</div><div class="rname">${n}</div><div class="rpts-wrap"><div class="rpts">${p}</div><div class="rpts-lbl">pts</div></div></div>`;});
+    box.innerHTML+='</div>';return;
+  }
+  const lider=ranked.find(([,v])=>v>0);
+  box.innerHTML+=`<div class="noche-leader">${lider?`<div class="nl-crown">🥇</div><div class="nl-label">Líder de la noche</div><div class="nl-name">${lider[0].length>20?lider[0].slice(0,20)+'…':lider[0]}</div><div class="nl-pts">${lider[1]}</div><div class="nl-pts-lbl">pts noche</div>`:'<div class="nl-empty">🌙<br>¡Que empiece la noche!</div>'}</div>`;
+  box.innerHTML+=`<div class="section-lbl">Ranking de noche</div><div class="rlist">`;
+  ranked.forEach(([n,p],i)=>{const pos=i+1,rc=pos<=3?`r${pos}`:'';box.innerHTML+=`<div class="rrow rrow-n ${rc}"><div class="rn">${pos}</div><div class="rname">${n}</div><div class="rpts-wrap"><div class="rpts">${p}</div><div class="rpts-lbl">pts</div></div></div>`;});
+  box.innerHTML+='</div>';
+}
+
+function renderInfoPanels(){renderMensajesPublic();renderPremiosInfo();}
+function renderPremiosInfo(){renderPremiosPodio();renderNocheContenido();renderHistGanadoresPublic();}
+
+function renderPremiosPodio(){
+  const box=document.getElementById('premios-podio-box');if(!box)return;
+  const ranked=getRanked(S.general);
+  box.innerHTML=`<div class="panel-box-header"><div class="panel-box-title">🏆 Podio actual</div><div class="panel-box-sub">En tiempo real</div></div>`;
+  if(!getActivas().length||!ranked.some(([,v])=>v>0)){box.innerHTML+=`<div class="empty" style="padding:20px;"><p>Sin puntos aún</p></div>`;return;}
+  const top3=ranked.slice(0,3);
+  const order=[top3[1],top3[0],top3[2]],cls=['p2','p1','p3'],crowns=['🥈','🥇','🥉'],nums=['2','1','3'];
+  let h='<div class="podio" style="padding:12px 8px 0;">';
+  order.forEach((item,i)=>{if(!item)return;const[n,p]=item;const sh=n.length>14?n.slice(0,14)+'…':n;h+=`<div class="pi ${cls[i]}"><div class="pi-crown">${crowns[i]}</div><div class="pi-name">${sh}</div><div class="pi-pts">${p}</div><div class="pi-lbl">pts</div><div class="pi-block">${nums[i]}</div></div>`;});
+  h+='</div>';
+  const p1=ranked[0]?ranked[0][1]:0,p2=ranked[1]?ranked[1][1]:0,p3=ranked[2]?ranked[2][1]:0,p4=ranked[3]?ranked[3][1]:0;
+  let gaps='<div class="gap-row" style="padding:8px 12px 12px;">';
+  if(ranked[0])gaps+=`<div class="gap-item">1º→2º: <strong>+${p1-p2}</strong></div>`;
+  if(ranked[1])gaps+=`<div class="gap-item">2º→3º: <strong>+${p2-p3}</strong></div>`;
+  if(ranked[3])gaps+=`<div class="gap-item fourth">4º al podio: <strong>${p3-p4}</strong></div>`;
+  gaps+='</div>';
+  box.innerHTML+=h+gaps;
+  const pc=document.getElementById('premios-general-content');if(!pc)return;
+  pc.innerHTML='<h3>Premios</h3>';
+  const items=[{icon:'🥇',titulo:'Primer Premio',desc:S.premios.oro},{icon:'🥈',titulo:'Segundo Premio',desc:S.premios.plata},{icon:'🥉',titulo:'Tercer Premio',desc:S.premios.bronce}];
+  items.forEach(item=>{pc.innerHTML+=`<div class="premio-item"><div class="premio-item-header"><span class="premio-icon">${item.icon}</span><span class="premio-title">${item.titulo}</span></div><div class="premio-desc">${item.desc||'Premio por confirmar'}</div></div>`;});
+}
+
+function renderNocheContenido(){
+  const box=document.getElementById('noche-proxima-box');if(!box)return;
+  const fecha=S.nocheContenido.fecha||'Por confirmar';
+  const premio=S.nocheContenido.premio||'Premio por confirmar';
+  box.innerHTML=`<div class="noche-proxima-lbl">Próxima noche con premio</div><div class="noche-proxima-fecha">${fecha}</div><div class="noche-proxima-premio">${premio}</div>`;
+}
+
+function renderHistGanadoresPublic(){
+  const el=document.getElementById('hist-ganadores-list');if(!el)return;
+  const visibles=S.histGanadores.filter(g=>g.visible);
+  if(!visibles.length){el.innerHTML='<p style="font-size:.85rem;color:var(--muted);">Sin resultados publicados aún</p>';return;}
+  el.innerHTML='';
+  [...visibles].reverse().forEach(g=>{
+    const sinPremio=g.premio&&g.premio.toUpperCase().includes('SIN PREMIO');
+    el.innerHTML+=`<div class="hist-gan-row" style="${sinPremio?'opacity:.6':''}">\n      <div class="hist-gan-dia">${g.dia||'—'}</div>\n      <div class="hist-gan-info">\n        <strong>${g.peña||'—'}</strong>\n        <br><span style="font-size:.78rem;color:${sinPremio?'var(--muted)':'var(--gold)'};">${g.premio||'Premio pendiente'}</span>\n      </div>\n      <div class="hist-gan-pts" style="${sinPremio?'color:var(--muted)':''}">${sinPremio?'—':g.pts||'—'}</div>\n    </div>`;
+  });
+}
+
+function calcDia(d){
+  const chupBono=(d.bonos||0)*15,chupTot=(d.chupSueltos||0)+chupBono;
+  const eurSueltos=(d.chupSueltos||0)*2,eurBonos=(d.bonos||0)*25,eurTot=eurSueltos+eurBonos;
+  return{chupSueltos:d.chupSueltos,bonos:d.bonos,chupBono,chupTot,eurSueltos,eurBonos,eurTot};
+}
 function renderAdmin2(){
-  document.getElementById('a2-chup-tot-hoy').textContent=S.chupSueltosHoy+(S.bonosHoy*15);
-  document.getElementById('a2-eur-tot-hoy').textContent=(S.chupSueltosHoy*2)+(S.bonosHoy*25)+'€';
+  const hoy=calcDia({chupSueltos:S.chupSueltosHoy,bonos:S.bonosHoy});
+  document.getElementById('a2-chup-sueltos-hoy').textContent=hoy.chupSueltos;
+  document.getElementById('a2-chup-bono-hoy').textContent=hoy.chupBono;
+  document.getElementById('a2-chup-tot-hoy').textContent=hoy.chupTot;
+  document.getElementById('a2-eur-sueltos-hoy').textContent=hoy.eurSueltos+'€';
+  document.getElementById('a2-eur-bonos-hoy').textContent=hoy.eurBonos+'€';
+  document.getElementById('a2-eur-tot-hoy').textContent=hoy.eurTot+'€';
+  const tbody=document.getElementById('daily-tbody');if(!tbody)return;tbody.innerHTML='';
+  S.histDias.forEach(d=>{const c=calcDia(d);tbody.innerHTML+=`<tr><td>${d.dia}</td><td class="num">${c.chupueSueltos||c.chupSueltos}</td><td class="num">${c.bonos}</td><td class="num">${c.chupBono}</td><td class="num">${c.chupTot}</td><td class="num">${c.eurSueltos}€</td><td class="num">${c.eurBonos}€</td><td class="num">${c.eurTot}€</td></tr>`;});
+  tbody.innerHTML+=`<tr class="today"><td>${S.diaActual} <em style="font-size:.7rem;color:var(--orange)">(hoy)</em></td><td class="num">${hoy.chupSueltos}</td><td class="num">${hoy.bonos}</td><td class="num">${hoy.chupBono}</td><td class="num">${hoy.chupTot}</td><td class="num">${hoy.eurSueltos}€</td><td class="num">${hoy.eurBonos}€</td><td class="num">${hoy.eurTot}€</td></tr>`;
+  let totCS=hoy.chupSueltos,totB=hoy.bonos,totCB=hoy.chupBono,totCT=hoy.chupTot,totES=hoy.eurSueltos,totEB=hoy.eurBonos,totET=hoy.eurTot;
+  S.histDias.forEach(d=>{const c=calcDia(d);totCS+=c.chupSueltos;totB+=c.bonos;totCB+=c.chupBono;totCT+=c.chupTot;totES+=c.eurSueltos;totEB+=c.eurBonos;totET+=c.eurTot;});
+  document.getElementById('a2-tot-chup-sueltos').textContent=totCS;
+  document.getElementById('a2-tot-chup-bono').textContent=totCB;
+  document.getElementById('a2-tot-chup').textContent=totCT;
+  document.getElementById('a2-tot-eur-sueltos').textContent=totES+'€';
+  document.getElementById('a2-tot-eur-bonos').textContent=totEB+'€';
+  document.getElementById('a2-tot-eur').textContent=totET+'€';
+}
+function cerrarDia(){
+  if(!confirm(`¿Cerrar el día "${S.diaActual}"?`))return;
+  S.histDias.push({dia:S.diaActual,chupSueltos:S.chupSueltosHoy,bonos:S.bonosHoy});
+  S.chupSueltosHoy=0;S.bonosHoy=0;S.diaActual=getDiaLabel();
+  renderAdmin2();showToast('Día cerrado','Contadores reiniciados','#27AE60');guardarLocalmente();
+}
+function exportarDatos(){
+  const data={generado:new Date().toISOString(),S};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='chupialquimometro_backup.json';a.click();
+}
+function importarDatos(){
+  const input=document.createElement('input');input.type='file';input.accept='.json';
+  input.onchange=function(e){
+    const file=e.target.files[0];if(!file)return;
+    const reader=new FileReader();
+    reader.onload=function(ev){
+      try{
+        const data=JSON.parse(ev.target.result);
+        if(data.S) { S=data.S; } else { S=data; }
+        guardarLocalmente();renderAll();applyChupitoDia();applyHoraState();updateMsgBadge();
+        showToast('✅ Éxito','Datos cargados','#27AE60');
+      }catch(err){showToast('Error','Archivo inválido','#CC1A1A');}
+    };
+    reader.readAsText(file);
+  };
+  input.click();
 }
 
 function renderOpList(){
   const el=document.getElementById('op-peña-list');if(!el)return;
-  const act=getActivas();
+  const act=getActivas().sort((a,b)=>S.general[b]-S.general[a]);
+  if(!act.length){el.innerHTML='<p style="color:var(--muted);font-size:.85rem;padding:10px;">No hay peñas inscritas</p>';return;}
   el.innerHTML='';
   act.forEach((p,i)=>{
     const row=document.createElement('div');row.className='op-row';
-    row.innerHTML=`<div><span class="op-row-name">${p}</span></div><div class="op-row-pts"><div class="op-row-gen">${S.general[p]||0}</div></div>`;
+    row.innerHTML=`<div><span style="font-family:Bebas Neue,sans-serif;font-size:.9rem;color:var(--muted)">${i+1}.</span> <span class="op-row-name">${p}</span></div><div class="op-row-pts"><div class="op-row-gen">${S.general[p]||0}</div><div class="op-row-lbl">gral</div></div><div class="op-row-pts"><div class="op-row-noche">${S.noche[p]||0}</div><div class="op-row-lbl">noche</div></div>`;
     row.onclick=()=>openNp(p);el.appendChild(row);
   });
 }
@@ -805,41 +1302,126 @@ function renderInsc(){
   const grid=document.getElementById('insc-grid');if(!grid)return;
   grid.innerHTML='';
   S.nombres.forEach((p,i)=>{
-    if(!p&&i<27) return;
-    const card=document.createElement('div');card.className='insc-card '+(S.activas[p]?'on':'off');
-    card.innerHTML=`<div class="insc-name-txt">${p||'Plaza Vacía'}</div><div class="insc-actions"><button class="toggle-sw ${S.activas[p]?'on':''}" onclick="toggleActivaIdx(${i})"></button></div>`;
+    if(i===27){
+      const sep=document.createElement('div');
+      sep.style.cssText='grid-column:1/-1;padding:10px 0 4px;font-family:Bebas Neue,sans-serif;font-size:.85rem;letter-spacing:.15em;color:var(--orange);border-top:1px solid var(--border);margin-top:6px;';
+      sep.textContent='— 13 PLAZAS ADICIONALES —';
+      grid.appendChild(sep);
+    }
+    const named=p&&p.trim()!=='';
+    const on=named&&!!S.activas[p];
+    const esExtra=i>=27;
+    const card=document.createElement('div');
+    card.className='insc-card '+(on?'on':'off');
+    const displayName=named?p:('Plaza extra '+(i-26));
+    card.innerHTML='<div class="insc-n" style="'+(esExtra?'color:var(--orange)':'')+'">'+String(i+1).padStart(2,'0')+'</div><div class="insc-name-wrap"><div class="insc-name-txt" id="int-'+i+'" style="'+((!named)?'color:var(--muted);font-style:italic;':'')+'">'+displayName+'</div><input class="insc-name-input" id="ini-'+i+'" value="'+p.replace(/"/g,'&quot;')+'" onkeydown="inpKey(event,'+i+')" placeholder="Nombre de la peña..."></div><div class="insc-actions"><button class="btn-edit" id="ibe-'+i+'" onclick="toggleEdit('+i+')">✏️</button><button class="toggle-sw'+(on?' on':'')+'" onclick="toggleActivaIdx('+i+')"></button></div>';
     grid.appendChild(card);
   });
+  const el=document.getElementById('insc-cnt');if(el)el.textContent=getActivas().length+'/40';
+}
+function toggleEdit(i){const txt=document.getElementById('int-'+i),inp=document.getElementById('ini-'+i),btn=document.getElementById('ibe-'+i);if(inp.style.display==='block'){saveName(i);return;}txt.style.display='none';inp.style.display='block';inp.focus();inp.select();btn.textContent='💾';btn.classList.add('saving');}
+function saveName(i){
+  const txt=document.getElementById('int-'+i),inp=document.getElementById('ini-'+i),btn=document.getElementById('ibe-'+i);
+  const old=S.nombres[i],nw=inp.value.trim()||old;
+  if(nw!==old){S.general[nw]=S.general[old]||0;S.noche[nw]=S.noche[old]||0;S.activas[nw]=S.activas[old]||false;S.lastOp[nw]=S.lastOp[old];delete S.general[old];delete S.noche[old];delete S.activas[old];delete S.lastOp[old];S.nombres[i]=nw;showToast(old,`→ ${nw}`,'#C9A84C');}
+  txt.textContent=S.nombres[i];inp.value=S.nombres[i];txt.style.display='block';inp.style.display='none';btn.textContent='✏️';btn.classList.remove('saving');
+  renderAll();guardarLocalmente();
+}
+function inpKey(e,i){if(e.key==='Enter')saveName(i);if(e.key==='Escape'){const txt=document.getElementById('int-'+i),inp=document.getElementById('ini-'+i),btn=document.getElementById('ibe-'+i);inp.value=S.nombres[i];txt.style.display='block';inp.style.display='none';btn.textContent='✏️';btn.classList.remove('saving');}}
+
+// ── RENDER ALL ──
+function renderAll(){
+  renderRanking();
+  if(S.adminOpen){renderOpList();renderInsc();updateNocheLiderAdmin();if(S.admin2Open)renderAdmin2();}\n  if(S.tab==='info')renderInfoPanels();\n  const el=document.getElementById('insc-cnt');if(el)el.textContent=getActivas().length+'/40';\n  applyChupitoDia();updateMsgBadge();\n}
+
+let toastT=null;
+function showToast(name,msg,color='#C9A84C'){
+  const t=document.getElementById('toast');if(!t)return;t.style.borderLeftColor=color;
+  document.getElementById('toast-name').textContent=name;
+  document.getElementById('toast-msg').textContent=' · '+msg;
+  t.classList.add('on');if(toastT)clearTimeout(toastT);
+  toastT=setTimeout(()=>t.classList.remove('on'),3000);
 }
 
-function renderAll(){renderRanking();if(S.adminOpen){renderOpList();renderInsc();}}
+document.getElementById('np-overlay').addEventListener('click',function(e){if(e.target===this)closeNp();});
+
+window._lastFirebaseUpdate = Date.now();
+setInterval(()=>{
+  const el = document.getElementById('tv-sync-cd');if(!el) return;
+  const elapsed = Math.floor((Date.now() - (window._lastFirebaseUpdate||Date.now())) / 1000);
+  const left = Math.max(0, 5 - elapsed);
+  if(left === 0){
+    el.style.color = 'var(--green)';
+    el.textContent = '✓ activa';
+  } else {
+    el.style.color = 'var(--muted)';
+    el.textContent = 'en ' + left + 's';
+  }
+}, 1000);
+
+// Carga directa inmediata
+renderAll();
+renderCountdown();
+applyHoraState();
+applyChupitoDia();
+updateMsgBadge();
 </script>
 
-<!-- MOTOR PUSH EXCLUSIVO SINCRO -->
 <script>
   const FB_REST_URL = "https://firestore.googleapis.com/v1/projects/chupialquimiometro/databases/(default)/documents/chupialquimiometro/estado";
   window._lastSave = 0;
 
   window.guardarFirebase = async function() {
     try {
-      window._lastSave = Date.now(); S.updatedAt = window._lastSave;
-      const payload = { fields: { json: { stringValue: JSON.stringify(S) } } };
-      await fetch(FB_REST_URL, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-    } catch(e) {}
+      window._lastSave = Date.now();
+      S.updatedAt = window._lastSave;
+      const payload = {
+        fields: {
+          json: { stringValue: JSON.stringify(S) }
+        }
+      };
+      await fetch(FB_REST_URL, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    } catch(e) {
+      console.warn('Error ferial guardando en nube:', e);
+    }
   };
 
   window.cargarFirebase = async function() {
     try {
-      const res = await fetch(FB_REST_URL);if (!res.ok) return;
+      const res = await fetch(FB_REST_URL);
+      if (!res.ok) return;
       const doc = await res.json();
-      if (doc?.fields?.json?.stringValue) {
+      if (doc && doc.fields && doc.fields.json && doc.fields.json.stringValue) {
         const remoteState = JSON.parse(doc.fields.json.stringValue);
-        if ((remoteState.updatedAt || 0) > (window._lastSave || 0) && !S.adminOpen) { S = remoteState; renderAll(); }
+        const remoteTime = remoteState.updatedAt || 0;
+        const ourSave = window._lastSave || 0;
+
+        if (remoteTime > ourSave + 1000 && !S.adminOpen) {
+          S = remoteState;
+          window._lastFirebaseUpdate = Date.now();
+          renderAll();
+        }
       }
-    } catch(e) {}
+    } catch(e) {
+      console.warn('Error ferial leyendo de nube:', e);
+    }
   };
 
-  setInterval(() => { if (S.adminOpen) window.guardarFirebase(); else window.cargarFirebase(); }, 4000);
+  setInterval(async () => {
+    if (S.adminOpen) {
+      await window.guardarFirebase();
+    } else {
+      await window.cargarFirebase();
+    }
+  }, 4000);
+
+  window.addEventListener('load', () => {
+    setTimeout(window.cargarFirebase, 500);
+  });
 </script>
 </body>
 </html>
