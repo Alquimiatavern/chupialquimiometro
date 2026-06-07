@@ -62,8 +62,6 @@ header{position:relative;text-align:center;padding:14px 12px 10px;background:lin
 .cd-time.active{color:var(--orange);animation:hpulse 1s infinite;}
 .cd-schedule{font-size:.76rem;color:var(--muted);}
 .cd-schedule strong{color:#888;}
-.btn-refresh{background:transparent;border:1px solid var(--border);color:var(--muted);font-size:.75rem;padding:3px 9px;border-radius:3px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;letter-spacing:.08em;transition:all .15s;}
-.btn-refresh:hover{border-color:var(--gold-d);color:var(--gold);}
 
 /* TABS */
 .tabs{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);}
@@ -381,8 +379,6 @@ button{font-family:'Barlow Condensed',sans-serif;font-size:.9rem;font-weight:700
   <span class="cd-label">Hora Doble</span>
   <span class="cd-time" id="cd-time">--h:--m:--s</span>
   <span class="cd-schedule" id="cd-schedule"></span>
-  <span style="font-size:.7rem;color:var(--muted);margin-left:8px;">📡 <span id="tv-sync-cd">—</span></span>
-  <button class="btn-refresh" onclick="if(typeof fbCargar==='function')fbCargar(true)" title="Actualizar ahora">↺</button>
 </div>
 
 <div class="tabs">
@@ -1012,7 +1008,13 @@ function applyChupitoDia(){
 
 // ═══════════════════ HORA DOBLE ═══════════════════
 function toggleHoraManual(){S.hora=!S.hora;S.horaAuto=false;applyHoraState();guardar();}
-function activarHoraAuto(){S.hora=true;S.horaAuto=true;applyHoraState();showToast('Hora Doble','Activada 🔥','#FF7A00');guardar();}
+function activarHoraAuto(){
+  S.hora=false;
+  S.horaAuto=true;
+  applyHoraState();
+  showToast('Hora Doble','⏱ Programada · se activará a las '+S.horaInicio,'#FF7A00');
+  guardar();
+}
 function applyHoraState(){
   const btn=document.getElementById('btn-hora-toggle');
   const banner=document.getElementById('hora-banner');
@@ -1066,15 +1068,7 @@ function playBeep(){
   try{const ctx=new(window.AudioContext||window.webkitAudioContext)();[440,550,660].forEach((f,i)=>{const o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.frequency.value=f;g.gain.value=.15;o.start(ctx.currentTime+i*.12);o.stop(ctx.currentTime+i*.12+.1);});}catch(e){}
 }
 
-// TV SYNC indicator
 window._lastFirebaseUpdate = Date.now();
-setInterval(()=>{
-  const el=document.getElementById('tv-sync-cd');if(!el)return;
-  const elapsed=Math.floor((Date.now()-(window._lastFirebaseUpdate||Date.now()))/1000);
-  const left=Math.max(0,4-elapsed);
-  if(left===0){el.style.color='var(--green)';el.textContent='✓ actualizada';}
-  else{el.style.color='var(--muted)';el.textContent='en '+left+'s';}
-},1000);
 
 // ═══════════════════ NUMPAD ═══════════════════
 let npPeña=null,npVal="";
@@ -1358,9 +1352,7 @@ function renderNocheBox(){
   if(!getActivas().length){box.innerHTML+=`<div class="empty"><div class="ei">🌙</div><p>Sin peñas inscritas</p></div>`;return;}
   if(!S.nocheVisible){
     box.innerHTML+=`<div class="noche-off-msg">🌙 Premio de noche no activo esta jornada</div>`;
-    box.innerHTML+=`<div class="section-lbl">Ranking de noche</div><div class="rlist">`;
-    ranked.forEach(([n,p],i)=>{const pos=i+1,rc=pos<=3?`r${pos}`:'';box.innerHTML+=`<div class="rrow rrow-n ${rc}"><div class="rn">${pos}</div><div class="rname">${n}</div><div class="rpts-wrap"><div class="rpts">${p}</div><div class="rpts-lbl">pts</div></div></div>`;});
-    box.innerHTML+='</div>';return;
+    return;
   }
   const lider=ranked.find(([,v])=>v>0);
   box.innerHTML+=`<div class="noche-leader">${lider?`<div class="nl-crown">🥇</div><div class="nl-label">Líder de la noche</div><div class="nl-name">${lider[0].length>20?lider[0].slice(0,20)+'…':lider[0]}</div><div class="nl-pts">${lider[1]}</div><div class="nl-pts-lbl">pts noche</div>`:'<div class="nl-empty">🌙<br>¡Que empiece la noche!</div>'}</div>`;
