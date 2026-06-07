@@ -403,8 +403,9 @@ function enterApp(){
   <span class="cd-time" id="cd-time">--h:--m:--s</span>
   <span class="cd-schedule" id="cd-schedule"></span>
   <span style="font-size:.7rem;color:var(--muted);letter-spacing:.08em;margin-left:8px;">
-    📡 TV <span id="tv-sync-cd" style="color:var(--muted)">—</span>
+    📡 <span id="tv-sync-cd" style="color:var(--muted)">—</span>
   </span>
+  <button onclick="if(typeof window.cargarFirebase==='function')window.cargarFirebase()" style="background:transparent;border:1px solid #2a2a2a;color:#555;font-size:.7rem;padding:3px 8px;border-radius:3px;cursor:pointer;margin-left:6px;font-family:Barlow Condensed,sans-serif;letter-spacing:.08em;" title="Actualizar ahora">↺</button>
 </div>
 
 <div class="tabs">
@@ -1178,8 +1179,7 @@ function renderGeneral(){
   const act=getActivas();
   box.innerHTML=`<div class="panel-box-header"><div class="panel-box-title">🏆 Clasificación General</div><div class="panel-box-sub">${act.length} peñas</div></div>`;
   if(!act.length){box.innerHTML+=`<div class="empty"><div class="ei">📋</div><p>Activa peñas en Admin → Inscripciones</p></div>`;return;}
-  const pend=40-act.length;
-  if(pend>0)box.innerHTML+=`<div class="pending-note" style="margin:10px;">⚠️ ${pend} plaza${pend>1?'s':''} disponible${pend>1?'s':''} en la lista</div>`;
+  
   const top3=ranked.slice(0,3);
   if(top3.some(([,v])=>v>0)){
     const order=[top3[1],top3[0],top3[2]],cls=['p2','p1','p3'],crowns=['🥈','🥇','🥉'],nums=['2','1','3'];
@@ -1413,6 +1413,13 @@ setInterval(()=>{
   }
 }, 1000);
 
+// Sync when tab/screen becomes visible again (TV, Chromecast, iPhone waking up)
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && typeof window.cargarFirebase === 'function') {
+    window.cargarFirebase();
+  }
+});
+
 // Inicialización inicial limpia
 renderAll();
 renderCountdown();
@@ -1479,13 +1486,10 @@ updateMsgBadge();
     }
   };
 
-  // Polling: Admin saves, everyone else reads
+  // Polling: ALL devices read every 4 seconds
+  // Admin also saves on every operation via guardarLocalmente()
   setInterval(async () => {
-    if (S.adminOpen) {
-      await window.guardarFirebase();
-    } else {
-      await window.cargarFirebase();
-    }
+    await window.cargarFirebase();
   }, 4000);
 
   // Initial load
@@ -1494,4 +1498,32 @@ updateMsgBadge();
   });
 </script>
 </body>
-</html>
+</htmlfunction initSplash(){
+  let idx=0;
+  const slot=document.getElementById('sponsor-slot');
+  function showSponsor(){
+    if(idx>=SPONSORS.length) return;
+    const sp=SPONSORS[idx];
+    slot.innerHTML='';
+    const div=document.createElement('div');
+    if(sp.src){
+      const img=document.createElement('img');
+      img.src=sp.src; img.className='sponsor-img'; img.alt=sp.name;
+      div.appendChild(img);
+    } else {
+      div.className='sponsor-placeholder';
+      div.innerHTML='<span>🥃</span><span style="font-family:Bebas Neue,sans-serif;font-size:.8rem;color:#555;letter-spacing:.1em">'+sp.name+'</span>';
+    }
+    div.style.cssText='opacity:0;transition:opacity .5s';
+    slot.appendChild(div);
+    setTimeout(()=>div.style.opacity='1',50);
+    idx++;
+    if(idx<SPONSORS.length) setTimeout(showSponsor,1500);
+  }
+  setTimeout(showSponsor,400);
+  // Auto-enter after 2.5s — no button press needed
+  setTimeout(()=>{
+    const s=document.getElementById('splash');
+    if(s&&!s.classList.contains('hide')) enterApp();
+  }, 2500);
+}>
