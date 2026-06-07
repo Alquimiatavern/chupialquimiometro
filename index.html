@@ -1425,23 +1425,26 @@ updateMsgBadge();
 <script>
   const FB_REST_URL = "https://firestore.googleapis.com/v1/projects/chupialquimiometro/databases/(default)/documents/chupialquimiometro/estado?key=AIzaSyAKn-Vyi9zE3ggJbN2UqdUTi_zE7omzE2c";
   window._lastSave = 0;
+  window._lastRemoteTime = 0; // tracks the last remote timestamp we loaded
 
   window.guardarFirebase = async function() {
     try {
       window._lastSave = Date.now();
       S.updatedAt = window._lastSave;
+      window._lastRemoteTime = window._lastSave; // we own this version
       const payload = {
         fields: {
           json: { stringValue: JSON.stringify(S) }
         }
       };
-      await fetch(FB_REST_URL, {
+      const res = await fetch(FB_REST_URL, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
+      if (!res.ok) console.warn('Firebase save failed:', res.status);
     } catch(e) {
-      console.warn('Error ferial guardando en nube:', e);
+      console.warn('Error guardando en nube:', e);
     }
   };
 
@@ -1453,19 +1456,30 @@ updateMsgBadge();
       if (doc && doc.fields && doc.fields.json && doc.fields.json.stringValue) {
         const remoteState = JSON.parse(doc.fields.json.stringValue);
         const remoteTime = remoteState.updatedAt || 0;
-        const ourSave = window._lastSave || 0;
-
-        if (remoteTime > ourSave + 1000 && !S.adminOpen) {
-          S = remoteState;
+        // Update if remote has newer data than what we last loaded
+        if (remoteTime > window._lastRemoteTime) {
+          window._lastRemoteTime = remoteTime;
+          Object.assign(S, remoteState);
+          // Ensure all slots exist
+          NOMBRES_DEFAULT.forEach(p => {
+            if(S.general[p]===undefined) S.general[p]=0;
+            if(S.noche[p]===undefined) S.noche[p]=0;
+            if(S.activas[p]===undefined) S.activas[p]=false;
+          });
           window._lastFirebaseUpdate = Date.now();
+          console.log('✅ Sync:', new Date().toLocaleTimeString(), '— updatedAt:', new Date(remoteTime).toLocaleTimeString());
           renderAll();
+          applyChupitoDia();
+          applyHoraState();
+          updateMsgBadge();
         }
       }
     } catch(e) {
-      console.warn('Error ferial leyendo de nube:', e);
+      console.warn('Error leyendo de nube:', e);
     }
   };
 
+  // Polling: Admin saves, everyone else reads
   setInterval(async () => {
     if (S.adminOpen) {
       await window.guardarFirebase();
@@ -1474,8 +1488,9 @@ updateMsgBadge();
     }
   }, 4000);
 
+  // Initial load
   window.addEventListener('load', () => {
-    setTimeout(window.cargarFirebase, 500);
+    setTimeout(window.cargarFirebase, 800);
   });
 </script>
 </body>
