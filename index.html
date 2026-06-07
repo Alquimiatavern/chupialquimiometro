@@ -773,8 +773,9 @@ let S={
 
 function guardarLocalmente(){
   try{localStorage.setItem('chupialquimiometro_v8',JSON.stringify(S));}catch(e){}
-  if(typeof window.guardarFirebase==='function'){
-    window._lastSave=Date.now();
+  // SOLO guarda en Firebase si Admin está abierto en este dispositivo
+  // Evita que dispositivos de solo lectura (TV, móviles) sobreescriban datos
+  if(S.adminOpen && typeof window.guardarFirebase==='function'){
     window.guardarFirebase();
   }
 }
@@ -1466,7 +1467,9 @@ updateMsgBadge();
         // Update if remote has newer data than what we last loaded
         if (remoteTime > window._lastRemoteTime) {
           window._lastRemoteTime = remoteTime;
-          Object.assign(S, remoteState);
+          // Merge remote state without triggering a save back
+          Object.keys(remoteState).forEach(k => { S[k] = remoteState[k]; });
+          S.adminOpen = false; // read-only devices never have admin open after sync
           // Ensure all slots exist
           NOMBRES_DEFAULT.forEach(p => {
             if(S.general[p]===undefined) S.general[p]=0;
