@@ -716,6 +716,7 @@ let S = {
   hora: false, horaInicio: "18:00", horaFin: "20:00", horaAuto: false,
   nocheVisible: true,
   adminOpen: false, admin2Open: false,
+  lastOpReciente: null,
   tab: 'ranking', adminTab: 'op',
   prevRank: {}, diaActual: getDiaLabel(),
   chupitoDia: {activo: false, nombre: ''},
@@ -1100,18 +1101,18 @@ function applyOp(tipo,sub){
   if(tipo==='restar'){
     if(sub==='bono'){
       S.general[npPeña]=Math.max(0,S.general[npPeña]-15);S.noche[npPeña]=Math.max(0,S.noche[npPeña]-15);S.bonosHoy=Math.max(0,S.bonosHoy-1);
-      S.lastOp[npPeña]={label:'−15🎫',tipo:'neg'};setLastOp(npPeña,'−15 pts · Bono anulado','err');showToast(npPeña,'Bono anulado','#CC1A1A');
+      S.lastOp[npPeña]={label:'−15🎫',tipo:'neg'};S.lastOpReciente={peña:npPeña,label:'−15🎫',tipo:'neg'};setLastOp(npPeña,'−15 pts · Bono anulado','err');showToast(npPeña,'Bono anulado','#CC1A1A');
     } else {
       S.general[npPeña]=Math.max(0,S.general[npPeña]-pts);S.noche[npPeña]=Math.max(0,S.noche[npPeña]-pts);S.chupSueltosHoy=Math.max(0,S.chupSueltosHoy-rawPts);
-      S.lastOp[npPeña]={label:`−${pts}`,tipo:'neg'};setLastOp(npPeña,`−${pts} pts · corrección`,'err');showToast(npPeña,`−${pts} pts corrección`,'#CC1A1A');
+      S.lastOp[npPeña]={label:`−${pts}`,tipo:'neg'};S.lastOpReciente={peña:npPeña,label:`−${pts}`,tipo:'neg'};setLastOp(npPeña,`−${pts} pts · corrección`,'err');showToast(npPeña,`−${pts} pts corrección`,'#CC1A1A');
     }
   } else if(tipo==='bono'){
     S.general[npPeña]+=15;S.noche[npPeña]+=15;S.bonosHoy+=1;
-    S.lastOp[npPeña]={label:'+15🎫',tipo:'pos'};setLastOp(npPeña,'🎫 BONO +15 pts (25€)','ok');showToast(npPeña,'🎫 BONO +15 pts','#C9A84C');
+    S.lastOp[npPeña]={label:'+15🎫',tipo:'pos'};S.lastOpReciente={peña:npPeña,label:'+15🎫',tipo:'pos'};setLastOp(npPeña,'🎫 BONO +15 pts (25€)','ok');showToast(npPeña,'🎫 BONO +15 pts','#C9A84C');
   } else {
     S.general[npPeña]+=pts;S.noche[npPeña]+=pts;S.chupSueltosHoy+=rawPts;
     const lbl=`+${pts}${S.hora?'🔥':''}`;
-    S.lastOp[npPeña]={label:lbl,tipo:'pos'};setLastOp(npPeña,`+${pts} pts${S.hora?' 🔥×2':''}`,'ok');showToast(npPeña,`+${pts} pts${S.hora?' 🔥×2':''}`, '#C9A84C');
+    S.lastOp[npPeña]={label:lbl,tipo:'pos'};S.lastOpReciente={peña:npPeña,label:lbl,tipo:'pos'};setLastOp(npPeña,`+${pts} pts${S.hora?' 🔥×2':''}`,'ok');showToast(npPeña,`+${pts} pts${S.hora?' 🔥×2':''}`, '#C9A84C');
   }
   closeNp();guardar();renderAll();
 }
@@ -1343,13 +1344,12 @@ function renderGeneral(){
     gaps+='</div>';
     box.innerHTML+=h+gaps;
   }
-  // Última operación debajo del podio
-  const lastOpsArr=Object.entries(S.lastOp||{});
-  if(lastOpsArr.length){
-    const[lp,lo]=lastOpsArr[lastOpsArr.length-1];
-    const col=lo.tipo==='pos'?'#4cde84':'#ff7070';
+  // Última operación debajo del podio — usa lastOpReciente para mostrar siempre la más reciente
+  if(S.lastOpReciente){
+    const{peña:lp,label:ll,tipo:lt}=S.lastOpReciente;
+    const col=lt==='pos'?'#4cde84':'#ff7070';
     box.innerHTML+=`<div style="font-size:.82rem;padding:6px 14px 4px;color:#555;border-bottom:1px solid #111;letter-spacing:.04em;">
-      <span style="color:#444;">Última:</span> <strong style="color:#888;">${lp}</strong> <span style="color:${col};font-weight:700;">${lo.label}</span>
+      <span style="color:#444;">Última:</span> <strong style="color:#888;">${lp}</strong> <span style="color:${col};font-weight:700;">${ll}</span>
     </div>`;
   }
   box.innerHTML+=`<div class="section-lbl">Ranking en vivo</div><div class="rlist">`;
