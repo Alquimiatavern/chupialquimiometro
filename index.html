@@ -937,7 +937,14 @@ function setTab(t){
   });
   if(t==='ranking')renderRanking();
   if(t==='admin'&&S.adminOpen){renderOpList();renderInsc();}
-  if(t==='info')renderInfoPanels();
+  if(t==='info'){
+    renderInfoPanels();
+    // Si mensajes ya está visible al entrar, marcar como visto automáticamente
+    const itabMsg=document.getElementById('itab-mensajes');
+    if(itabMsg&&itabMsg.classList.contains('on')){
+      S.msgVisto=true;updateMsgBadge();guardar();renderMensajesPublic();
+    }
+  }
   guardar();
 }
 
