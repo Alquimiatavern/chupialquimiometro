@@ -768,6 +768,7 @@ async function fbGuardar() {
     const toSave = Object.assign({}, S);
     delete toSave.adminOpen;
     delete toSave.admin2Open;
+    delete toSave.msgVisto; // cada dispositivo gestiona su propio estado de lectura
     const payload = {
       fields: {
         json: { stringValue: JSON.stringify(toSave) },
@@ -799,11 +800,13 @@ async function fbCargar(force) {
           // Merge remote state - NEVER restore adminOpen/admin2Open from Firebase
       const wasAdmin = S.adminOpen;
       const wasAdmin2 = S.admin2Open;
+      const wasMsgVisto = S.msgVisto;
       Object.keys(remoteState).forEach(k => {
-        if (k !== 'adminOpen' && k !== 'admin2Open') S[k] = remoteState[k];
+        if (k !== 'adminOpen' && k !== 'admin2Open' && k !== 'msgVisto') S[k] = remoteState[k];
       });
       S.adminOpen = wasAdmin;
       S.admin2Open = wasAdmin2;
+      S.msgVisto = wasMsgVisto; // never overwrite local read state
       S.admin2Open = wasAdmin2;
       // Ensure all slots exist
       NOMBRES_DEFAULT.forEach(p => {
