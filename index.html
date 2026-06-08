@@ -92,8 +92,8 @@ header{position:relative;text-align:center;padding:14px 12px 10px;background:lin
 .pi.p1{order:2}.pi.p2{order:1}.pi.p3{order:3}
 .pi-crown{font-size:1.2rem;}
 .pi-name{font-family:'Bebas Neue',sans-serif;font-size:.88rem;letter-spacing:.04em;text-align:center;line-height:1.15;word-break:break-word;}
-.pi-pts{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;line-height:1;}
-.pi-lbl{font-size:.6rem;color:var(--muted);text-transform:uppercase;}
+.pi-pts{font-family:'Bebas Neue',sans-serif;font-size:2rem;line-height:1;}
+.pi-lbl{font-size:.78rem;color:var(--muted);text-transform:uppercase;font-weight:700;letter-spacing:.08em;}
 .pi-block{width:100%;display:flex;align-items:center;justify-content:center;border-radius:3px 3px 0 0;font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:rgba(0,0,0,.4);}
 .pi.p1 .pi-block{height:70px;background:linear-gradient(180deg,#C9A84C,#7a6020);}
 .pi.p2 .pi-block{height:50px;background:linear-gradient(180deg,#909090,#505050);}
@@ -108,10 +108,10 @@ header{position:relative;text-align:center;padding:14px 12px 10px;background:lin
 
 /* NOCHE LEADER */
 .noche-leader{margin:14px 10px 0;padding:12px;background:linear-gradient(135deg,rgba(255,122,0,.08),rgba(201,168,76,.06));border:1px solid rgba(255,122,0,.2);border-radius:6px;display:flex;flex-direction:column;align-items:center;gap:4px;min-height:155px;justify-content:center;}
-.nl-crown{font-size:1.6rem;}.nl-label{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.15em;}
-.nl-name{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.06em;text-align:center;color:var(--orange);}
-.nl-pts{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--gold-b);line-height:1;}
-.nl-pts-lbl{font-size:.62rem;color:var(--muted);text-transform:uppercase;}
+.nl-crown{font-size:1.8rem;}.nl-label{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.15em;}
+.nl-name{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.06em;text-align:center;color:var(--orange);line-height:1.1;}
+.nl-pts{font-family:'Bebas Neue',sans-serif;font-size:2.6rem;color:var(--gold-b);line-height:1;}
+.nl-pts-lbl{font-size:.82rem;color:var(--muted);text-transform:uppercase;font-weight:700;letter-spacing:.1em;}
 .nl-empty{color:var(--muted);font-size:.82rem;text-align:center;}
 .noche-off-msg{margin:14px 10px 0;padding:14px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;text-align:center;min-height:155px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.82rem;}
 
@@ -1332,7 +1332,7 @@ function renderGeneral(){
   if(top3.some(([,v])=>v>0)){
     const order=[top3[1],top3[0],top3[2]],cls=['p2','p1','p3'],crowns=['🥈','🥇','🥉'],nums=['2','1','3'];
     let h='<div class="podio">';
-    order.forEach((item,i)=>{if(!item)return;const[n,p]=item;const sh=n.length>16?n.slice(0,16)+'…':n;h+=`<div class="pi ${cls[i]}"><div class="pi-crown">${crowns[i]}</div><div class="pi-name">${sh}</div><div class="pi-pts">${p}</div><div class="pi-lbl">pts</div><div class="pi-block">${nums[i]}</div></div>`;});
+    order.forEach((item,i)=>{if(!item)return;const[n,p]=item;const sh=n.length>16?n.slice(0,16)+'…':n;h+=`<div class="pi ${cls[i]}"><div style="display:flex;align-items:center;justify-content:center;gap:5px;"><span class="pi-crown">${crowns[i]}</span><span class="pi-pts">${p}</span><span class="pi-lbl">pts</span></div><div class="pi-name">${sh}</div><div class="pi-block">${nums[i]}</div></div>`;});
     h+='</div>';
     // Diferencias
     const p1=ranked[0]?ranked[0][1]:0,p2=ranked[1]?ranked[1][1]:0,p3=ranked[2]?ranked[2][1]:0,p4=ranked[3]?ranked[3][1]:0;
@@ -1375,7 +1375,7 @@ function renderNocheBox(){
     return;
   }
   const lider=ranked.find(([,v])=>v>0);
-  box.innerHTML+=`<div class="noche-leader">${lider?`<div class="nl-crown">🥇</div><div class="nl-label">Líder de la noche</div><div class="nl-name">${lider[0].length>20?lider[0].slice(0,20)+'…':lider[0]}</div><div class="nl-pts">${lider[1]}</div><div class="nl-pts-lbl">pts noche</div>`:'<div class="nl-empty">🌙<br>¡Que empiece la noche!</div>'}</div>`;
+  box.innerHTML+=`<div class="noche-leader">${lider?`<div style="display:flex;align-items:center;justify-content:center;gap:6px;"><span class="nl-crown">🥇</span><span class="nl-pts">${lider[1]}</span><span class="nl-pts-lbl">pts noche</span></div><div class="nl-label">Líder de la noche</div><div class="nl-name">${lider[0].length>20?lider[0].slice(0,20)+'…':lider[0]}</div>`:'<div class="nl-empty">🌙<br>¡Que empiece la noche!</div>'}</div>`;
   box.innerHTML+=`<div class="section-lbl">Ranking de noche</div><div class="rlist">`;
   ranked.forEach(([n,p],i)=>{const pos=i+1,rc=pos<=3?`r${pos}`:'';box.innerHTML+=`<div class="rrow rrow-n ${rc}"><div class="rn">${pos}</div><div class="rname">${n}</div><div class="rpts-wrap"><div class="rpts">${p}</div><div class="rpts-lbl">pts</div></div></div>`;});
   box.innerHTML+='</div>';
@@ -1443,7 +1443,7 @@ function renderPremiosPodio(){
   const top3=ranked.slice(0,3);
   const order=[top3[1],top3[0],top3[2]],cls=['p2','p1','p3'],crowns=['🥈','🥇','🥉'],nums=['2','1','3'];
   let h='<div class="podio" style="padding:10px 8px 0;">';
-  order.forEach((item,i)=>{if(!item)return;const[n,p]=item;const sh=n.length>14?n.slice(0,14)+'…':n;h+=`<div class="pi ${cls[i]}"><div class="pi-crown">${crowns[i]}</div><div class="pi-name">${sh}</div><div class="pi-pts">${p}</div><div class="pi-lbl">pts</div><div class="pi-block">${nums[i]}</div></div>`;});
+  order.forEach((item,i)=>{if(!item)return;const[n,p]=item;const sh=n.length>14?n.slice(0,14)+'…':n;h+=`<div class="pi ${cls[i]}"><div style="display:flex;align-items:center;justify-content:center;gap:5px;"><span class="pi-crown">${crowns[i]}</span><span class="pi-pts">${p}</span><span class="pi-lbl">pts</span></div><div class="pi-name">${sh}</div><div class="pi-block">${nums[i]}</div></div>`;});
   h+='</div>';
   const p1=ranked[0]?ranked[0][1]:0,p2=ranked[1]?ranked[1][1]:0,p3=ranked[2]?ranked[2][1]:0,p4=ranked[3]?ranked[3][1]:0;
   let gaps='<div class="gap-row" style="padding:7px 10px 10px;">';
