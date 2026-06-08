@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHUPIALQUIMIÓMETRO · Alquimia Tavern · San Juan 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800&family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#C9A84C;--gold-b:#FFD700;--gold-d:#7a6020;
+  --silver:#B0B0B0;--bronze:#A0622A;
+  --red:#CC1A1A;--red-b:#FF2D2D;
+  --orange:#FF7A00;--green:#27AE60;
+  --bg:#080808;--bg2:#0F0F0F;--bg3:#181818;--bg4:#222;
+  --text:#EDE8DF;--muted:#555;--border:#2a2a2a;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Barlow Condensed',sans-serif;min-height:100vh;overflow-x:hidden;}
+
+/* SPLASH */
+#splash{position:fixed;inset:0;background:#000;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;transition:opacity .5s;}
+#splash.hide{opacity:0;pointer-events:none;}
+.splash-logo{width:100px;height:100px;margin-bottom:14px;filter:drop-shadow(0 0 16px rgba(201,168,76,.5));}
+.splash-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,6vw,3.2rem);letter-spacing:.06em;color:var(--text);text-shadow:0 0 30px rgba(201,168,76,.3);}
+.splash-title em{font-style:normal;color:var(--gold);}
+.splash-sub1{font-family:'Bebas Neue',sans-serif;font-size:clamp(1rem,3vw,1.5rem);letter-spacing:.18em;color:var(--gold);margin-top:4px;}
+.splash-sub2{font-size:clamp(.7rem,2vw,.9rem);letter-spacing:.22em;color:#555;text-transform:uppercase;margin-top:2px;}
+.splash-divider{width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:14px auto;}
+.splash-brand-name{font-family:'Cinzel Decorative',serif;color:var(--gold);font-size:.9rem;letter-spacing:.2em;opacity:.7;}
+.splash-sponsors{min-height:70px;display:flex;align-items:center;justify-content:center;margin:10px 0;}
+.sponsor-placeholder{width:120px;height:60px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:.8rem;color:var(--muted);}
+
+/* HEADER */
+header{position:relative;text-align:center;padding:14px 12px 10px;background:linear-gradient(180deg,#111,var(--bg));border-bottom:1px solid #1f1f1f;}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding:0 20px;}
+.header-brand{font-family:'Cinzel Decorative',serif;color:var(--gold);text-shadow:0 0 14px rgba(201,168,76,.5);text-align:center;min-width:110px;}
+.brand-l1{font-size:clamp(1rem,2.4vw,1.6rem);letter-spacing:.22em;display:block;}
+.brand-sep{width:80%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:4px auto;}
+.brand-l2{font-size:clamp(.85rem,2vw,1.3rem);letter-spacing:.26em;color:var(--gold-b);display:block;}
+.header-center{text-align:center;}
+.header-center h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.6rem,5vw,3rem);letter-spacing:.06em;color:var(--text);text-shadow:0 0 30px rgba(201,168,76,.3);}
+.header-center h1 em{font-style:normal;color:var(--gold);}
+.header-sub .line1{font-family:'Bebas Neue',sans-serif;font-size:clamp(.9rem,2.5vw,1.4rem);letter-spacing:.16em;color:var(--gold);}
+.header-sub .line2{font-size:clamp(.65rem,1.8vw,.85rem);letter-spacing:.2em;color:#666;text-transform:uppercase;}
+
+/* HORA DOBLE BANNER */
+.hora-banner{display:none;align-items:center;justify-content:center;gap:10px;padding:9px;background:repeating-linear-gradient(90deg,rgba(255,122,0,.12) 0,rgba(255,122,0,.12) 20px,rgba(255,122,0,.06) 20px,rgba(255,122,0,.06) 40px);border-top:1px solid rgba(255,122,0,.25);border-bottom:1px solid rgba(255,122,0,.25);animation:hpulse 1.4s ease-in-out infinite;}
+.hora-banner.on{display:flex;}
+@keyframes hpulse{0%,100%{opacity:1}50%{opacity:.6}}
+.hora-banner-txt{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--orange);letter-spacing:.12em;}
+
+/* CHUPITO DEL DÍA */
+.chupito-bar{display:none;align-items:center;justify-content:center;gap:10px;padding:7px 16px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.08),rgba(201,168,76,.12),rgba(201,168,76,.08),transparent);border-bottom:1px solid rgba(201,168,76,.2);}
+.chupito-bar.on{display:flex;}
+.chupito-lbl{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.15em;}
+.chupito-nombre{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--gold);letter-spacing:.08em;}
+
+/* COUNTDOWN BAR */
+.countdown-bar{padding:7px 16px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;}
+.cd-label{color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-size:.7rem;}
+.cd-time{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--gold);letter-spacing:.08em;}
+.cd-time.active{color:var(--orange);animation:hpulse 1s infinite;}
+.cd-schedule{font-size:.76rem;color:var(--muted);}
+.cd-schedule strong{color:#888;}
+
+/* TABS */
+.tabs{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);}
+.tab{flex:1;padding:10px 6px;font-family:'Barlow Condensed',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:transparent;color:var(--muted);border:none;border-bottom:3px solid transparent;cursor:pointer;transition:all .2s;position:relative;}
+.tab:hover{color:#aaa;}.tab.on{color:var(--gold);border-bottom-color:var(--gold);}
+.tab-admin-btn{flex:0 0 42px;font-size:1rem;opacity:.4;}
+.tab-admin-btn:hover{opacity:.7;}.tab-admin-btn.on{opacity:1;color:var(--gold);border-bottom-color:var(--gold);}
+.msg-badge{display:none;position:absolute;top:3px;right:2px;width:26px;height:26px;background:#25D366;border-radius:50%;align-items:center;justify-content:center;animation:bpulse 1.2s ease-in-out infinite;}
+.msg-badge.on{display:flex;}
+@keyframes bpulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(37,211,102,.5)}50%{transform:scale(1.1);box-shadow:0 0 0 4px rgba(37,211,102,0)}}
+.msg-badge svg{width:15px;height:15px;fill:white;}
+
+/* MAIN */
+.main{padding:12px;max-width:1400px;margin:0 auto;}
+.panel{display:none;}.panel.on{display:block;}
+
+/* DUAL RANKING */
+.dual{display:grid;grid-template-columns:3fr 2fr;gap:12px;align-items:start;}
+@media(max-width:700px){.dual{grid-template-columns:1fr;}}
+.panel-box{background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+.panel-box-hdr{padding:9px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;}
+.panel-box-title{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.12em;color:var(--gold);}
+.panel-box-sub{font-size:.7rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-left:auto;}
+
+/* PODIO */
+.podio{display:flex;justify-content:center;align-items:flex-end;gap:10px;padding:14px 10px 0;}
+.pi{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1;max-width:150px;}
+.pi.p1{order:2}.pi.p2{order:1}.pi.p3{order:3}
+.pi-crown{font-size:1.2rem;}
+.pi-name{font-family:'Bebas Neue',sans-serif;font-size:.88rem;letter-spacing:.04em;text-align:center;line-height:1.15;word-break:break-word;}
+.pi-pts{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;line-height:1;}
+.pi-lbl{font-size:.6rem;color:var(--muted);text-transform:uppercase;}
+.pi-block{width:100%;display:flex;align-items:center;justify-content:center;border-radius:3px 3px 0 0;font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:rgba(0,0,0,.4);}
+.pi.p1 .pi-block{height:70px;background:linear-gradient(180deg,#C9A84C,#7a6020);}
+.pi.p2 .pi-block{height:50px;background:linear-gradient(180deg,#909090,#505050);}
+.pi.p3 .pi-block{height:35px;background:linear-gradient(180deg,#A0622A,#5a3515);}
+.pi.p1 .pi-pts{color:var(--gold-b);}.pi.p2 .pi-pts{color:var(--silver);}.pi.p3 .pi-pts{color:var(--bronze);}
+
+/* GAP ROW */
+.gap-row{display:flex;justify-content:space-around;padding:7px 10px 0;flex-wrap:wrap;gap:5px;}
+.gap-item{font-size:.7rem;color:var(--muted);text-align:center;background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:3px 8px;}
+.gap-item strong{color:var(--red-b);font-family:'Bebas Neue',sans-serif;font-size:.92rem;}
+.gap-item.fourth strong{color:var(--orange);}
+
+/* NOCHE LEADER */
+.noche-leader{margin:14px 10px 0;padding:12px;background:linear-gradient(135deg,rgba(255,122,0,.08),rgba(201,168,76,.06));border:1px solid rgba(255,122,0,.2);border-radius:6px;display:flex;flex-direction:column;align-items:center;gap:4px;min-height:155px;justify-content:center;}
+.nl-crown{font-size:1.6rem;}.nl-label{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.15em;}
+.nl-name{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.06em;text-align:center;color:var(--orange);}
+.nl-pts{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--gold-b);line-height:1;}
+.nl-pts-lbl{font-size:.62rem;color:var(--muted);text-transform:uppercase;}
+.nl-empty{color:var(--muted);font-size:.82rem;text-align:center;}
+.noche-off-msg{margin:14px 10px 0;padding:14px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;text-align:center;min-height:155px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.82rem;}
+
+/* RANKING LIST */
+.section-lbl{font-family:'Bebas Neue',sans-serif;font-size:.88rem;letter-spacing:.18em;color:var(--muted);padding:9px 12px 5px;border-bottom:1px solid var(--border);}
+.rlist{display:flex;flex-direction:column;}
+.rrow{display:grid;grid-template-columns:28px 1fr auto auto 50px;align-items:center;gap:5px;padding:7px 10px;border-bottom:1px solid #111;border-left:3px solid transparent;}
+.rrow:last-child{border-bottom:none;}
+.rrow.r1{border-left-color:var(--gold);background:linear-gradient(90deg,rgba(201,168,76,.07),transparent);}
+.rrow.r2{border-left-color:var(--silver);background:linear-gradient(90deg,rgba(176,176,176,.05),transparent);}
+.rrow.r3{border-left-color:var(--bronze);background:linear-gradient(90deg,rgba(160,98,42,.05),transparent);}
+.rn{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--muted);text-align:center;}
+.rrow.r1 .rn{color:var(--gold);}.rrow.r2 .rn{color:var(--silver);}.rrow.r3 .rn{color:var(--bronze);}
+.rname{font-size:1rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.rpts-wrap{text-align:right;}
+.rpts{font-family:'Bebas Neue',sans-serif;font-size:1.35rem;line-height:1;}
+.rpts-lbl{font-size:.58rem;color:var(--muted);text-transform:uppercase;}
+.rchg{font-size:.7rem;font-weight:700;text-align:center;min-width:22px;}
+.rchg.up{color:#27AE60}.rchg.dn{color:var(--red-b)}.rchg.eq{color:var(--muted)}
+.rop{font-size:.66rem;font-weight:700;text-align:right;min-width:46px;padding:2px 4px;border-radius:3px;white-space:nowrap;}
+.rop.pos{background:rgba(39,174,96,.15);color:#4cde84;border:1px solid rgba(39,174,96,.25);}
+.rop.neg{background:rgba(204,26,26,.15);color:#ff7070;border:1px solid rgba(204,26,26,.25);}
+.rop.empty{background:transparent;border:none;color:transparent;}
+.rrow-n{grid-template-columns:26px 1fr auto;padding:6px 10px;}
+.empty{text-align:center;padding:36px 20px;color:var(--muted);}
+.empty .ei{font-size:2.2rem;margin-bottom:8px;}
+
+/* INFO PANEL */
+.info-tabs{display:flex;gap:4px;margin-bottom:12px;flex-wrap:wrap;}
+.info-tab{flex:1;min-width:70px;padding:7px 5px;font-family:'Barlow Condensed',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;background:var(--bg3);color:var(--muted);border:1px solid var(--border);border-radius:4px;cursor:pointer;transition:all .2s;text-align:center;}
+.info-tab.on{background:var(--gold-d);color:var(--text);border-color:var(--gold-d);}
+.info-panel{display:none;}.info-panel.on{display:block;}
+.info-block{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px;margin-bottom:10px;}
+.info-block h3{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.1em;color:var(--gold);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.info-block p{font-size:.86rem;color:#ccc;line-height:1.6;margin-bottom:7px;}
+.info-block p:last-child{margin-bottom:0;}
+.info-block strong{color:var(--text);}
+.info-warning{background:rgba(204,26,26,.08);border:1px solid rgba(204,26,26,.25);border-left:4px solid var(--red-b);border-radius:4px;padding:11px 14px;margin-bottom:10px;}
+.info-warning p{font-size:.88rem;color:#ff9090;font-weight:700;line-height:1.5;margin-bottom:3px;}
+.info-tip{background:rgba(255,122,0,.06);border:1px solid rgba(255,122,0,.2);border-left:4px solid var(--orange);border-radius:4px;padding:9px 12px;margin:8px 0;font-size:.82rem;color:#ffbb77;}
+.premios-tabs{display:flex;gap:5px;margin-bottom:10px;}
+.premios-tab{flex:1;padding:7px;font-family:'Barlow Condensed',sans-serif;font-size:.76rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--bg3);color:var(--muted);border:1px solid var(--border);border-radius:4px;cursor:pointer;text-align:center;transition:all .2s;}
+.premios-tab.on{background:var(--gold-d);color:var(--text);}
+.premios-panel{display:none;}.premios-panel.on{display:block;}
+.premio-item{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:10px 12px;margin-bottom:7px;}
+.premio-icon{font-size:1.3rem;}.premio-title{font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:.08em;color:var(--gold);}
+.premio-desc{font-size:.83rem;color:#bbb;font-style:italic;margin-top:3px;}
+.noche-proxima{background:linear-gradient(135deg,rgba(255,122,0,.08),rgba(201,168,76,.05));border:1px solid rgba(255,122,0,.2);border-radius:6px;padding:12px;margin-bottom:10px;text-align:center;}
+.noche-proxima-lbl{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.15em;margin-bottom:3px;}
+.noche-proxima-fecha{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--orange);letter-spacing:.08em;}
+.noche-proxima-premio{font-size:.83rem;color:#bbb;margin-top:3px;}
+.hist-gan-row{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;padding:7px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;margin-bottom:5px;}
+.hist-gan-dia{font-size:.68rem;color:var(--muted);text-transform:uppercase;}
+.hist-gan-pts{font-family:'Bebas Neue',sans-serif;font-size:.95rem;color:var(--gold);}
+.msg-card{border-radius:5px;padding:12px 14px;margin-bottom:7px;}
+.msg-card.info{background:rgba(26,58,107,.2);border:1px solid rgba(26,58,107,.4);}
+.msg-card.promo{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);}
+.msg-card.urgente{background:rgba(204,26,26,.1);border:1px solid rgba(204,26,26,.3);}
+.msg-card-title{font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:.08em;margin-bottom:3px;}
+.msg-card.info .msg-card-title{color:#87aadd;}
+.msg-card.promo .msg-card-title{color:var(--gold);}
+.msg-card.urgente .msg-card-title{color:var(--red-b);}
+.msg-card-body{font-size:.85rem;color:#bbb;line-height:1.5;}
+.msg-empty{text-align:center;padding:24px;color:var(--muted);font-size:.83rem;}
+
+/* ADMIN */
+.admin-outer{max-width:600px;margin:0 auto;}
+.admin-pin-wrap{text-align:center;padding:32px 20px;}
+.admin-pin-title{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:.1em;color:var(--gold);margin-bottom:4px;}
+.admin-pin-sub{font-size:.83rem;color:var(--muted);margin-bottom:18px;}
+.pin-dots{display:flex;justify-content:center;gap:9px;margin-bottom:16px;}
+.pin-dot{width:12px;height:12px;border-radius:50%;background:var(--border);transition:background .2s;}
+.pin-dot.filled{background:var(--gold);}
+.pin-keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:190px;margin:0 auto;}
+.pin-key{padding:12px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--text);cursor:pointer;transition:all .12s;text-align:center;}
+.pin-key:hover{background:var(--bg4);border-color:var(--gold-d);}
+.pin-key.clr{color:var(--muted);font-size:.95rem;}
+.pin-error{color:var(--red-b);font-size:.83rem;margin-top:9px;min-height:18px;}
+.admin-inner{display:none;}.admin-inner.on{display:block;}
+.admin-tabs{display:flex;gap:4px;margin-bottom:12px;flex-wrap:wrap;}
+.admin-tab{flex:1;min-width:60px;padding:8px 5px;font-family:'Barlow Condensed',sans-serif;font-size:.76rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--bg3);color:var(--muted);border:1px solid var(--border);border-radius:4px;cursor:pointer;transition:all .2s;text-align:center;}
+.admin-tab.on{background:var(--gold-d);color:var(--text);border-color:var(--gold-d);}
+.admin-panel{display:none;}.admin-panel.on{display:block;}
+.admin-section{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:13px;margin-bottom:10px;}
+.admin-section-title{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.1em;color:var(--gold);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.op-list{display:flex;flex-direction:column;gap:4px;max-height:350px;overflow-y:auto;}
+.op-row{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:8px;padding:7px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;cursor:pointer;transition:all .15s;}
+.op-row:hover{border-color:var(--gold-d);}
+.op-row-name{font-size:.88rem;font-weight:600;}
+.op-row-pts{text-align:right;}
+.op-row-gen{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;color:var(--gold);}
+.op-row-noche{font-size:.7rem;color:var(--orange);}
+.op-row-lbl{font-size:.58rem;color:var(--muted);text-transform:uppercase;}
+.op-last{margin-top:8px;padding:9px 11px;background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:4px;font-size:.83rem;min-height:40px;color:var(--muted);}
+.op-last strong{color:var(--gold);}
+.op-last.ok{border-left-color:var(--green);}
+.op-last.err{border-left-color:var(--red-b);}
+.hora-time-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.hora-time-box{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:9px 10px;}
+.hora-time-lbl{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;}
+.hora-time-input{width:100%;background:transparent;border:none;font-family:'Bebas Neue',sans-serif;font-size:1.7rem;color:var(--gold);letter-spacing:.1em;outline:none;text-align:center;}
+.hora-status-box{padding:9px 11px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;margin-bottom:9px;font-size:.85rem;color:var(--muted);}
+.hora-status-box.on{color:var(--orange);border-color:rgba(255,122,0,.3);background:rgba(255,122,0,.06);}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;margin-bottom:9px;}
+.toggle-row-label{font-size:.86rem;font-weight:600;}
+.toggle-row-sub{font-size:.73rem;color:var(--muted);margin-top:1px;}
+.tog-sw{width:42px;height:22px;background:#333;border-radius:11px;position:relative;border:none;cursor:pointer;transition:background .2s;flex-shrink:0;}
+.tog-sw::after{content:'';position:absolute;width:16px;height:16px;background:#fff;border-radius:50%;top:3px;left:3px;transition:transform .2s;}
+.tog-sw.on{background:var(--green);}
+.tog-sw.on::after{transform:translateX(20px);}
+.hist-list{display:flex;flex-direction:column;gap:4px;max-height:180px;overflow-y:auto;}
+.hist-row{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;padding:6px 9px;background:var(--bg3);border-radius:4px;border:1px solid var(--border);}
+.hist-day{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}
+.hist-name{font-size:.88rem;font-weight:600;}
+.hist-pts{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;color:var(--gold);}
+.hist-empty{color:var(--muted);font-size:.82rem;padding:8px 0;}
+.admin2-locked{display:block;}.admin2-locked.hide{display:none;}
+.admin2-content{display:none;}.admin2-content.on{display:block;}
+.admin-stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:9px;}
+.admin-stat{text-align:center;padding:10px;background:var(--bg3);border-radius:4px;border:1px solid var(--border);}
+.admin-stat-val{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;color:var(--gold);line-height:1;}
+.admin-stat-lbl{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:2px;}
+.daily-table{width:100%;border-collapse:collapse;font-size:.8rem;}
+.daily-table th{padding:6px 9px;text-align:left;font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border);}
+.daily-table td{padding:6px 9px;border-bottom:1px solid #111;}
+.daily-table tr:last-child td{border-bottom:none;}
+.daily-table tr.today td{color:var(--gold);}
+.daily-table .num{text-align:right;font-family:'Bebas Neue',sans-serif;font-size:.95rem;}
+.insc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:4px;}
+.insc-card{display:flex;align-items:center;gap:7px;padding:8px 9px;background:var(--bg3);border:1px solid var(--border);border-left:3px solid #333;border-radius:4px;transition:all .2s;}
+.insc-card.on{border-left-color:var(--green);}.insc-card.off{opacity:.45;}
+.insc-n{font-family:'Bebas Neue',sans-serif;font-size:.95rem;color:var(--muted);min-width:20px;}
+.insc-name-wrap{flex:1;}
+.insc-name-txt{font-size:.86rem;font-weight:600;}
+.insc-name-input{display:none;width:100%;background:var(--bg2);border:1px solid var(--gold-d);color:var(--text);font-family:'Barlow Condensed',sans-serif;font-size:.86rem;font-weight:600;padding:2px 5px;border-radius:3px;outline:none;}
+.insc-actions{display:flex;gap:4px;align-items:center;}
+.btn-edit{background:transparent;border:1px solid var(--border);color:var(--muted);font-size:.65rem;padding:2px 6px;border-radius:3px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.05em;text-transform:uppercase;transition:all .15s;}
+.btn-edit:hover{border-color:var(--gold-d);color:var(--gold);}
+.btn-edit.saving{border-color:var(--green);color:var(--green);}
+.toggle-sw{width:30px;height:17px;background:#333;border-radius:9px;position:relative;border:none;cursor:pointer;transition:background .2s;flex-shrink:0;}
+.toggle-sw::after{content:'';position:absolute;width:11px;height:11px;background:#fff;border-radius:50%;top:3px;left:3px;transition:transform .2s;}
+.insc-card.on .toggle-sw{background:var(--green);}
+.insc-card.on .toggle-sw::after{transform:translateX(13px);}
+.admin-edit-field{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);font-family:'Barlow Condensed',sans-serif;font-size:.9rem;padding:7px 9px;border-radius:4px;outline:none;margin-bottom:5px;}
+.admin-edit-field:focus{border-color:var(--gold-d);}
+textarea.admin-edit-field{resize:vertical;min-height:55px;}
+.msg-admin-card{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:10px;margin-bottom:7px;}
+.msg-admin-hdr{display:flex;align-items:center;gap:7px;margin-bottom:7px;flex-wrap:wrap;}
+.msg-type-sel{background:var(--bg2);border:1px solid var(--border);color:var(--text);font-family:'Barlow Condensed',sans-serif;font-size:.8rem;padding:3px 7px;border-radius:3px;outline:none;cursor:pointer;}
+.reset-danger-box{background:rgba(204,26,26,.08);border:2px solid rgba(204,26,26,.3);border-radius:6px;padding:14px;text-align:center;}
+.reset-danger-title{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;color:var(--red-b);letter-spacing:.1em;margin-bottom:6px;}
+.reset-danger-sub{font-size:.8rem;color:#ff9090;margin-bottom:12px;}
+.hist-gan-admin-card{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:10px;margin-bottom:7px;}
+.hist-gan-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;flex-wrap:wrap;gap:5px;}
+.hist-gan-visible-lbl{font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:.08em;}
+
+/* BUTTONS */
+button{font-family:'Barlow Condensed',sans-serif;font-size:.9rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:8px 16px;border:none;border-radius:4px;cursor:pointer;transition:all .15s;}
+.btn-gold{background:var(--gold-d);color:#111;}.btn-gold:hover{background:var(--gold);}
+.btn-green{background:var(--green);color:#fff;}.btn-green:hover{background:#1e8a4a;}
+.btn-orange{background:var(--orange);color:#fff;}.btn-orange.on{background:#333;color:var(--orange);border:1px solid var(--orange);}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border);}.btn-ghost:hover{border-color:var(--red-b);color:var(--red-b);}
+.btn-danger{background:rgba(204,26,26,.15);color:var(--red-b);border:2px solid rgba(204,26,26,.4);}.btn-danger:hover{background:rgba(204,26,26,.3);}
+.btn-sm{font-size:.76rem;padding:5px 11px;}
+.btn-export{background:rgba(39,174,96,.15);color:var(--green);border:1px solid rgba(39,174,96,.3);}
+.btn-import{background:rgba(26,58,107,.15);color:#87aadd;border:1px solid rgba(26,58,107,.3);}
+
+/* NUMPAD */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:200;align-items:center;justify-content:center;}
+.modal-overlay.on{display:flex;}
+.numpad-modal{background:var(--bg2);border:1px solid var(--border);border-top:3px solid var(--gold-d);border-radius:8px;padding:16px;width:290px;max-width:95vw;}
+.np-title{font-family:'Bebas Neue',sans-serif;font-size:.92rem;letter-spacing:.1em;color:var(--muted);margin-bottom:2px;}
+.np-peña{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--gold);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.np-pts-info{font-size:.76rem;color:var(--muted);margin-bottom:9px;}
+.np-pts-info span{color:var(--orange);}
+.np-display{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:8px 12px;font-family:'Bebas Neue',sans-serif;font-size:2rem;text-align:right;color:var(--text);margin-bottom:9px;min-height:50px;letter-spacing:.05em;}
+.np-display.empty{color:var(--muted);}
+.np-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:7px;}
+.nk{padding:11px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--text);cursor:pointer;text-align:center;transition:all .1s;user-select:none;}
+.nk:hover{background:var(--bg4);border-color:#444;}
+.nk:active{transform:scale(.93);}
+.nk.clr{color:var(--orange);border-color:rgba(255,122,0,.2);font-size:1rem;}
+.nk.bksp{color:var(--muted);font-size:1rem;}
+.nk.bono{grid-column:span 2;background:rgba(201,168,76,.1);border-color:var(--gold-d);color:var(--gold);font-size:.88rem;letter-spacing:.04em;}
+.nk.bono:hover{background:rgba(201,168,76,.2);}
+.np-bono-note{font-size:.68rem;color:var(--muted);text-align:center;margin-bottom:5px;letter-spacing:.05em;}
+.np-hora-badge{text-align:center;font-size:.7rem;color:var(--orange);min-height:15px;letter-spacing:.06em;font-weight:700;margin-bottom:5px;}
+.np-restar-opts{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:7px;}
+.btn-sub-restar{padding:9px 5px;font-family:'Barlow Condensed',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;border-radius:4px;cursor:pointer;text-align:center;transition:all .15s;user-select:none;}
+.btn-sub-restar:active{transform:scale(.96);}
+.btn-sub-restar.chup{background:rgba(204,26,26,.15);color:var(--red-b);border:1px solid rgba(204,26,26,.3);}
+.btn-sub-restar.bono{background:rgba(201,168,76,.12);color:var(--gold);border:1px solid rgba(201,168,76,.25);}
+.np-actions{display:grid;grid-template-columns:1fr;gap:7px;}
+.btn-sumar{padding:12px;background:linear-gradient(135deg,#1a5c2e,#27AE60);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:.1em;border:none;border-radius:5px;cursor:pointer;transition:all .15s;}
+.btn-sumar:hover{background:linear-gradient(135deg,#1e6e36,#2ecc71);}
+.btn-cancelar{width:100%;margin-top:6px;background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:4px;padding:6px;font-size:.78rem;}
+
+/* MISC */
+.lock-btn{position:fixed;bottom:16px;left:16px;background:var(--bg3);border:1px solid var(--border);color:var(--muted);padding:6px 12px;border-radius:4px;font-size:.7rem;cursor:pointer;z-index:100;transition:all .2s;}
+.lock-btn:hover{border-color:var(--gold-d);color:var(--gold);}
+.toast{position:fixed;bottom:18px;right:18px;background:var(--bg3);border:1px solid var(--border);border-left:4px solid var(--gold);padding:9px 14px;border-radius:5px;font-size:.9rem;font-weight:600;opacity:0;transform:translateY(14px);transition:all .3s;z-index:300;max-width:280px;pointer-events:none;}
+.toast.on{opacity:1;transform:translateY(0);}
+.toast .tn{color:var(--gold);display:block;}
+@media(max-width:500px){.admin-stat-grid{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <svg style="width:90px;height:90px;margin-bottom:12px;filter:drop-shadow(0 0 14px rgba(201,168,76,.5))" viewBox="0 0 200 200">
+    <defs><linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#FFD700"/><stop offset="50%" style="stop-color:#C9A84C"/><stop offset="100%" style="stop-color:#8a6020"/></linearGradient></defs>
+    <circle cx="100" cy="100" r="90" fill="none" stroke="url(#sg)" stroke-width="6"/>
+    <circle cx="100" cy="100" r="82" fill="none" stroke="url(#sg)" stroke-width="2" opacity=".4"/>
+    <polygon points="100,22 168,158 32,158" fill="none" stroke="url(#sg)" stroke-width="7" stroke-linejoin="round"/>
+    <polygon points="100,72 134,138 66,138" fill="none" stroke="url(#sg)" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M155,45 Q185,100 155,155 Q130,170 100,168" fill="none" stroke="url(#sg)" stroke-width="8" stroke-linecap="round"/>
+    <path d="M155,45 Q130,30 100,32" fill="none" stroke="url(#sg)" stroke-width="5" stroke-linecap="round" opacity=".6"/>
+  </svg>
+  <div class="splash-title">CHUPI<em>ALQUIMIÓ</em>METRO</div>
+  <div class="splash-sub1">San Juan 2026</div>
+  <div class="splash-sub2">Los Corrales de Buelna</div>
+  <div class="splash-divider"></div>
+  <div class="splash-brand-name">Alquimia Tavern</div>
+  <div class="splash-sponsors" id="splash-sponsors">
+    <div class="sponsor-placeholder">🥃 Patrocinadores</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none">
+
+<header>
+  <div class="header-inner">
+    <div class="header-brand">
+      <span class="brand-l1">Alquimia</span>
+      <div class="brand-sep"></div>
+      <span class="brand-l2">Tavern</span>
+    </div>
+    <div class="header-center">
+      <h1>CHUPI<em>ALQUIMIÓ</em>METRO</h1>
+      <div class="header-sub">
+        <div class="line1">San Juan 2026</div>
+        <div class="line2">Los Corrales de Buelna</div>
+      </div>
+    </div>
+    <div class="header-brand">
+      <span class="brand-l1">Alquimia</span>
+      <div class="brand-sep"></div>
+      <span class="brand-l2">Tavern</span>
+    </div>
+  </div>
+</header>
+
+<div class="chupito-bar" id="chupito-bar">
+  <span class="chupito-lbl">🥃 Chupito del día:</span>
+  <span class="chupito-nombre" id="chupito-nombre">—</span>
+</div>
+
+<div class="hora-banner" id="hora-banner">
+  <span>🔥</span><span class="hora-banner-txt">¡¡ HORA DOBLE ACTIVA · PUNTOS × 2 !!</span><span>🔥</span>
+</div>
+
+<div class="countdown-bar">
+  <span class="cd-label">Hora Doble</span>
+  <span class="cd-time" id="cd-time">--h:--m:--s</span>
+  <span class="cd-schedule" id="cd-schedule"></span>
+</div>
+
+<div class="tabs">
+  <button class="tab on" id="tab-ranking" onclick="setTab('ranking')">🏆 Ranking</button>
+  <button class="tab" id="tab-info" onclick="setTab('info')">
+    ℹ️ Info
+    <div class="msg-badge" id="msg-badge"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></div>
+  </button>
+  <button class="tab tab-admin-btn" id="tab-admin" onclick="setTab('admin')">⚙️</button>
+</div>
+
+<div class="main">
+
+  <!-- RANKING -->
+  <div class="panel on" id="panel-ranking">
+    <div class="dual">
+      <div class="panel-box" id="box-general"></div>
+      <div class="panel-box" id="box-noche"></div>
+    </div>
+  </div>
+
+  <!-- INFO -->
+  <div class="panel" id="panel-info">
+    <div class="info-tabs">
+      <div class="info-tab on" id="itab-mensajes" onclick="setInfoTab('mensajes')">💬 Mensajes</div>
+      <div class="info-tab" id="itab-premios" onclick="setInfoTab('premios')">🏆 Premios</div>
+      <div class="info-tab" id="itab-func" onclick="setInfoTab('func')">📖 Instrucciones</div>
+      <div class="info-tab" id="itab-proyecto" onclick="setInfoTab('proyecto')">⚠️ Aviso</div>
+    </div>
+    <div class="info-panel on" id="ipanel-mensajes">
+      <div id="msg-list-public"><div class="msg-empty">No hay mensajes en este momento</div></div>
+    </div>
+    <div class="info-panel" id="ipanel-premios">
+      <div class="premios-tabs">
+        <div class="premios-tab on" id="ptab-general" onclick="setPremiosTab('general')">🏆 Ranking General</div>
+        <div class="premios-tab" id="ptab-noche" onclick="setPremiosTab('noche')">🌙 Ganador Noche</div>
+      </div>
+      <div class="premios-panel on" id="ppanel-general">
+        <div class="panel-box" id="premios-podio-box" style="margin-bottom:10px;"></div>
+        <div class="info-block" id="premios-general-content"></div>
+      </div>
+      <div class="premios-panel" id="ppanel-noche">
+        <div class="noche-proxima" id="noche-proxima-box"></div>
+        <div class="info-block"><h3>Ganadores anteriores</h3><div id="hist-ganadores-list"></div></div>
+      </div>
+    </div>
+    <div class="info-panel" id="ipanel-func">
+      <div class="info-warning">
+        <p>🔞 PROHIBIDA LA VENTA, CONSUMO Y PARTICIPACIÓN A MENORES DE 18 AÑOS</p>
+        <p>🍺 Alquimia Tavern promueve el consumo moderado y responsable de alcohol</p>
+      </div>
+      <div class="info-block"><h3>¿En qué consiste?</h3><p>El Chupialquimiómetro es el concurso oficial de chupitos de las Fiestas de San Juan. Las peñas inscritas compiten acumulando puntos durante los 10 días de feria. Cada chupito consumido suma puntos al marcador de tu peña.</p></div>
+      <div class="info-block"><h3>¿Cómo se suman los puntos?</h3><p>Cada chupito suma <strong>1 punto</strong>. En la barra podéis adquirir el <strong>Bono Peñero</strong>: 15 chupitos por 25€ (precio normal 30€). Al comprar el bono, los 15 puntos se suman de golpe al marcador.</p></div>
+      <div class="info-block"><h3>🔥 Hora Doble</h3><p>En determinadas franjas horarias los <strong>puntos valen el doble</strong>. Atentos a la cuenta atrás en pantalla y los avisos por megafonía.</p><div class="info-tip">⚠️ El Bono Peñero siempre suma 15 puntos fijos, independientemente de la Hora Doble.</div></div>
+      <div class="info-block"><h3>🏆 El Gran Podio Final</h3><p>Al terminar las fiestas, las <strong>tres peñas con más puntos</strong> se llevan los premios del podio.</p></div>
+      <div class="info-block"><h3>🌙 Ganador de la Noche</h3><p>En determinadas noches hay un premio para la peña que <strong>más puntos consiga esa noche</strong>. El marcador nocturno se reinicia cada noche.</p></div>
+      <div class="info-block"><h3>📡 Actualización del marcador</h3><p>El marcador se actualiza automáticamente cada pocos segundos en todos los dispositivos. Si ves que tarda, pulsa el botón <strong>↺</strong> en la barra superior para forzar la actualización.</p></div>
+    </div>
+    <div class="info-panel" id="ipanel-proyecto">
+      <div class="info-block">
+        <h3>El Chupialquimiómetro — Un proyecto propio</h3>
+        <p>El Chupialquimiómetro es una iniciativa creada íntegramente por el equipo de <strong>Alquimia Tavern</strong> para animar las Fiestas de San Juan de Los Corrales de Buelna.</p>
+        <p>Se trata de un <strong>proyecto nuevo, en su primera edición</strong>, desarrollado con mucha ilusión pero también con la honestidad de reconocer que es un sistema en periodo de prueba. Como cualquier proyecto tecnológico en sus inicios, puede cometer errores, pausarse o comportarse de forma inesperada.</p>
+        <p>Ante cualquier incidencia, el equipo de Alquimia Tavern hará todo lo posible por resolverla de la forma más justa y rápida posible.</p>
+        <p><strong>El Chupialquimiómetro nace para sumar, no para generar conflictos.</strong> Gracias por ser parte de esta primera edición.</p>
+        <p style="margin-top:10px;color:var(--gold);font-style:italic;">— El equipo de Alquimia Tavern · Desde 1999</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN -->
+  <div class="panel" id="panel-admin">
+    <div class="admin-outer">
+      <div class="admin-pin-wrap" id="pin-screen">
+        <div class="admin-pin-title">🔐 Admin</div>
+        <div class="admin-pin-sub">PIN de acceso (6 dígitos)</div>
+        <div class="pin-dots" id="pin-dots">
+          <div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div><div class="pin-dot" id="pd2"></div>
+          <div class="pin-dot" id="pd3"></div><div class="pin-dot" id="pd4"></div><div class="pin-dot" id="pd5"></div>
+        </div>
+        <div class="pin-keypad">
+          <div class="pin-key" onclick="pinKey('1')">1</div><div class="pin-key" onclick="pinKey('2')">2</div><div class="pin-key" onclick="pinKey('3')">3</div>
+          <div class="pin-key" onclick="pinKey('4')">4</div><div class="pin-key" onclick="pinKey('5')">5</div><div class="pin-key" onclick="pinKey('6')">6</div>
+          <div class="pin-key" onclick="pinKey('7')">7</div><div class="pin-key" onclick="pinKey('8')">8</div><div class="pin-key" onclick="pinKey('9')">9</div>
+          <div class="pin-key clr" onclick="pinClear()">C</div><div class="pin-key" onclick="pinKey('0')">0</div><div class="pin-key clr" onclick="pinBksp()">⌫</div>
+        </div>
+        <div class="pin-error" id="pin-error"></div>
+      </div>
+      <div class="admin-inner" id="admin-inner">
+        <div class="admin-tabs">
+          <div class="admin-tab on" id="atab-op" onclick="setAdminTab('op')">🧮 Puntos</div>
+          <div class="admin-tab" id="atab-contenido" onclick="setAdminTab('contenido')">✏️ Contenido</div>
+          <div class="admin-tab" id="atab-hora" onclick="setAdminTab('hora')">⏰ Hora/Noche</div>
+          <div class="admin-tab" id="atab-admin2" onclick="setAdminTab('admin2')">📊 Admin 2</div>
+          <div class="admin-tab" id="atab-insc" onclick="setAdminTab('insc')">📋 Insc.</div>
+        </div>
+
+        <!-- PUNTOS -->
+        <div class="admin-panel on" id="apanel-op">
+          <div class="admin-section">
+            <div class="admin-section-title">🧮 Añadir / Restar puntos</div>
+            <p style="font-size:.78rem;color:var(--muted);margin-bottom:8px;">Ordenadas por clasificación · Toca una peña para abrir el teclado</p>
+            <div class="op-list" id="op-list"></div>
+            <div class="op-last" id="op-last">Última operación: <em style="color:var(--muted)">ninguna aún</em></div>
+          </div>
+        </div>
+
+        <!-- CONTENIDO -->
+        <div class="admin-panel" id="apanel-contenido">
+          <div class="admin-section">
+            <div class="admin-section-title">🥃 Chupito del día</div>
+            <div class="toggle-row" style="margin-bottom:8px;">
+              <div><div class="toggle-row-label">Mostrar en pantalla principal</div></div>
+              <button class="tog-sw" id="tog-chupito" onclick="toggleChupitoDia()"></button>
+            </div>
+            <input class="admin-edit-field" type="text" id="chupito-input" placeholder="Ej: Licor de Piruleta" oninput="updateChupitoDia()">
+          </div>
+          <div class="admin-section">
+            <div class="admin-section-title">🏆 Premios Ranking General</div>
+            <div style="font-size:.7rem;color:var(--muted);margin-bottom:5px;">🥇 Primer premio</div>
+            <textarea class="admin-edit-field" id="premio-oro" placeholder="Describe el premio de oro..." oninput="savePremios()"></textarea>
+            <div style="font-size:.7rem;color:var(--muted);margin-bottom:5px;">🥈 Segundo premio</div>
+            <textarea class="admin-edit-field" id="premio-plata" placeholder="Describe el premio de plata..." oninput="savePremios()"></textarea>
+            <div style="font-size:.7rem;color:var(--muted);margin-bottom:5px;">🥉 Tercer premio</div>
+            <textarea class="admin-edit-field" id="premio-bronce" placeholder="Describe el premio de bronce..." oninput="savePremios()"></textarea>
+          </div>
+          <div class="admin-section">
+            <div class="admin-section-title">🌙 Próxima noche con premio</div>
+            <input class="admin-edit-field" type="text" id="noche-fecha-input" placeholder="Ej: Sábado 28 de junio" oninput="saveNocheContenido()">
+            <textarea class="admin-edit-field" id="noche-premio-input" placeholder="Describe el premio de la noche..." oninput="saveNocheContenido()"></textarea>
+          </div>
+          <div class="admin-section">
+            <div class="admin-section-title">📜 Historial ganadores noche</div>
+            <div id="hist-ganadores-admin"></div>
+            <button class="btn-sm btn-gold" style="margin-top:7px;" onclick="addHistGanador()">+ Añadir ganador</button>
+          </div>
+          <div class="admin-section">
+            <div class="admin-section-title">💬 Mensajes para Info</div>
+            <div id="mensajes-admin"></div>
+            <button class="btn-sm btn-gold" style="margin-top:7px;" onclick="addMensaje()">+ Nuevo mensaje</button>
+          </div>
+        </div>
+
+        <!-- HORA/NOCHE -->
+        <div class="admin-panel" id="apanel-hora">
+          <div class="admin-section">
+            <div class="admin-section-title">⏰ Hora Doble</div>
+            <div class="hora-time-row">
+              <div class="hora-time-box"><div class="hora-time-lbl">Inicio</div><input class="hora-time-input" type="time" id="hora-inicio" value="18:00" onchange="updateHoraSchedule()"></div>
+              <div class="hora-time-box"><div class="hora-time-lbl">Fin</div><input class="hora-time-input" type="time" id="hora-fin" value="20:00" onchange="updateHoraSchedule()"></div>
+            </div>
+            <div class="hora-status-box" id="hora-status-box">Estado: Desactivada</div>
+            <div style="display:flex;gap:7px;flex-wrap:wrap;">
+              <button class="btn-orange" id="btn-hora-toggle" onclick="toggleHoraManual()">Activar Hora Doble</button>
+              <button class="btn-sm btn-ghost" onclick="activarHoraAuto()">▶ Por horario</button>
+            </div>
+          </div>
+          <div class="admin-section">
+            <div class="admin-section-title">🌙 Control de Noche</div>
+            <div class="toggle-row" style="margin-bottom:10px;">
+              <div><div class="toggle-row-label">Mostrar "Ganador de la Noche" en ranking</div><div class="toggle-row-sub">Desactívalo en noches sin premio</div></div>
+              <button class="tog-sw on" id="tog-noche" onclick="toggleNocheVisible()"></button>
+            </div>
+            <div style="margin-bottom:9px;">
+              <div style="font-size:.78rem;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.1em;">Líder actual de la noche</div>
+              <div id="noche-lider-admin" style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--orange);">—</div>
+            </div>
+            <div style="margin-bottom:12px;">
+              <div style="font-size:.78rem;color:var(--muted);margin-bottom:7px;text-transform:uppercase;letter-spacing:.1em;">Historial ganadores noche</div>
+              <div class="hist-list" id="hist-list"></div>
+            </div>
+            <div style="display:flex;gap:7px;flex-wrap:wrap;">
+              <button class="btn-ghost" onclick="confirmResetNoche()">↺ Reiniciar noche</button>
+              <button class="btn-sm btn-gold" onclick="saveNocheWinner()">💾 Guardar ganador y reiniciar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADMIN 2 -->
+        <div class="admin-panel" id="apanel-admin2">
+          <div class="admin2-locked" id="admin2-locked">
+            <div class="admin-section" style="text-align:center;">
+              <div class="admin-pin-title" style="font-size:1.3rem;margin-bottom:3px;">🔒 Admin 2</div>
+              <div class="admin-pin-sub">Acceso restringido · dirección</div>
+              <div class="pin-dots" id="pin2-dots" style="justify-content:center;margin-bottom:12px;">
+                <div class="pin-dot" id="p2d0"></div><div class="pin-dot" id="p2d1"></div><div class="pin-dot" id="p2d2"></div><div class="pin-dot" id="p2d3"></div>
+                <div class="pin-dot" id="p2d4"></div><div class="pin-dot" id="p2d5"></div><div class="pin-dot" id="p2d6"></div><div class="pin-dot" id="p2d7"></div>
+              </div>
+              <div class="pin-keypad" style="margin:0 auto;">
+                <div class="pin-key" onclick="pin2Key('1')">1</div><div class="pin-key" onclick="pin2Key('2')">2</div><div class="pin-key" onclick="pin2Key('3')">3</div>
+                <div class="pin-key" onclick="pin2Key('4')">4</div><div class="pin-key" onclick="pin2Key('5')">5</div><div class="pin-key" onclick="pin2Key('6')">6</div>
+                <div class="pin-key" onclick="pin2Key('7')">7</div><div class="pin-key" onclick="pin2Key('8')">8</div><div class="pin-key" onclick="pin2Key('9')">9</div>
+                <div class="pin-key clr" onclick="pin2Clear()">C</div><div class="pin-key" onclick="pin2Key('0')">0</div><div class="pin-key clr" onclick="pin2Bksp()">⌫</div>
+              </div>
+              <div class="pin-error" id="pin2-error"></div>
+            </div>
+          </div>
+          <div class="admin2-content" id="admin2-content">
+            <div class="admin-section">
+              <div class="admin-section-title">📅 Día actual</div>
+              <div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;">🥃 Chupitos</div>
+              <div class="admin-stat-grid">
+                <div class="admin-stat"><div class="admin-stat-val" id="a2-cs-hoy">0</div><div class="admin-stat-lbl">Sueltos</div></div>
+                <div class="admin-stat"><div class="admin-stat-val" id="a2-cb-hoy">0</div><div class="admin-stat-lbl">Vía bono</div></div>
+                <div class="admin-stat" style="border-color:var(--gold-d);"><div class="admin-stat-val" id="a2-ct-hoy">0</div><div class="admin-stat-lbl">Total</div></div>
+              </div>
+              <div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin:8px 0 5px;">💰 Recaudación</div>
+              <div class="admin-stat-grid">
+                <div class="admin-stat"><div class="admin-stat-val" id="a2-es-hoy">0€</div><div class="admin-stat-lbl">Sueltos ×2€</div></div>
+                <div class="admin-stat"><div class="admin-stat-val" id="a2-eb-hoy">0€</div><div class="admin-stat-lbl">Bonos ×25€</div></div>
+                <div class="admin-stat" style="border-color:var(--gold-d);"><div class="admin-stat-val" id="a2-et-hoy">0€</div><div class="admin-stat-lbl">Total</div></div>
+              </div>
+            </div>
+            <div class="admin-section">
+              <div class="admin-section-title">📊 Histórico por día</div>
+              <div style="overflow-x:auto;">
+                <table class="daily-table">
+                  <thead><tr><th>Día</th><th class="num">Ch.sueltos</th><th class="num">Bonos</th><th class="num">Ch.bono</th><th class="num">Total ch.</th><th class="num">€sueltos</th><th class="num">€bonos</th><th class="num">Total€</th></tr></thead>
+                  <tbody id="daily-tbody"></tbody>
+                </table>
+              </div>
+            </div>
+            <div class="admin-section">
+              <div class="admin-section-title">📦 Totales acumulados</div>
+              <div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;">🥃 Chupitos</div>
+              <div class="admin-stat-grid">
+                <div class="admin-stat"><div class="admin-stat-val" id="a2-cs-tot">0</div><div class="admin-stat-lbl">Sueltos</div></div>
+                <div class="admin-stat"><div class="admin-stat-val" id="a2-cb-tot">0</div><div class="admin-stat-lbl">Vía bono</div></div>
+                <div class="admin-stat" style="border-color:var(--gold-d);"><div class="admin-stat-val" id="a2-ct-tot">0</div><div class="admin-stat-lbl">Total</div></div>
+              </div>
+              <div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin:8px 0 5px;">💰 Recaudación</div>
+              <div class="admin-stat-grid">
+                <div class="admin-stat"><div class="admin-stat-val" id="a2-es-tot">0€</div><div class="admin-stat-lbl">Sueltos ×2€</div></div>
+                <div class="admin-stat"><div class="admin-stat-val" id="a2-eb-tot">0€</div><div class="admin-stat-lbl">Bonos ×25€</div></div>
+                <div class="admin-stat" style="border-color:var(--gold-d);"><div class="admin-stat-val" id="a2-et-tot">0€</div><div class="admin-stat-lbl">Total</div></div>
+              </div>
+            </div>
+            <div class="admin-section">
+              <div class="admin-section-title">🔄 Reset completo</div>
+              <div class="reset-danger-box">
+                <div class="reset-danger-title">⚠️ ZONA DE PELIGRO</div>
+                <div class="reset-danger-sub">Borra TODOS los puntos, contadores y marcadores. Solo para pruebas antes de la feria.</div>
+                <button class="btn-danger" onclick="confirmResetTotal()">🔄 RESET TOTAL</button>
+              </div>
+            </div>
+            <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:3px;">
+              <button class="btn-sm btn-gold" onclick="cerrarDia()">📅 Cerrar día</button>
+              <button class="btn-sm btn-export" onclick="exportarDatos()">⬇ Exportar JSON</button>
+              <button class="btn-sm btn-import" onclick="importarDatos()">⬆ Importar JSON</button>
+              <button class="btn-sm btn-ghost" onclick="lockAdmin2()">🔒 Cerrar Admin 2</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- INSCRIPCIONES -->
+        <div class="admin-panel" id="apanel-insc">
+          <div class="admin-section">
+            <div class="admin-section-title">📋 Inscripciones</div>
+            <div style="display:flex;gap:7px;margin-bottom:9px;flex-wrap:wrap;align-items:center;">
+              <button class="btn-sm btn-green" onclick="bulkToggle(true)">✓ Activar todas</button>
+              <button class="btn-sm btn-ghost" onclick="bulkToggle(false)">✕ Desactivar todas</button>
+              <span style="font-size:.76rem;color:var(--muted);margin-left:auto;">Activas: <strong id="insc-cnt" style="color:var(--gold)">0/40</strong></span>
+            </div>
+            <div class="insc-grid" id="insc-grid"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+</div><!-- /app -->
+
+<button class="lock-btn" id="lock-btn" onclick="lockAdmin()" style="display:none">🔒 Cerrar admin</button>
+<div class="toast" id="toast"><span class="tn" id="toast-name"></span><span id="toast-msg"></span></div>
+
+<!-- NUMPAD -->
+<div class="modal-overlay" id="np-overlay">
+  <div class="numpad-modal">
+    <div class="np-title">Operación de puntos</div>
+    <div class="np-peña" id="np-peña">—</div>
+    <div class="np-pts-info">General: <span id="np-gen">0</span> · Noche: <span id="np-noche" style="color:var(--orange)">0</span></div>
+    <div class="np-display empty" id="np-disp">0</div>
+    <div class="np-grid">
+      <div class="nk" onclick="nk('1')">1</div><div class="nk" onclick="nk('2')">2</div><div class="nk" onclick="nk('3')">3</div>
+      <div class="nk" onclick="nk('4')">4</div><div class="nk" onclick="nk('5')">5</div><div class="nk" onclick="nk('6')">6</div>
+      <div class="nk" onclick="nk('7')">7</div><div class="nk" onclick="nk('8')">8</div><div class="nk" onclick="nk('9')">9</div>
+      <div class="nk clr" onclick="nkC()">C</div><div class="nk" onclick="nk('0')">0</div><div class="nk bksp" onclick="nkBk()">⌫</div>
+      <div class="nk bono" onclick="nkBono()">🎫 BONO +15</div><div class="nk bksp" onclick="nkBk()" style="grid-column:3;">⌫</div>
+    </div>
+    <div class="np-bono-note">⚠️ BONO siempre +15 pts fijos (sin ×2 en Hora Doble)</div>
+    <div class="np-hora-badge" id="np-hora-badge"></div>
+    <div class="np-restar-opts">
+      <div class="btn-sub-restar chup" onclick="doRestar('chupito')">− CORREGIR CHUPITO</div>
+      <div class="btn-sub-restar bono" onclick="doRestar('bono')">− ANULAR BONO</div>
+    </div>
+    <div class="np-actions"><button class="btn-sumar" onclick="doSumar()">✚ SUMAR</button></div>
+    <button class="btn-cancelar" onclick="closeNp()">Cancelar</button>
+  </div>
+</div>
+
+<script>
+// ═══════════════════ CONSTANTES ═══════════════════
+const PIN1 = "394549";
+const PIN2 = "19761973";
+const FB_URL = "https://firestore.googleapis.com/v1/projects/chupialquimiometro/databases/(default)/documents/chupialquimiometro/estado?key=AIzaSyAKn-Vyi9zE3ggJbN2UqdUTi_zE7omzE2c";
+const NOMBRES_DEFAULT = [
+  "Peña Dickens","Vamos a liar la del pulpo","Malbebiendo","Pequeños Fiesteros",
+  "Perdiendo el Norte","Reyes de Copas","Sálvese quien beba","Si lo sé no vengo",
+  "La Coza Noztra","La Envodkada","Tarde pero llegamos","The Originals / Turbo Dickens",
+  "Los que Faltaban","El Beber me llama","Los Zánganos","Mañana te lo cuento",
+  "Resacón en la Penya","Los Bizcochitos","Dskalimba","Ceda el Vaso","Los Kiwis",
+  "El Código da Whisky","Autiblinders","Comando Garrafón","Los de Siempre",
+  "Vamos B-Viendo","Área 51","","","","","","","","","","","","",""
+];
+const TOTAL_SLOTS = 40;
+const SPONSORS = [
+  {name:"Patrocinador 1",src:null},{name:"Patrocinador 2",src:null},
+  {name:"Patrocinador 3",src:null},{name:"Patrocinador 4",src:null},{name:"Patrocinador 5",src:null}
+];
+
+// ═══════════════════ ESTADO ═══════════════════
+function getDiaLabel(){return new Date().toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});}
+
+let S = {
+  nombres: [...NOMBRES_DEFAULT],
+  general: {}, noche: {}, activas: {}, lastOp: {},
+  chupSueltosHoy: 0, bonosHoy: 0,
+  histDias: [], nocheHist: [], histGanadores: [],
+  mensajes: [], msgLastId: 0, msgVisto: false,
+  hora: false, horaInicio: "18:00", horaFin: "20:00", horaAuto: false,
+  nocheVisible: true,
+  adminOpen: false, admin2Open: false,
+  tab: 'ranking', adminTab: 'op',
+  prevRank: {}, diaActual: getDiaLabel(),
+  chupitoDia: {activo: false, nombre: ''},
+  premios: {oro: '', plata: '', bronce: ''},
+  nocheContenido: {fecha: '', premio: ''},
+  updatedAt: 0
+};
+
+// Init data structures
+NOMBRES_DEFAULT.forEach(p => {
+  if(p) { S.general[p]=0; S.noche[p]=0; S.activas[p]=false; }
+});
+
+// ═══════════════════ PERSISTENCIA LOCAL ═══════════════════
+function guardarLocal() {
+  try { localStorage.setItem('chupi_v9', JSON.stringify(S)); } catch(e) {}
+}
+
+function cargarLocal() {
+  try {
+    const g = localStorage.getItem('chupi_v9');
+    if (g) {
+      const p = JSON.parse(g);
+      // Merge carefully - preserve structure
+      Object.keys(p).forEach(k => { S[k] = p[k]; });
+      S.adminOpen = false; // never restore adminOpen
+    }
+  } catch(e) { console.warn('Local load error'); }
+}
+
+cargarLocal();
+// Fill any missing slots after load
+NOMBRES_DEFAULT.forEach(p => {
+  if (!p) return;
+  if (S.general[p] === undefined) S.general[p] = 0;
+  if (S.noche[p] === undefined) S.noche[p] = 0;
+  if (S.activas[p] === undefined) S.activas[p] = false;
+});
+
+// ═══════════════════ FIREBASE SYNC ═══════════════════
+let _fbLastRemoteTime = 0; // last remote updatedAt we loaded
+
+// SAVE: only called when Admin is open on this device
+async function fbGuardar() {
+  try {
+    S.updatedAt = Date.now();
+    // CRITICAL: never save adminOpen/admin2Open to Firebase
+    // These are local-only flags — each device manages its own admin state
+    const toSave = Object.assign({}, S);
+    delete toSave.adminOpen;
+    delete toSave.admin2Open;
+    const payload = {
+      fields: {
+        json: { stringValue: JSON.stringify(toSave) },
+        updatedAt: { integerValue: String(S.updatedAt) }
+      }
+    };
+    const res = await fetch(FB_URL, {
+      method: 'PATCH',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) console.warn('Firebase save error:', res.status);
+    else _fbLastRemoteTime = S.updatedAt; // we own this version
+  } catch(e) { console.warn('Firebase save error:', e.message); }
+}
+
+// LOAD: called by all devices via polling
+async function fbCargar(force) {
+  try {
+    const res = await fetch(FB_URL);
+    if (!res.ok) return;
+    const doc = await res.json();
+    if (!doc.fields || !doc.fields.json) return;
+    const remoteState = JSON.parse(doc.fields.json.stringValue);
+    const remoteTime = remoteState.updatedAt || 0;
+    // Update if remote has newer data OR force=true
+    if (force || remoteTime > _fbLastRemoteTime) {
+      _fbLastRemoteTime = remoteTime;
+          // Merge remote state - NEVER restore adminOpen/admin2Open from Firebase
+      const wasAdmin = S.adminOpen;
+      const wasAdmin2 = S.admin2Open;
+      Object.keys(remoteState).forEach(k => {
+        if (k !== 'adminOpen' && k !== 'admin2Open') S[k] = remoteState[k];
+      });
+      S.adminOpen = wasAdmin;
+      S.admin2Open = wasAdmin2;
+      S.admin2Open = wasAdmin2;
+      // Ensure all slots exist
+      NOMBRES_DEFAULT.forEach(p => {
+        if (!p) return;
+        if (S.general[p]===undefined) S.general[p]=0;
+        if (S.noche[p]===undefined) S.noche[p]=0;
+        if (S.activas[p]===undefined) S.activas[p]=false;
+      });
+      window._lastFirebaseUpdate = Date.now();
+      guardarLocal();
+      console.log('✅ Firebase sync:', new Date(remoteTime).toLocaleTimeString());
+      renderAll();
+      applyChupitoDia();
+      applyHoraState();
+      updateMsgBadge();
+    }
+  } catch(e) { console.warn('Firebase load error:', e.message); }
+}
+
+// Poll every 4 seconds - ALL devices read, only admin devices write
+setInterval(() => { fbCargar(false); }, 4000);
+
+// Instant sync when screen wakes up
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') fbCargar(false);
+});
+
+// ═══════════════════ GUARDAR (con Firebase si Admin abierto) ═══════════════════
+function guardar() {
+  guardarLocal();
+  // Only save to Firebase when this device has Admin open
+  // iPad is the ONLY device that will ever have Admin open
+  if (S.adminOpen) {
+    fbGuardar();
+  }
+}
+
+// ═══════════════════ SPLASH ═══════════════════
+function initSplash() {
+  // Auto-enter after 2.5s
+  setTimeout(() => {
+    const sp = document.getElementById('splash');
+    if (sp && !sp.classList.contains('hide')) enterApp();
+  }, 2500);
+}
+
+function enterApp() {
+  const sp = document.getElementById('splash');
+  const app = document.getElementById('app');
+  if (sp) sp.classList.add('hide');
+  if (app) app.style.display = 'block';
+  renderAll();
+  renderCountdown();
+  applyHoraState();
+  applyChupitoDia();
+  updateMsgBadge();
+  // Load from Firebase on first enter
+  fbCargar(true);
+}
+
+// ═══════════════════ FORMATO ═══════════════════
+function fmtCD(s) {
+  const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),ss=s%60;
+  const p=n=>String(n).padStart(2,'0');
+  const u=t=>`<span style="font-size:.58em;opacity:.6;font-family:Barlow Condensed,sans-serif">${t}</span>`;
+  return `${p(h)}${u('h')}:${p(m)}${u('m')}:${p(ss)}${u('s')}`;
+}
+
+// ═══════════════════ PIN 1 ═══════════════════
+let pinBuf = "";
+function pinKey(d){if(pinBuf.length>=6)return;pinBuf+=d;updPinDots();if(pinBuf.length===6)setTimeout(checkPin,150);}
+function pinBksp(){pinBuf=pinBuf.slice(0,-1);updPinDots();}
+function pinClear(){pinBuf="";updPinDots();document.getElementById('pin-error').textContent="";}
+function updPinDots(){for(let i=0;i<6;i++)document.getElementById('pd'+i).classList.toggle('filled',i<pinBuf.length);}
+function checkPin(){
+  if(pinBuf===PIN1){
+    document.getElementById('pin-screen').style.display='none';
+    document.getElementById('admin-inner').classList.add('on');
+    document.getElementById('lock-btn').style.display='block';
+    S.adminOpen=true;
+    renderOpList();renderInsc();updateNocheLiderAdmin();renderContenidoAdmin();
+    guardar();
+  } else {
+    document.getElementById('pin-error').textContent="PIN incorrecto";
+    pinBuf="";updPinDots();
+    setTimeout(()=>document.getElementById('pin-error').textContent="",2000);
+  }
+}
+function lockAdmin(){
+  pinBuf="";updPinDots();
+  document.getElementById('pin-screen').style.display='block';
+  document.getElementById('admin-inner').classList.remove('on');
+  document.getElementById('lock-btn').style.display='none';
+  S.adminOpen=false;lockAdmin2();
+  if(S.tab==='admin')setTab('ranking');
+  guardar();
+}
+
+// ═══════════════════ PIN 2 ═══════════════════
+let pin2Buf = "";
+function pin2Key(d){if(pin2Buf.length>=8)return;pin2Buf+=d;updPin2Dots();if(pin2Buf.length===8)setTimeout(checkPin2,150);}
+function pin2Bksp(){pin2Buf=pin2Buf.slice(0,-1);updPin2Dots();}
+function pin2Clear(){pin2Buf="";updPin2Dots();document.getElementById('pin2-error').textContent="";}
+function updPin2Dots(){for(let i=0;i<8;i++)document.getElementById('p2d'+i).classList.toggle('filled',i<pin2Buf.length);}
+function checkPin2(){
+  if(pin2Buf===PIN2){
+    document.getElementById('admin2-locked').classList.add('hide');
+    document.getElementById('admin2-content').classList.add('on');
+    S.admin2Open=true;renderAdmin2();guardar();
+  } else {
+    document.getElementById('pin2-error').textContent="PIN incorrecto";
+    pin2Buf="";updPin2Dots();
+    setTimeout(()=>document.getElementById('pin2-error').textContent="",2000);
+  }
+}
+function lockAdmin2(){
+  pin2Buf="";updPin2Dots();
+  document.getElementById('admin2-locked').classList.remove('hide');
+  document.getElementById('admin2-content').classList.remove('on');
+  S.admin2Open=false;guardar();
+}
+
+// ═══════════════════ TABS ═══════════════════
+function setTab(t){
+  S.tab=t;
+  ['ranking','info','admin'].forEach(x=>{
+    const tb=document.getElementById('tab-'+x);
+    const pn=document.getElementById('panel-'+x);
+    if(tb)tb.classList.toggle('on',x===t);
+    if(pn)pn.classList.toggle('on',x===t);
+  });
+  if(t==='ranking')renderRanking();
+  if(t==='admin'&&S.adminOpen){renderOpList();renderInsc();}
+  if(t==='info')renderInfoPanels();
+  guardar();
+}
+
+function setAdminTab(t){
+  S.adminTab=t;
+  ['op','contenido','hora','admin2','insc'].forEach(x=>{
+    const tb=document.getElementById('atab-'+x);
+    const pn=document.getElementById('apanel-'+x);
+    if(tb)tb.classList.toggle('on',x===t);
+    if(pn)pn.classList.toggle('on',x===t);
+  });
+  if(t==='hora'){renderNocheHist();updateNocheLiderAdmin();}
+  if(t==='contenido')renderContenidoAdmin();
+  if(t==='admin2'&&S.admin2Open)renderAdmin2();
+  guardar();
+}
+
+function setInfoTab(t){
+  ['mensajes','premios','func','proyecto'].forEach(x=>{
+    const tb=document.getElementById('itab-'+x);
+    const pn=document.getElementById('ipanel-'+x);
+    if(tb)tb.classList.toggle('on',x===t);
+    if(pn)pn.classList.toggle('on',x===t);
+  });
+  if(t==='premios')renderPremiosInfo();
+  if(t==='mensajes'){S.msgVisto=true;updateMsgBadge();guardar();renderMensajesPublic();}
+}
+
+function setPremiosTab(t){
+  ['general','noche'].forEach(x=>{
+    const tb=document.getElementById('ptab-'+x);
+    const pn=document.getElementById('ppanel-'+x);
+    if(tb)tb.classList.toggle('on',x===t);
+    if(pn)pn.classList.toggle('on',x===t);
+  });
+  if(t==='general')renderPremiosPodio();
+  if(t==='noche')renderNocheContenido();
+}
+
+// ═══════════════════ ACTIVAS ═══════════════════
+function getActivas(){return S.nombres.filter(p=>S.activas[p]&&p&&p.trim()!=='');}
+function toggleActiva(p){S.activas[p]=!S.activas[p];renderAll();showToast(p,S.activas[p]?'✅ Inscrita':'❌ Baja',S.activas[p]?'#27AE60':'#CC1A1A');guardar();}
+function toggleActivaIdx(i){
+  const p=S.nombres[i];
+  if(!p||!p.trim()){showToast('Sin nombre','Edita el nombre antes','#FF7A00');return;}
+  S.activas[p]=!S.activas[p];renderAll();
+  showToast(p,S.activas[p]?'✅ Inscrita':'❌ Baja',S.activas[p]?'#27AE60':'#CC1A1A');guardar();
+}
+function bulkToggle(v){S.nombres.forEach(p=>{if(p&&p.trim())S.activas[p]=v;});renderAll();guardar();}
+
+// ═══════════════════ TOGGLES ═══════════════════
+function toggleNocheVisible(){
+  S.nocheVisible=!S.nocheVisible;
+  document.getElementById('tog-noche').classList.toggle('on',S.nocheVisible);
+  renderRanking();showToast('Ganador de la Noche',S.nocheVisible?'Visible':'Oculto',S.nocheVisible?'#27AE60':'#FF7A00');guardar();
+}
+function toggleChupitoDia(){
+  S.chupitoDia.activo=!S.chupitoDia.activo;
+  document.getElementById('tog-chupito').classList.toggle('on',S.chupitoDia.activo);
+  applyChupitoDia();guardar();
+}
+function updateChupitoDia(){
+  S.chupitoDia.nombre=document.getElementById('chupito-input').value;
+  applyChupitoDia();guardar();
+}
+function applyChupitoDia(){
+  const bar=document.getElementById('chupito-bar');
+  const nom=document.getElementById('chupito-nombre');
+  if(S.chupitoDia.activo&&S.chupitoDia.nombre){bar.classList.add('on');nom.textContent=S.chupitoDia.nombre;}
+  else bar.classList.remove('on');
+}
+
+// ═══════════════════ HORA DOBLE ═══════════════════
+function toggleHoraManual(){S.hora=!S.hora;S.horaAuto=false;applyHoraState();guardar();}
+function activarHoraAuto(){
+  S.hora=false;
+  S.horaAuto=true;
+  applyHoraState();
+  showToast('Hora Doble','⏱ Programada · se activará a las '+S.horaInicio,'#FF7A00');
+  guardar();
+}
+function applyHoraState(){
+  const btn=document.getElementById('btn-hora-toggle');
+  const banner=document.getElementById('hora-banner');
+  const sbox=document.getElementById('hora-status-box');
+  if(S.hora){
+    if(btn){btn.classList.add('on');btn.textContent='🔥 Desactivar';}
+    if(banner)banner.classList.add('on');
+    if(sbox){sbox.classList.add('on');sbox.textContent='🔥 ACTIVA — puntos ×2 · BONO +15 fijos';}
+    playBeep();
+  } else {
+    if(btn){btn.classList.remove('on');btn.textContent='Activar Hora Doble';}
+    if(banner)banner.classList.remove('on');
+    if(sbox){sbox.classList.remove('on');sbox.textContent='Estado: Desactivada';}
+  }
+  if(document.getElementById('np-overlay').classList.contains('on'))updNpHora();
+  renderCountdown();
+}
+function updateHoraSchedule(){
+  S.horaInicio=document.getElementById('hora-inicio').value;
+  S.horaFin=document.getElementById('hora-fin').value;
+  renderCountdown();guardar();
+}
+function parseTime(t){const[h,m]=t.split(':').map(Number);return h*60+m;}
+function nowMins(){const n=new Date();return n.getHours()*60+n.getMinutes();}
+function renderCountdown(){
+  const now=new Date();
+  const nowS=now.getHours()*3600+now.getMinutes()*60+now.getSeconds();
+  const iniS=parseTime(S.horaInicio)*60,finS=parseTime(S.horaFin)*60;
+  const cdTime=document.getElementById('cd-time'),cdSched=document.getElementById('cd-schedule');
+  if(!cdTime)return;
+  const sched=`<strong>${S.horaInicio}</strong> – <strong>${S.horaFin}</strong>`;
+  if(S.hora){
+    const left=finS-nowS;
+    if(left>0){cdTime.innerHTML=fmtCD(left);cdTime.className='cd-time active';cdSched.innerHTML=`🔥 Activa · termina ${S.horaFin}`;}
+    else{cdTime.innerHTML=fmtCD(0);cdTime.className='cd-time';cdSched.innerHTML='Hora Doble terminada';}
+  } else {
+    const left2=iniS-nowS;
+    if(left2>0){cdTime.innerHTML=fmtCD(left2);cdTime.className='cd-time';cdSched.innerHTML=`Próxima Hora Doble: ${sched}`;}
+    else if(nowS>=iniS&&nowS<finS){cdTime.innerHTML='¡AHORA!';cdTime.className='cd-time active';cdSched.innerHTML=`Hora Doble: ${sched}`;}
+    else{cdTime.innerHTML='--h:--m:--s';cdTime.className='cd-time';cdSched.innerHTML=`Hora Doble: ${sched}`;}
+  }
+}
+setInterval(()=>{renderCountdown();checkAutoHora();},1000);
+function checkAutoHora(){
+  if(!S.horaAuto)return;
+  const ini=parseTime(S.horaInicio),fin=parseTime(S.horaFin),now=nowMins();
+  if(now>=ini&&now<fin&&!S.hora){S.hora=true;applyHoraState();guardar();}
+  if(now>=fin&&S.hora&&S.horaAuto){S.hora=false;S.horaAuto=false;applyHoraState();guardar();}
+}
+function playBeep(){
+  try{const ctx=new(window.AudioContext||window.webkitAudioContext)();[440,550,660].forEach((f,i)=>{const o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.frequency.value=f;g.gain.value=.15;o.start(ctx.currentTime+i*.12);o.stop(ctx.currentTime+i*.12+.1);});}catch(e){}
+}
+
+window._lastFirebaseUpdate = Date.now();
+
+// ═══════════════════ NUMPAD ═══════════════════
+let npPeña=null,npVal="";
+function openNp(p){npPeña=p;npVal="";document.getElementById('np-peña').textContent=p;document.getElementById('np-gen').textContent=S.general[p]||0;document.getElementById('np-noche').textContent=S.noche[p]||0;updNpDisp();updNpHora();document.getElementById('np-overlay').classList.add('on');}
+function closeNp(){document.getElementById('np-overlay').classList.remove('on');npPeña=null;npVal="";}
+function nk(d){if(npVal.length>=4)return;npVal+=d;updNpDisp();}
+function nkC(){npVal="";updNpDisp();}
+function nkBk(){npVal=npVal.slice(0,-1);updNpDisp();}
+function nkBono(){applyOp('bono');}
+function updNpDisp(){const el=document.getElementById('np-disp');if(!npVal){el.textContent="0";el.classList.add('empty');}else{el.textContent=npVal;el.classList.remove('empty');}}
+function updNpHora(){document.getElementById('np-hora-badge').textContent=S.hora?'🔥 HORA DOBLE activa — puntos manuales ×2':'';}
+function doSumar(){applyOp('sumar');}
+function doRestar(sub){applyOp('restar',sub);}
+
+function applyOp(tipo,sub){
+  if(!npPeña)return;
+  const rawPts=tipo==='bono'?15:(parseInt(npVal)||0);
+  if(rawPts===0&&tipo!=='bono'){closeNp();return;}
+  const pts=(tipo!=='bono'&&S.hora)?rawPts*2:rawPts;
+  savePrevRank();
+  if(tipo==='restar'){
+    if(sub==='bono'){
+      S.general[npPeña]=Math.max(0,S.general[npPeña]-15);S.noche[npPeña]=Math.max(0,S.noche[npPeña]-15);S.bonosHoy=Math.max(0,S.bonosHoy-1);
+      S.lastOp[npPeña]={label:'−15🎫',tipo:'neg'};setLastOp(npPeña,'−15 pts · Bono anulado','err');showToast(npPeña,'Bono anulado','#CC1A1A');
+    } else {
+      S.general[npPeña]=Math.max(0,S.general[npPeña]-pts);S.noche[npPeña]=Math.max(0,S.noche[npPeña]-pts);S.chupSueltosHoy=Math.max(0,S.chupSueltosHoy-rawPts);
+      S.lastOp[npPeña]={label:`−${pts}`,tipo:'neg'};setLastOp(npPeña,`−${pts} pts · corrección`,'err');showToast(npPeña,`−${pts} pts corrección`,'#CC1A1A');
+    }
+  } else if(tipo==='bono'){
+    S.general[npPeña]+=15;S.noche[npPeña]+=15;S.bonosHoy+=1;
+    S.lastOp[npPeña]={label:'+15🎫',tipo:'pos'};setLastOp(npPeña,'🎫 BONO +15 pts (25€)','ok');showToast(npPeña,'🎫 BONO +15 pts','#C9A84C');
+  } else {
+    S.general[npPeña]+=pts;S.noche[npPeña]+=pts;S.chupSueltosHoy+=rawPts;
+    const lbl=`+${pts}${S.hora?'🔥':''}`;
+    S.lastOp[npPeña]={label:lbl,tipo:'pos'};setLastOp(npPeña,`+${pts} pts${S.hora?' 🔥×2':''}`,'ok');showToast(npPeña,`+${pts} pts${S.hora?' 🔥×2':''}`, '#C9A84C');
+  }
+  closeNp();guardar();renderAll();
+}
+function setLastOp(p,msg,cls){const el=document.getElementById('op-last');if(el){el.className='op-last '+cls;el.innerHTML=`Última: <strong>${p}</strong> · ${msg}`;}}
+
+// ═══════════════════ NOCHE ═══════════════════
+function confirmResetNoche(){
+  const ranked=getRanked(S.noche);
+  const hay=ranked.length&&ranked[0][1]>0;
+  const msg=hay?`⚠️ HAY PUNTOS SIN GUARDAR\n\nLíder: ${ranked[0][0]} con ${ranked[0][1]} pts\n\n¿Reiniciar SIN guardar?`:'¿Reiniciar el marcador de la NOCHE?';
+  if(confirm(msg)){S.nombres.forEach(p=>S.noche[p]=0);renderAll();updateNocheLiderAdmin();showToast('NOCHE REINICIADA','','#FF7A00');guardar();}
+}
+function saveNocheWinner(){
+  const ranked=getRanked(S.noche);
+  if(!ranked.length||ranked[0][1]===0){showToast('Sin datos','No hay puntos de noche','#CC1A1A');return;}
+  const[name,pts]=ranked[0];
+  S.nocheHist.push({dia:getDiaLabel(),nombre:name,pts});
+  S.histGanadores.push({dia:getDiaLabel(),peña:name,pts:String(pts),premio:'',visible:false});
+  S.nombres.forEach(p=>S.noche[p]=0);
+  renderNocheHist();renderHistGanadoresAdmin();renderAll();updateNocheLiderAdmin();
+  showToast('Ganador guardado y noche reiniciada',`${name} · ${pts} pts`,'#27AE60');guardar();
+}
+function renderNocheHist(){
+  const el=document.getElementById('hist-list');if(!el)return;
+  if(!S.nocheHist.length){el.innerHTML='<div class="hist-empty">Sin ganadores aún</div>';return;}
+  el.innerHTML='';
+  [...S.nocheHist].reverse().forEach(h=>{el.innerHTML+=`<div class="hist-row"><div class="hist-day">${h.dia}</div><div class="hist-name">${h.nombre}</div><div class="hist-pts">${h.pts}</div></div>`;});
+}
+function updateNocheLiderAdmin(){
+  const ranked=getRanked(S.noche);
+  const el=document.getElementById('noche-lider-admin');
+  if(el)el.textContent=ranked.length&&ranked[0][1]>0?`${ranked[0][0]} · ${ranked[0][1]} pts`:'— Sin puntos aún';
+}
+
+// ═══════════════════ CONTENIDO ═══════════════════
+function savePremios(){
+  S.premios.oro=document.getElementById('premio-oro').value;
+  S.premios.plata=document.getElementById('premio-plata').value;
+  S.premios.bronce=document.getElementById('premio-bronce').value;
+  guardar();renderPremiosInfo();
+}
+function saveNocheContenido(){
+  S.nocheContenido.fecha=document.getElementById('noche-fecha-input').value;
+  S.nocheContenido.premio=document.getElementById('noche-premio-input').value;
+  guardar();
+}
+function renderContenidoAdmin(){
+  const tc=document.getElementById('tog-chupito');if(tc)tc.classList.toggle('on',S.chupitoDia.activo);
+  const ci=document.getElementById('chupito-input');if(ci)ci.value=S.chupitoDia.nombre||'';
+  const po=document.getElementById('premio-oro');if(po)po.value=S.premios.oro||'';
+  const pp=document.getElementById('premio-plata');if(pp)pp.value=S.premios.plata||'';
+  const pb=document.getElementById('premio-bronce');if(pb)pb.value=S.premios.bronce||'';
+  const nf=document.getElementById('noche-fecha-input');if(nf)nf.value=S.nocheContenido.fecha||'';
+  const np=document.getElementById('noche-premio-input');if(np)np.value=S.nocheContenido.premio||'';
+  renderHistGanadoresAdmin();renderMensajesAdmin();
+}
+
+// Historial ganadores con premio
+function renderHistGanadoresAdmin(){
+  const el=document.getElementById('hist-ganadores-admin');if(!el)return;
+  if(!S.histGanadores.length){el.innerHTML='<p style="font-size:.78rem;color:var(--muted);">Se crean automáticamente al guardar ganador en Hora/Noche</p>';return;}
+  el.innerHTML='';
+  S.histGanadores.forEach((g,i)=>{
+    const vis=!!g.visible;
+    el.innerHTML+=`<div class="hist-gan-admin-card" style="border-left:3px solid ${vis?'var(--green)':'var(--muted)'};">
+      <div class="hist-gan-hdr">
+        <span class="hist-gan-visible-lbl" style="color:${vis?'var(--green)':'var(--muted)'};">${vis?'✅ VISIBLE':'⛔ OCULTO'}</span>
+        <div style="display:flex;align-items:center;gap:7px;">
+          <span style="font-size:.73rem;color:var(--muted);">Visible S/N</span>
+          <button class="tog-sw ${vis?'on':''}" onclick="S.histGanadores[${i}].visible=!S.histGanadores[${i}].visible;guardar();renderHistGanadoresAdmin();renderHistGanadoresPublic();"></button>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:5px;">
+        <input class="admin-edit-field" style="margin:0" placeholder="Día" value="${g.dia||''}" oninput="S.histGanadores[${i}].dia=this.value;guardar();">
+        <input class="admin-edit-field" style="margin:0" placeholder="Peña" value="${g.peña||''}" oninput="S.histGanadores[${i}].peña=this.value;guardar();">
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:5px;">
+        <input class="admin-edit-field" style="margin:0" placeholder="Pts" value="${g.pts||''}" oninput="S.histGanadores[${i}].pts=this.value;guardar();">
+        <input class="admin-edit-field" style="margin:0" placeholder='Premio o "NOCHE SIN PREMIO"' value="${g.premio||''}" oninput="S.histGanadores[${i}].premio=this.value;guardar();renderHistGanadoresPublic();">
+      </div>
+      <button class="btn-sm btn-ghost" onclick="S.histGanadores.splice(${i},1);guardar();renderHistGanadoresAdmin();renderHistGanadoresPublic();">✕ Eliminar</button>
+    </div>`;
+  });
+}
+function addHistGanador(){S.histGanadores.push({dia:'',peña:'',pts:'',premio:'',visible:false});guardar();renderHistGanadoresAdmin();}
+
+// Mensajes admin
+function renderMensajesAdmin(){
+  const el=document.getElementById('mensajes-admin');if(!el)return;
+  if(!S.mensajes.length){el.innerHTML='<p style="font-size:.78rem;color:var(--muted);">Sin mensajes creados</p>';return;}
+  el.innerHTML='';
+  S.mensajes.forEach((m,i)=>{
+    el.innerHTML+=`<div class="msg-admin-card">
+      <div class="msg-admin-hdr">
+        <select class="msg-type-sel" onchange="S.mensajes[${i}].tipo=this.value;guardar();updateMsgBadge();">
+          <option value="info" ${m.tipo==='info'?'selected':''}>ℹ️ Informativo</option>
+          <option value="promo" ${m.tipo==='promo'?'selected':''}>🥃 Promoción</option>
+          <option value="urgente" ${m.tipo==='urgente'?'selected':''}>🔴 Urgente</option>
+        </select>
+        <div class="toggle-row" style="flex:1;padding:3px 7px;border:none;background:transparent;">
+          <span style="font-size:.76rem;color:var(--muted);">Activo</span>
+          <button class="tog-sw ${m.activo?'on':''}" onclick="S.mensajes[${i}].activo=!S.mensajes[${i}].activo;S.msgVisto=false;this.classList.toggle('on',S.mensajes[${i}].activo);guardar();updateMsgBadge();renderMensajesPublic();"></button>
+        </div>
+        <button class="btn-sm btn-ghost" onclick="S.mensajes.splice(${i},1);guardar();updateMsgBadge();renderMensajesAdmin();renderMensajesPublic();">✕</button>
+      </div>
+      <input class="admin-edit-field" placeholder="Título" value="${m.titulo||''}" oninput="S.mensajes[${i}].titulo=this.value;guardar();renderMensajesPublic();">
+      <textarea class="admin-edit-field" placeholder="Texto..." oninput="S.mensajes[${i}].cuerpo=this.value;guardar();renderMensajesPublic();">${m.cuerpo||''}</textarea>
+    </div>`;
+  });
+}
+function addMensaje(){S.mensajes.push({id:++S.msgLastId,titulo:'',cuerpo:'',tipo:'info',activo:false});guardar();renderMensajesAdmin();}
+
+// Mensajes público
+function renderMensajesPublic(){
+  const el=document.getElementById('msg-list-public');if(!el)return;
+  const activos=S.mensajes.filter(m=>m.activo);
+  if(!activos.length){el.innerHTML='<div class="msg-empty">No hay mensajes en este momento</div>';return;}
+  el.innerHTML='';
+  activos.forEach(m=>{
+    el.innerHTML+=`<div class="msg-card ${m.tipo}"><div class="msg-card-title">${m.titulo||'Mensaje'}</div><div class="msg-card-body">${m.cuerpo||''}</div></div>`;
+  });
+}
+function updateMsgBadge(){
+  const activos=S.mensajes.filter(m=>m.activo).length;
+  const badge=document.getElementById('msg-badge');
+  if(badge)badge.classList.toggle('on',activos>0&&!S.msgVisto);
+}
+
+// ═══════════════════ ADMIN 2 ═══════════════════
+function calcDia(d){
+  const cb=(d.bonos||0)*15,ct=(d.chupSueltos||0)+cb;
+  const es=(d.chupSueltos||0)*2,eb=(d.bonos||0)*25,et=es+eb;
+  return{chupSueltos:d.chupSueltos||0,bonos:d.bonos||0,cb,ct,es,eb,et};
+}
+function renderAdmin2(){
+  const h=calcDia({chupSueltos:S.chupSueltosHoy,bonos:S.bonosHoy});
+  const ids=[['a2-cs-hoy',h.chupSueltos],['a2-cb-hoy',h.cb],['a2-ct-hoy',h.ct],
+             ['a2-es-hoy',h.es+'€'],['a2-eb-hoy',h.eb+'€'],['a2-et-hoy',h.et+'€']];
+  ids.forEach(([id,v])=>{const e=document.getElementById(id);if(e)e.textContent=v;});
+  const tbody=document.getElementById('daily-tbody');if(!tbody)return;
+  tbody.innerHTML='';
+  S.histDias.forEach(d=>{
+    const c=calcDia(d);
+    tbody.innerHTML+=`<tr><td>${d.dia}</td><td class="num">${c.chupSueltos}</td><td class="num">${c.bonos}</td><td class="num">${c.cb}</td><td class="num">${c.ct}</td><td class="num">${c.es}€</td><td class="num">${c.eb}€</td><td class="num">${c.et}€</td></tr>`;
+  });
+  tbody.innerHTML+=`<tr class="today"><td>${S.diaActual} <em style="font-size:.68rem;color:var(--orange)">(hoy)</em></td><td class="num">${h.chupSueltos}</td><td class="num">${h.bonos}</td><td class="num">${h.cb}</td><td class="num">${h.ct}</td><td class="num">${h.es}€</td><td class="num">${h.eb}€</td><td class="num">${h.et}€</td></tr>`;
+  let tcs=h.chupSueltos,tb=h.bonos,tcb=h.cb,tct=h.ct,tes=h.es,teb=h.eb,tet=h.et;
+  S.histDias.forEach(d=>{const c=calcDia(d);tcs+=c.chupSueltos;tb+=c.bonos;tcb+=c.cb;tct+=c.ct;tes+=c.es;teb+=c.eb;tet+=c.et;});
+  const tots=[['a2-cs-tot',tcs],['a2-cb-tot',tcb],['a2-ct-tot',tct],
+              ['a2-es-tot',tes+'€'],['a2-eb-tot',teb+'€'],['a2-et-tot',tet+'€']];
+  tots.forEach(([id,v])=>{const e=document.getElementById(id);if(e)e.textContent=v;});
+}
+function cerrarDia(){
+  if(!confirm(`¿Cerrar el día "${S.diaActual}"?`))return;
+  S.histDias.push({dia:S.diaActual,chupSueltos:S.chupSueltosHoy,bonos:S.bonosHoy});
+  S.chupSueltosHoy=0;S.bonosHoy=0;S.diaActual=getDiaLabel();
+  renderAdmin2();showToast('Día cerrado','Contadores reiniciados','#27AE60');guardar();
+}
+function confirmResetTotal(){
+  if(!confirm('⚠️ RESET TOTAL: se borrarán TODOS los puntos y contadores.\n\n¿Estás seguro?'))return;
+  if(!confirm('Segunda confirmación: ¿Borrar TODO y empezar desde cero?'))return;
+  NOMBRES_DEFAULT.forEach(p=>{if(p){S.general[p]=0;S.noche[p]=0;}});
+  S.lastOp={};S.chupSueltosHoy=0;S.bonosHoy=0;
+  S.histDias=[];S.nocheHist=[];S.prevRank={};
+  S.diaActual=getDiaLabel();
+  guardar();renderAll();if(S.admin2Open)renderAdmin2();
+  showToast('RESET TOTAL','Sistema reiniciado a cero','#FF7A00');
+}
+function exportarDatos(){
+  const h=calcDia({chupSueltos:S.chupSueltosHoy,bonos:S.bonosHoy});
+  const now=new Date();
+  const fecha=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  const hora=`${String(now.getHours()).padStart(2,'0')}h${String(now.getMinutes()).padStart(2,'0')}m`;
+  const data={generado:now.toISOString(),feria:'San Juan 2026 · Los Corrales de Buelna',estadoCompleto:S,histDias:S.histDias.map(d=>({...d,...calcDia(d)})),diaActual:{dia:S.diaActual,...h},nocheHist:S.nocheHist,histGanadores:S.histGanadores};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`chupialquimiometro_${fecha}_${hora}.json`;a.click();
+}
+function importarDatos(){
+  const input=document.createElement('input');input.type='file';input.accept='.json';
+  input.onchange=function(e){
+    const file=e.target.files[0];if(!file)return;
+    const reader=new FileReader();
+    reader.onload=function(ev){
+      try{
+        const data=JSON.parse(ev.target.result);
+        const ec=data.estadoCompleto||data;
+        Object.assign(S,ec);S.adminOpen=true;
+        NOMBRES_DEFAULT.forEach(p=>{if(p){if(S.general[p]===undefined)S.general[p]=0;if(S.noche[p]===undefined)S.noche[p]=0;if(S.activas[p]===undefined)S.activas[p]=false;}});
+        guardar();renderAll();applyChupitoDia();applyHoraState();updateMsgBadge();
+        showToast('✅ Importación completa','Datos restaurados','#27AE60');
+      }catch(err){showToast('Error al importar','Archivo inválido','#CC1A1A');}
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+// ═══════════════════ RANKING ═══════════════════
+function savePrevRank(){
+  const act=getActivas().sort((a,b)=>S.general[b]-S.general[a]);
+  S.prevRank={};act.forEach((n,i)=>S.prevRank[n]=i+1);
+}
+function getRanked(obj){return getActivas().map(p=>[p,obj[p]||0]).sort((a,b)=>b[1]-a[1]);}
+
+function renderRanking(){renderGeneral();renderNocheBox();}
+
+function renderGeneral(){
+  const box=document.getElementById('box-general');if(!box)return;
+  const ranked=getRanked(S.general);
+  const act=getActivas();
+  box.innerHTML=`<div class="panel-box-hdr"><div class="panel-box-title">🏆 Clasificación General</div><div class="panel-box-sub">${act.length} peñas</div></div>`;
+  if(!act.length){box.innerHTML+=`<div class="empty"><div class="ei">📋</div><p>Activa peñas en Admin → Insc.</p></div>`;return;}
+  // PODIO
+  const top3=ranked.slice(0,3);
+  if(top3.some(([,v])=>v>0)){
+    const order=[top3[1],top3[0],top3[2]],cls=['p2','p1','p3'],crowns=['🥈','🥇','🥉'],nums=['2','1','3'];
+    let h='<div class="podio">';
+    order.forEach((item,i)=>{if(!item)return;const[n,p]=item;const sh=n.length>16?n.slice(0,16)+'…':n;h+=`<div class="pi ${cls[i]}"><div class="pi-crown">${crowns[i]}</div><div class="pi-name">${sh}</div><div class="pi-pts">${p}</div><div class="pi-lbl">pts</div><div class="pi-block">${nums[i]}</div></div>`;});
+    h+='</div>';
+    // Diferencias
+    const p1=ranked[0]?ranked[0][1]:0,p2=ranked[1]?ranked[1][1]:0,p3=ranked[2]?ranked[2][1]:0,p4=ranked[3]?ranked[3][1]:0;
+    let gaps='<div class="gap-row">';
+    if(ranked[0])gaps+=`<div class="gap-item">1º→2º: <strong>+${p1-p2}</strong></div>`;
+    if(ranked[1])gaps+=`<div class="gap-item">2º→3º: <strong>+${p2-p3}</strong></div>`;
+    if(ranked[3])gaps+=`<div class="gap-item fourth">4º al podio: <strong>${p3-p4}</strong></div>`;
+    gaps+='</div>';
+    box.innerHTML+=h+gaps;
+  }
+  box.innerHTML+=`<div class="section-lbl">Ranking en vivo</div><div class="rlist">`;
+  ranked.forEach(([n,p],i)=>{
+    const pos=i+1,rc=pos<=3?`r${pos}`:'';
+    const prev=S.prevRank[n];
+    let chg='<span class="rchg eq">—</span>';
+    if(prev&&prev!==pos){const d=prev-pos;chg=d>0?`<span class="rchg up">▲${d}</span>`:`<span class="rchg dn">▼${Math.abs(d)}</span>`;}
+    const op=S.lastOp[n];
+    const opHtml=op?`<span class="rop ${op.tipo}">${op.label}</span>`:`<span class="rop empty">—</span>`;
+    box.innerHTML+=`<div class="rrow ${rc}"><div class="rn">${pos}</div><div class="rname">${n}</div><div class="rpts-wrap"><div class="rpts">${p}</div><div class="rpts-lbl">pts</div></div>${opHtml}${chg}</div>`;
+  });
+  box.innerHTML+='</div>';
+}
+
+function renderNocheBox(){
+  const box=document.getElementById('box-noche');if(!box)return;
+  const ranked=getRanked(S.noche);
+  box.innerHTML=`<div class="panel-box-hdr"><div class="panel-box-title">🌙 Ganador de la Noche</div><div class="panel-box-sub">${S.nocheVisible?'activo':'oculto'}</div></div>`;
+  if(!getActivas().length){box.innerHTML+=`<div class="empty"><div class="ei">🌙</div><p>Sin peñas inscritas</p></div>`;return;}
+  if(!S.nocheVisible){
+    box.innerHTML+=`<div class="noche-off-msg">🌙 Premio de noche no activo esta jornada</div>`;
+    return;
+  }
+  const lider=ranked.find(([,v])=>v>0);
+  box.innerHTML+=`<div class="noche-leader">${lider?`<div class="nl-crown">🥇</div><div class="nl-label">Líder de la noche</div><div class="nl-name">${lider[0].length>20?lider[0].slice(0,20)+'…':lider[0]}</div><div class="nl-pts">${lider[1]}</div><div class="nl-pts-lbl">pts noche</div>`:'<div class="nl-empty">🌙<br>¡Que empiece la noche!</div>'}</div>`;
+  box.innerHTML+=`<div class="section-lbl">Ranking de noche</div><div class="rlist">`;
+  ranked.forEach(([n,p],i)=>{const pos=i+1,rc=pos<=3?`r${pos}`:'';box.innerHTML+=`<div class="rrow rrow-n ${rc}"><div class="rn">${pos}</div><div class="rname">${n}</div><div class="rpts-wrap"><div class="rpts">${p}</div><div class="rpts-lbl">pts</div></div></div>`;});
+  box.innerHTML+='</div>';
+}
+
+// ═══════════════════ OP LIST ═══════════════════
+function renderOpList(){
+  const el=document.getElementById('op-list');if(!el)return;
+  const act=getActivas().sort((a,b)=>S.general[b]-S.general[a]);
+  if(!act.length){el.innerHTML='<p style="color:var(--muted);font-size:.82rem;padding:8px;">No hay peñas inscritas</p>';return;}
+  el.innerHTML='';
+  act.forEach((p,i)=>{
+    const row=document.createElement('div');row.className='op-row';
+    row.innerHTML=`<div><span style="font-family:Bebas Neue,sans-serif;font-size:.88rem;color:var(--muted)">${i+1}.</span> <span class="op-row-name">${p}</span></div><div class="op-row-pts"><div class="op-row-gen">${S.general[p]||0}</div><div class="op-row-lbl">gral</div></div><div class="op-row-pts"><div class="op-row-noche">${S.noche[p]||0}</div><div class="op-row-lbl">noche</div></div>`;
+    row.onclick=()=>openNp(p);el.appendChild(row);
+  });
+}
+
+// ═══════════════════ INSCRIPCIONES ═══════════════════
+function renderInsc(){
+  const grid=document.getElementById('insc-grid');if(!grid)return;
+  grid.innerHTML='';
+  S.nombres.forEach((p,i)=>{
+    if(i===27){const sep=document.createElement('div');sep.style.cssText='grid-column:1/-1;padding:8px 0 3px;font-family:Bebas Neue,sans-serif;font-size:.82rem;letter-spacing:.15em;color:var(--orange);border-top:1px solid var(--border);margin-top:5px;';sep.textContent='— 13 PLAZAS ADICIONALES —';grid.appendChild(sep);}
+    const named=p&&p.trim()!=='';
+    const on=named&&!!S.activas[p];
+    const esExtra=i>=27;
+    const card=document.createElement('div');card.className='insc-card '+(on?'on':'off');
+    const dn=named?p:('Plaza extra '+(i-26));
+    card.innerHTML='<div class="insc-n" style="'+(esExtra?'color:var(--orange)':'')+'">'+String(i+1).padStart(2,'0')+'</div><div class="insc-name-wrap"><div class="insc-name-txt" id="int-'+i+'" style="'+((!named)?'color:var(--muted);font-style:italic;':'')+'">'+dn+'</div><input class="insc-name-input" id="ini-'+i+'" value="'+p.replace(/"/g,'&quot;')+'" onkeydown="inpKey(event,'+i+')" placeholder="Nombre de la peña..."></div><div class="insc-actions"><button class="btn-edit" id="ibe-'+i+'" onclick="toggleEdit('+i+')">✏️</button><button class="toggle-sw'+(on?' on':'')+'" onclick="toggleActivaIdx('+i+')"></button></div>';
+    grid.appendChild(card);
+  });
+  const el=document.getElementById('insc-cnt');if(el)el.textContent=getActivas().length+'/40';
+}
+function toggleEdit(i){
+  const txt=document.getElementById('int-'+i),inp=document.getElementById('ini-'+i),btn=document.getElementById('ibe-'+i);
+  if(inp.style.display==='block'){saveName(i);return;}
+  txt.style.display='none';inp.style.display='block';inp.focus();inp.select();btn.textContent='💾';btn.classList.add('saving');
+}
+function saveName(i){
+  const txt=document.getElementById('int-'+i),inp=document.getElementById('ini-'+i),btn=document.getElementById('ibe-'+i);
+  const old=S.nombres[i],nw=inp.value.trim()||old;
+  if(nw!==old&&nw){
+    S.general[nw]=S.general[old]||0;S.noche[nw]=S.noche[old]||0;S.activas[nw]=S.activas[old]||false;S.lastOp[nw]=S.lastOp[old];
+    delete S.general[old];delete S.noche[old];delete S.activas[old];delete S.lastOp[old];
+    S.nombres[i]=nw;showToast(old,'→ '+nw,'#C9A84C');
+  }
+  txt.textContent=S.nombres[i];inp.value=S.nombres[i];txt.style.display='block';inp.style.display='none';btn.textContent='✏️';btn.classList.remove('saving');
+  renderAll();guardar();
+}
+function inpKey(e,i){
+  if(e.key==='Enter')saveName(i);
+  if(e.key==='Escape'){const txt=document.getElementById('int-'+i),inp=document.getElementById('ini-'+i),btn=document.getElementById('ibe-'+i);inp.value=S.nombres[i];txt.style.display='block';inp.style.display='none';btn.textContent='✏️';btn.classList.remove('saving');}
+}
+
+// ═══════════════════ INFO PANELS ═══════════════════
+function renderInfoPanels(){renderMensajesPublic();renderPremiosInfo();}
+function renderPremiosInfo(){renderPremiosPodio();renderNocheContenido();renderHistGanadoresPublic();}
+
+function renderPremiosPodio(){
+  const box=document.getElementById('premios-podio-box');if(!box)return;
+  const ranked=getRanked(S.general);
+  box.innerHTML=`<div class="panel-box-hdr"><div class="panel-box-title">🏆 Podio actual</div><div class="panel-box-sub">En tiempo real</div></div>`;
+  if(!getActivas().length||!ranked.some(([,v])=>v>0)){box.innerHTML+=`<div class="empty" style="padding:16px;"><p>Sin puntos aún</p></div>`;return;}
+  const top3=ranked.slice(0,3);
+  const order=[top3[1],top3[0],top3[2]],cls=['p2','p1','p3'],crowns=['🥈','🥇','🥉'],nums=['2','1','3'];
+  let h='<div class="podio" style="padding:10px 8px 0;">';
+  order.forEach((item,i)=>{if(!item)return;const[n,p]=item;const sh=n.length>14?n.slice(0,14)+'…':n;h+=`<div class="pi ${cls[i]}"><div class="pi-crown">${crowns[i]}</div><div class="pi-name">${sh}</div><div class="pi-pts">${p}</div><div class="pi-lbl">pts</div><div class="pi-block">${nums[i]}</div></div>`;});
+  h+='</div>';
+  const p1=ranked[0]?ranked[0][1]:0,p2=ranked[1]?ranked[1][1]:0,p3=ranked[2]?ranked[2][1]:0,p4=ranked[3]?ranked[3][1]:0;
+  let gaps='<div class="gap-row" style="padding:7px 10px 10px;">';
+  if(ranked[0])gaps+=`<div class="gap-item">1º→2º: <strong>+${p1-p2}</strong></div>`;
+  if(ranked[1])gaps+=`<div class="gap-item">2º→3º: <strong>+${p2-p3}</strong></div>`;
+  if(ranked[3])gaps+=`<div class="gap-item fourth">4º al podio: <strong>${p3-p4}</strong></div>`;
+  gaps+='</div>';
+  box.innerHTML+=h+gaps;
+  const pc=document.getElementById('premios-general-content');if(!pc)return;
+  pc.innerHTML='<h3>Premios</h3>';
+  [{icon:'🥇',t:'Primer Premio',d:S.premios.oro},{icon:'🥈',t:'Segundo Premio',d:S.premios.plata},{icon:'🥉',t:'Tercer Premio',d:S.premios.bronce}].forEach(item=>{
+    pc.innerHTML+=`<div class="premio-item"><div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;"><span class="premio-icon">${item.icon}</span><span class="premio-title">${item.t}</span></div><div class="premio-desc">${item.d||'Premio por confirmar'}</div></div>`;
+  });
+}
+function renderNocheContenido(){
+  const box=document.getElementById('noche-proxima-box');if(!box)return;
+  box.innerHTML=`<div class="noche-proxima-lbl">Próxima noche con premio</div><div class="noche-proxima-fecha">${S.nocheContenido.fecha||'Por confirmar'}</div><div class="noche-proxima-premio">${S.nocheContenido.premio||'Premio por confirmar'}</div>`;
+}
+function renderHistGanadoresPublic(){
+  const el=document.getElementById('hist-ganadores-list');if(!el)return;
+  const vis=S.histGanadores.filter(g=>g.visible);
+  if(!vis.length){el.innerHTML='<p style="font-size:.82rem;color:var(--muted);">Sin resultados publicados aún</p>';return;}
+  el.innerHTML='';
+  [...vis].reverse().forEach(g=>{
+    const sp=g.premio&&g.premio.toUpperCase().includes('SIN PREMIO');
+    el.innerHTML+=`<div class="hist-gan-row" style="${sp?'opacity:.6':''}"><div class="hist-gan-dia">${g.dia||'—'}</div><div><strong>${g.peña||'—'}</strong><br><span style="font-size:.76rem;color:${sp?'var(--muted)':'var(--gold)'};">${g.premio||'Premio pendiente'}</span></div><div class="hist-gan-pts" style="${sp?'color:var(--muted)':''}">${sp?'—':g.pts||'—'}</div></div>`;
+  });
+}
+
+// ═══════════════════ RENDER ALL ═══════════════════
+function renderAll(){
+  renderRanking();
+  if(S.adminOpen){renderOpList();renderInsc();updateNocheLiderAdmin();if(S.admin2Open)renderAdmin2();}
+  if(S.tab==='info')renderInfoPanels();
+  const el=document.getElementById('insc-cnt');if(el)el.textContent=getActivas().length+'/40';
+  applyChupitoDia();updateMsgBadge();
+}
+
+// ═══════════════════ TOAST ═══════════════════
+let toastT=null;
+function showToast(name,msg,color='#C9A84C'){
+  const t=document.getElementById('toast');if(!t)return;
+  t.style.borderLeftColor=color;
+  document.getElementById('toast-name').textContent=name;
+  document.getElementById('toast-msg').textContent=msg?' · '+msg:'';
+  t.classList.add('on');if(toastT)clearTimeout(toastT);
+  toastT=setTimeout(()=>t.classList.remove('on'),3000);
+}
+
+document.getElementById('np-overlay').addEventListener('click',function(e){if(e.target===this)closeNp();});
+
+// ═══════════════════ INIT ═══════════════════
+initSplash();
+setTimeout(()=>{
+  const app=document.getElementById('app');
+  if(app&&app.style.display==='none') {
+    // Load Firebase before splash ends
+    fbCargar(true);
+  }
+}, 100);
+</script>
+</body>
+</html>
