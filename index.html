@@ -20,9 +20,9 @@
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
-.led-pequeño  { font-size: clamp(2rem,6vw,4rem); }
-.led-medio    { font-size: clamp(3rem,9vw,6rem); }
-.led-grande   { font-size: clamp(4.5rem,13vw,9rem); }
+.led-pequeño  { font-size: clamp(4rem,10vw,8rem); }
+.led-medio    { font-size: clamp(6rem,16vw,12rem); }
+.led-grande   { font-size: clamp(8rem,22vw,18rem); }
 #led-stage.arriba  { padding: 8vh 0 0; }
 #led-stage.centro  { padding: 0; }
 #led-stage.abajo   { padding: 0 0 8vh; }
@@ -374,11 +374,11 @@
 <div class="toast" id="toast"><span class="tn" id="toast-name"></span><span id="toast-msg"></span></div>
 
 <!-- LED MARQUEE OVERLAY -->
-<div id="led-overlay" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.92);flex-direction:column;align-items:center;justify-content:center;">
+<div id="led-overlay" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.60);flex-direction:column;align-items:center;justify-content:center;">
   <button onclick="cerrarLed()" style="position:absolute;top:16px;right:16px;background:rgba(180,0,0,.3);border:1px solid #cc0000;color:#ff4444;font-family:'Barlow Condensed',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:.1em;padding:7px 16px;border-radius:4px;cursor:pointer;text-transform:uppercase;z-index:10;">✕ Cerrar</button>
-  <div id="led-timer" style="position:absolute;top:18px;left:18px;font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#550000;letter-spacing:.12em;"></div>
+  <div id="led-timer" style="position:absolute;top:18px;left:18px;font-family:'Bebas Neue',sans-serif;font-size:1rem;color:rgba(255,255,255,.3);letter-spacing:.12em;"></div>
   <div id="led-stage" style="width:100%;overflow:hidden;position:relative;">
-    <div id="led-track" style="display:inline-block;white-space:nowrap;animation:ledScroll 18s linear infinite;padding-left:100%;font-family:'Bebas Neue',sans-serif;color:#ff1a1a;text-shadow:0 0 20px #ff0000,0 0 40px #cc0000,0 0 80px #880000;letter-spacing:.08em;line-height:1.1;"></div>
+    <div id="led-track" style="display:inline-block;white-space:nowrap;animation:ledScroll 18s linear infinite;padding-left:100%;font-family:'Bebas Neue',sans-serif;color:#ff1a1a;text-shadow:0 0 20px #ff0000,0 0 40px #cc0000,0 0 80px #880000;-webkit-text-stroke:1px rgba(255,255,255,.15);letter-spacing:.08em;line-height:1.1;"></div>
   </div>
 </div>
 
@@ -416,6 +416,16 @@ S.adminOpen=false;S.admin2Open=false;S.msgVisto=false;}
 cargarLocal();NOMBRES_DEFAULT.forEach(p=>{if(!p)return;if(S.general[p]===undefined)S.general[p]=0;if(S.noche[p]===undefined)S.noche[p]=0;if(S.activas[p]===undefined)S.activas[p]=false;});let _fbLastRemoteTime=0;async function fbGuardar(){try{S.updatedAt=Date.now();const toSave=Object.assign({},S);delete toSave.adminOpen;delete toSave.admin2Open;delete toSave.msgVisto;const payload={fields:{json:{stringValue:JSON.stringify(toSave)},updatedAt:{integerValue:String(S.updatedAt)}}};const res=await fetch(FB_URL,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});if(!res.ok)console.warn('Firebase save error:',res.status);else _fbLastRemoteTime=S.updatedAt;}catch(e){console.warn('Firebase save error:',e.message);}}
 async function fbCargar(force){try{const res=await fetch(FB_URL);if(!res.ok)return;const doc=await res.json();if(!doc.fields||!doc.fields.json)return;const remoteState=JSON.parse(doc.fields.json.stringValue);const remoteTime=remoteState.updatedAt||0;if(force||remoteTime>_fbLastRemoteTime){_fbLastRemoteTime=remoteTime;const wasAdmin=S.adminOpen;const wasAdmin2=S.admin2Open;const wasMsgVisto=S.msgVisto;Object.keys(remoteState).forEach(k=>{if(k!=='adminOpen'&&k!=='admin2Open'&&k!=='msgVisto')S[k]=remoteState[k];});S.adminOpen=wasAdmin;S.admin2Open=wasAdmin2;const prevMsgIds=new Set((S.mensajes||[]).filter(m=>m.activo).map(m=>m.id));const newMsgIds=new Set((remoteState.mensajes||[]).filter(m=>m.activo).map(m=>m.id));const hasNewMsgs=[...newMsgIds].some(id=>!prevMsgIds.has(id));S.msgVisto=wasMsgVisto&&!hasNewMsgs;S.admin2Open=wasAdmin2;NOMBRES_DEFAULT.forEach(p=>{if(!p)return;if(S.general[p]===undefined)S.general[p]=0;if(S.noche[p]===undefined)S.noche[p]=0;if(S.activas[p]===undefined)S.activas[p]=false;});window._lastFirebaseUpdate=Date.now();guardarLocal();console.log('✅ Firebase sync:',new Date(remoteTime).toLocaleTimeString());renderAll();applyChupitoDia();applyHoraState();updateMsgBadge();}}catch(e){console.warn('Firebase load error:',e.message);}}
 setInterval(()=>{fbCargar(false);},4000);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')fbCargar(false);});function guardar(){guardarLocal();if(S.adminOpen){fbGuardar();}}
+
+function applyLed(){var o=document.getElementById('led-overlay');if(!o)return;if(!S.led||!S.led.activo||!S.led.texto){o.style.display='none';if(window._ledTimer){clearInterval(window._ledTimer);window._ledTimer=null;}return;}o.style.display='flex';var tr=document.getElementById('led-track');if(tr){var txt=S.led.texto+'   ·   ';tr.textContent=txt+txt+txt+txt;tr.className='led-'+(S.led.tamaño||'grande');}var st=document.getElementById('led-stage');if(st)st.className=S.led.posicion||'centro';if(window._ledTimer)clearInterval(window._ledTimer);if(S.led.duracion>0){window._ledTimer=setInterval(function(){var elapsed=Math.floor((Date.now()-S.led.inicio)/1000);var left=Math.max(0,S.led.duracion-elapsed);var el=document.getElementById('led-timer');if(el)el.textContent=left>0?left+'s':'';if(left<=0)cerrarLed();},1000);}}
+
+function cerrarLed(){S.led.activo=false;var o=document.getElementById('led-overlay');if(o)o.style.display='none';if(window._ledTimer){clearInterval(window._ledTimer);window._ledTimer=null;}if(S.adminOpen)guardar();}
+
+function activarLed(){if(!S.led||!S.led.texto){showToast('Sin texto','Escribe un mensaje primero','#CC1A1A');return;}S.led.activo=true;S.led.inicio=Date.now();applyLed();guardar();showToast('📺 LED activado',S.led.texto.slice(0,30),'#CC1A1A');}
+
+function addLedMensaje(){var inp=document.getElementById('led-new-msg');if(!inp||!inp.value.trim())return;if(!S.led.mensajes)S.led.mensajes=[];S.led.mensajes.push(inp.value.trim());if(!S.led.texto)S.led.texto=inp.value.trim();inp.value='';guardar();renderLedAdmin();}
+
+
 function initSplash(){setTimeout(()=>{const sp=document.getElementById('splash');if(sp&&!sp.classList.contains('hide'))enterApp();},2500);}
 function enterApp(){const sp=document.getElementById('splash');const app=document.getElementById('app');if(sp)sp.classList.add('hide');if(app)app.style.display='block';renderAll();renderCountdown();applyHoraState();applyChupitoDia();updateMsgBadge();fbCargar(true);}
 function fmtCD(s){const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),ss=s%60;const p=n=>String(n).padStart(2,'0');const u=t=>`<span style="font-size:.58em;opacity:.6;font-family:Barlow Condensed,sans-serif">${t}</span>`;return`${p(h)}${u('h')}:${p(m)}${u('m')}:${p(ss)}${u('s')}`;}
@@ -531,10 +541,156 @@ function renderNocheContenido(){const box=document.getElementById('noche-proxima
 function renderHistGanadoresPublic(){const el=document.getElementById('hist-ganadores-list');if(!el)return;const vis=S.histGanadores.filter(g=>g.visible);if(!vis.length){el.innerHTML='<p style="font-size:.82rem;color:var(--muted);">Sin resultados publicados aún</p>';return;}
 el.innerHTML='';[...vis].reverse().forEach(g=>{const sp=g.premio&&g.premio.toUpperCase().includes('SIN PREMIO');el.innerHTML+=`<div class="hist-gan-row"style="${sp?'opacity:.6':''}"><div class="hist-gan-dia">${g.dia||'—'}</div><div><strong>${g.peña||'—'}</strong><br><span style="font-size:.76rem;color:${sp?'var(--muted)':'var(--gold)'};">${g.premio||'Premio pendiente'}</span></div><div class="hist-gan-pts"style="${sp?'color:var(--muted)':''}">${sp?'—':g.pts||'—'}</div></div>`;});}
 function renderAll(){renderRanking();if(S.adminOpen){renderOpList();renderInsc();updateNocheLiderAdmin();if(S.admin2Open)renderAdmin2();}
-if(S.tab==='info')renderInfoPanels();const el=document.getElementById('insc-cnt');if(el)el.textContent=getActivas().length+'/40';applyChupitoDia();updateMsgBadge();}
+if(S.tab==='info')renderInfoPanels();const el=document.getElementById('insc-cnt');if(el)el.textContent=getActivas().length+'/40';applyChupitoDia();updateMsgBadge();if(typeof applyLed==="function")applyLed();}
 let toastT=null;function showToast(name,msg,color='#C9A84C'){const t=document.getElementById('toast');if(!t)return;t.style.borderLeftColor=color;document.getElementById('toast-name').textContent=name;document.getElementById('toast-msg').textContent=msg?' · '+msg:'';t.classList.add('on');if(toastT)clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),3000);}
 document.getElementById('np-overlay').addEventListener('click',function(e){if(e.target===this)closeNp();});initSplash();setTimeout(()=>{const app=document.getElementById('app');if(app&&app.style.display==='none'){fbCargar(true);}},100);
 
 </script>
+
+<script>
+// LED Marquee Functions
+window._ledScheduleTimer = null;
+
+function checkLedSchedule(){
+  if(!S.led||!S.led.horaInicio||S.led.activo)return;
+  var now=new Date();
+  var parts=S.led.horaInicio.split(':');
+  if(parts.length<2)return;
+  var h=parseInt(parts[0]),m=parseInt(parts[1]);
+  if(now.getHours()===h&&now.getMinutes()===m&&now.getSeconds()<10){
+    activarLed();
+  }
+}
+
+// Check schedule every 5 seconds
+setInterval(checkLedSchedule, 5000);
+
+function applyLed(){
+  var o=document.getElementById('led-overlay');
+  if(!o)return;
+  if(!S.led||!S.led.activo||!S.led.texto){
+    o.style.display='none';
+    if(window._ledTimer){clearInterval(window._ledTimer);window._ledTimer=null;}
+    return;
+  }
+  o.style.display='flex';
+  var tr=document.getElementById('led-track');
+  if(tr){
+    var txt=S.led.texto+'   ·   ';
+    tr.textContent=txt+txt+txt+txt;
+    tr.className='led-'+(S.led.tamaño||'grande');
+  }
+  var st=document.getElementById('led-stage');
+  if(st)st.className=S.led.posicion||'centro';
+  if(window._ledTimer)clearInterval(window._ledTimer);
+  if(S.led.duracion>0){
+    window._ledTimer=setInterval(function(){
+      var elapsed=Math.floor((Date.now()-S.led.inicio)/1000);
+      var left=Math.max(0,S.led.duracion-elapsed);
+      var el=document.getElementById('led-timer');
+      if(el)el.textContent=left>0?left+'s':'';
+      if(left<=0)cerrarLed();
+    },1000);
+  }
+}
+
+function cerrarLed(){
+  if(S.led)S.led.activo=false;
+  var o=document.getElementById('led-overlay');
+  if(o)o.style.display='none';
+  if(window._ledTimer){clearInterval(window._ledTimer);window._ledTimer=null;}
+  if(S.adminOpen)guardar();
+}
+
+function activarLed(){
+  if(!S.led||!S.led.texto){showToast('Sin texto','Escribe un mensaje primero','#CC1A1A');return;}
+  S.led.activo=true;
+  S.led.inicio=Date.now();
+  applyLed();
+  guardar();
+  showToast('📺 LED activado',S.led.texto.slice(0,30),'#CC1A1A');
+}
+
+function addLedMensaje(){
+  var inp=document.getElementById('led-new-msg');
+  if(!inp||!inp.value.trim())return;
+  if(!S.led.mensajes)S.led.mensajes=[];
+  S.led.mensajes.push(inp.value.trim());
+  if(!S.led.texto)S.led.texto=inp.value.trim();
+  inp.value='';
+  guardar();
+  renderLedAdmin();
+}
+
+function renderLedAdmin(){
+  var el=document.getElementById('led-admin-panel');
+  if(!el)return;
+  if(!S.led)S.led={activo:false,texto:'',mensajes:[],tamaño:'grande',posicion:'centro',duracion:60,inicio:0};
+  var led=S.led;
+  var msjs=led.mensajes||[];
+
+  var out='';
+  out+='<div class="admin-section-title" style="margin-bottom:9px;">📺 Letrero LED</div>';
+
+  // Estado actual
+  out+='<div class="toggle-row" style="margin-bottom:9px;">';
+  out+='<div><div class="toggle-row-label">Activar ahora</div>';
+  out+='<div class="toggle-row-sub">'+(led.activo?'🔴 ACTIVO EN PANTALLA':'Desactivado')+'</div></div>';
+  out+='<button class="tog-sw '+(led.activo?'on':'')+'" onclick="if(S.led.activo){cerrarLed();}else{activarLed();}renderLedAdmin();"></button></div>';
+
+  // Programar hora
+  out+='<div style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:9px 11px;margin-bottom:9px;">';
+  out+='<div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;">⏱ Programar hora de inicio</div>';
+  out+='<div style="display:flex;align-items:center;gap:7px;">';
+  out+='<input type="time" class="admin-edit-field" style="margin:0;flex:1;font-family:Bebas Neue,sans-serif;font-size:1.3rem;" id="led-hora-input" value="'+(led.horaInicio||'')+'" onchange="S.led.horaInicio=this.value;guardar();">';
+  out+='<button class="btn-sm btn-gold" onclick="S.led.horaInicio=document.getElementById('led-hora-input').value;guardar();showToast('⏱ LED programado','Se activará a las '+S.led.horaInicio,'#C9A84C');renderLedAdmin();">Programar</button>';
+  out+='<button class="btn-sm btn-ghost" onclick="S.led.horaInicio='';guardar();renderLedAdmin();">✕</button></div>';
+  if(led.horaInicio){out+='<div style="font-size:.72rem;color:#C9A84C;margin-top:5px;letter-spacing:.06em;">⏰ Activación programada a las '+led.horaInicio+'</div>';}
+  out+='</div>';
+
+  // Mensaje activo
+  out+='<div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;">Mensaje activo</div>';
+  out+='<div style="background:var(--bg);border:1px solid '+(led.texto?'#CC1A1A':'var(--border)')+';border-radius:4px;padding:8px 11px;font-family:Bebas Neue,sans-serif;font-size:.95rem;color:'+(led.texto?'#ff4444':'var(--muted)')+';margin-bottom:9px;min-height:38px;">'+(led.texto||'Ninguno seleccionado')+'</div>';
+
+  // Lista mensajes
+  out+='<div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;">Mensajes guardados</div>';
+  for(var i=0;i<msjs.length;i++){
+    var sel=msjs[i]===led.texto;
+    out+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">';
+    out+='<div onclick="S.led.texto=S.led.mensajes['+i+'];guardar();renderLedAdmin();" style="flex:1;background:'+(sel?'rgba(204,26,26,.15)':'var(--bg3)')+';border:1px solid '+(sel?'#CC1A1A':'var(--border)')+';border-radius:4px;padding:6px 9px;font-size:.85rem;cursor:pointer;overflow:hidden;text-overflow:ellipsis;color:'+(sel?'#ff6666':'var(--text)')+';">'+msjs[i]+'</div>';
+    out+='<button class="btn-sm btn-ghost" onclick="S.led.mensajes.splice('+i+',1);if(S.led.texto===S.led.mensajes['+i+'])S.led.texto=\'\';guardar();renderLedAdmin();" style="flex-shrink:0;">✕</button></div>';
+  }
+
+  // Añadir mensaje
+  out+='<div style="display:flex;gap:6px;margin-top:6px;margin-bottom:11px;">';
+  out+='<input class="admin-edit-field" style="margin:0;flex:1;" id="led-new-msg" placeholder="Escribe un mensaje LED..." onkeydown="if(event.key===\'Enter\'){addLedMensaje();}">';
+  out+='<button class="btn-sm btn-gold" onclick="addLedMensaje()">+ Añadir</button></div>';
+
+  // Config
+  out+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:9px;">';
+  out+='<div><div style="font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;">Tamaño</div>';
+  out+='<select class="admin-edit-field" style="margin:0;" onchange="S.led.tamaño=this.value;guardar();applyLed();">';
+  out+='<option value="pequeño" '+(led.tamaño==='pequeño'?'selected':'')+'>Pequeño</option>';
+  out+='<option value="medio" '+(led.tamaño==='medio'?'selected':'')+'>Medio</option>';
+  out+='<option value="grande" '+(!led.tamaño||led.tamaño==='grande'?'selected':'')+'>Grande</option></select></div>';
+  out+='<div><div style="font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;">Posición</div>';
+  out+='<select class="admin-edit-field" style="margin:0;" onchange="S.led.posicion=this.value;guardar();applyLed();">';
+  out+='<option value="arriba" '+(led.posicion==='arriba'?'selected':'')+'>Arriba</option>';
+  out+='<option value="centro" '+(!led.posicion||led.posicion==='centro'?'selected':'')+'>Centro</option>';
+  out+='<option value="abajo" '+(led.posicion==='abajo'?'selected':'')+'>Abajo</option></select></div>';
+  out+='<div><div style="font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;">Duración</div>';
+  out+='<select class="admin-edit-field" style="margin:0;" onchange="S.led.duracion=Number(this.value);guardar();">';
+  out+='<option value="30" '+(led.duracion===30?'selected':'')+'>30 seg</option>';
+  out+='<option value="60" '+(led.duracion===60||!led.duracion?'selected':'')+'>1 min</option>';
+  out+='<option value="120" '+(led.duracion===120?'selected':'')+'>2 min</option>';
+  out+='<option value="300" '+(led.duracion===300?'selected':'')+'>5 min</option>';
+  out+='<option value="0" '+(led.duracion===0?'selected':'')+'>Sin límite</option></select></div></div>';
+
+  out+='<button class="btn-gold" style="width:100%;font-size:1rem;letter-spacing:.12em;padding:11px;" onclick="activarLed()">📺 ACTIVAR LETRERO LED</button>';
+
+  el.innerHTML=out;
+}
+</script>
+
 </body>
 </html>
