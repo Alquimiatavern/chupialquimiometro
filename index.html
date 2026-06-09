@@ -433,7 +433,7 @@ let pinBuf="";function pinKey(d){if(pinBuf.length>=6)return;pinBuf+=d;updPinDots
 function pinBksp(){pinBuf=pinBuf.slice(0,-1);updPinDots();}
 function pinClear(){pinBuf="";updPinDots();document.getElementById('pin-error').textContent="";}
 function updPinDots(){for(let i=0;i<6;i++)document.getElementById('pd'+i).classList.toggle('filled',i<pinBuf.length);}
-function checkPin(){if(pinBuf===PIN1){document.getElementById('pin-screen').style.display='none';document.getElementById('admin-inner').classList.add('on');document.getElementById('lock-btn').style.display='block';S.adminOpen=true;renderOpList();renderInsc();updateNocheLiderAdmin();renderContenidoAdmin();guardar();}else{document.getElementById('pin-error').textContent="PIN incorrecto";pinBuf="";updPinDots();setTimeout(()=>document.getElementById('pin-error').textContent="",2000);}}
+function checkPin(){if(pinBuf===PIN1){document.getElementById('pin-screen').style.display='none';document.getElementById('admin-inner').classList.add('on');document.getElementById('lock-btn').style.display='block';S.adminOpen=true;renderOpList();renderInsc();updateNocheLiderAdmin();renderContenidoAdmin();if(typeof renderLedAdmin==='function')renderLedAdmin();guardar();}else{document.getElementById('pin-error').textContent="PIN incorrecto";pinBuf="";updPinDots();setTimeout(()=>document.getElementById('pin-error').textContent="",2000);}}
 function lockAdmin(){pinBuf="";updPinDots();document.getElementById('pin-screen').style.display='block';document.getElementById('admin-inner').classList.remove('on');document.getElementById('lock-btn').style.display='none';S.adminOpen=false;lockAdmin2();if(S.tab==='admin')setTab('ranking');guardar();}
 let pin2Buf="";function pin2Key(d){if(pin2Buf.length>=8)return;pin2Buf+=d;updPin2Dots();if(pin2Buf.length===8)setTimeout(checkPin2,150);}
 function pin2Bksp(){pin2Buf=pin2Buf.slice(0,-1);updPin2Dots();}
@@ -445,7 +445,7 @@ function setTab(t){S.tab=t;['ranking','info','admin'].forEach(x=>{const tb=docum
 if(t==='info'){renderInfoPanels();const itabMsg=document.getElementById('itab-mensajes');if(itabMsg&&itabMsg.classList.contains('on')){S.msgVisto=true;updateMsgBadge();guardar();renderMensajesPublic();}}
 guardar();}
 function setAdminTab(t){S.adminTab=t;['op','contenido','hora','admin2','insc'].forEach(x=>{const tb=document.getElementById('atab-'+x);const pn=document.getElementById('apanel-'+x);if(tb)tb.classList.toggle('on',x===t);if(pn)pn.classList.toggle('on',x===t);});if(t==='hora'){renderNocheHist();updateNocheLiderAdmin();}
-if(t==='contenido')renderContenidoAdmin();if(t==='admin2'&&S.admin2Open)renderAdmin2();guardar();}
+if(t==='contenido'){renderContenidoAdmin();if(typeof renderLedAdmin==='function')renderLedAdmin();}if(t==='admin2'&&S.admin2Open)renderAdmin2();guardar();}
 function setInfoTab(t){['mensajes','premios','func','proyecto'].forEach(x=>{const tb=document.getElementById('itab-'+x);const pn=document.getElementById('ipanel-'+x);if(tb)tb.classList.toggle('on',x===t);if(pn)pn.classList.toggle('on',x===t);});if(t==='premios')renderPremiosInfo();if(t==='mensajes'){S.msgVisto=true;updateMsgBadge();guardar();renderMensajesPublic();}}
 function setPremiosTab(t){['general','noche'].forEach(x=>{const tb=document.getElementById('ptab-'+x);const pn=document.getElementById('ppanel-'+x);if(tb)tb.classList.toggle('on',x===t);if(pn)pn.classList.toggle('on',x===t);});if(t==='general')renderPremiosPodio();if(t==='noche')renderNocheContenido();}
 function getActivas(){return S.nombres.filter(p=>S.activas[p]&&p&&p.trim()!=='');}
