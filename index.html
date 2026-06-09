@@ -683,10 +683,8 @@ const top3=ranked.slice(0,3);const order=[top3[1],top3[0],top3[2]],cls=['p2','p1
 function renderNocheContenido(){const box=document.getElementById('noche-proxima-box');if(!box)return;box.innerHTML=`<div class="noche-proxima-lbl">Próxima noche con premio</div><div class="noche-proxima-fecha">${S.nocheContenido.fecha||'Por confirmar'}</div><div class="noche-proxima-premio">${S.nocheContenido.premio||'Premio por confirmar'}</div>`;}
 function renderHistGanadoresPublic(){const el=document.getElementById('hist-ganadores-list');if(!el)return;const vis=S.histGanadores.filter(g=>g.visible);if(!vis.length){el.innerHTML='<p style="font-size:.82rem;color:var(--muted);">Sin resultados publicados aún</p>';return;}
 el.innerHTML='';[...vis].reverse().forEach(g=>{const sp=g.premio&&g.premio.toUpperCase().includes('SIN PREMIO');el.innerHTML+=`<div class="hist-gan-row"style="${sp?'opacity:.6':''}"><div class="hist-gan-dia">${g.dia||'—'}</div><div><strong>${g.peña||'—'}</strong><br><span style="font-size:.76rem;color:${sp?'var(--muted)':'var(--gold)'};">${g.premio||'Premio pendiente'}</span></div><div class="hist-gan-pts"style="${sp?'color:var(--muted)':''}">${sp?'—':g.pts||'—'}</div></div>`;});}
-function renderAll(){renderRanking();if(S.adminOpen){renderOpList();renderInsc();updateNocheLiderAdmin();if(S.admin2Open)renderAdmin2();
-  if(typeof applyLed==="function")applyLed();
-}
-if(S.tab==='info')renderInfoPanels();const el=document.getElementById('insc-cnt');if(el)el.textContent=getActivas().length+'/40';applyChupitoDia();updateMsgBadge();}
+function renderAll(){renderRanking();if(S.adminOpen){renderOpList();renderInsc();updateNocheLiderAdmin();if(S.admin2Open)renderAdmin2();}
+if(S.tab==='info')renderInfoPanels();const el=document.getElementById('insc-cnt');if(el)el.textContent=getActivas().length+'/40';applyChupitoDia();updateMsgBadge();if(typeof applyLed==="function")applyLed();}
 let toastT=null;function showToast(name,msg,color='#C9A84C'){const t=document.getElementById('toast');if(!t)return;t.style.borderLeftColor=color;document.getElementById('toast-name').textContent=name;document.getElementById('toast-msg').textContent=msg?' · '+msg:'';t.classList.add('on');if(toastT)clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),3000);}
 document.getElementById('np-overlay').addEventListener('click',function(e){if(e.target===this)closeNp();});initSplash();setTimeout(()=>{const app=document.getElementById('app');if(app&&app.style.display==='none'){fbCargar(true);}},100);
 
