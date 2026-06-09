@@ -33,12 +33,12 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow Condensed',sans-
 /* HEADER */
 header{position:relative;text-align:center;padding:14px 12px 10px;background:linear-gradient(180deg,#111,var(--bg));border-bottom:1px solid #1f1f1f;}
 .header-inner{display:flex;align-items:center;justify-content:space-between;padding:0 12px;width:100%;box-sizing:border-box;}
-.header-brand{font-family:'Cinzel Decorative',serif;color:var(--gold);text-shadow:0 0 14px rgba(201,168,76,.5);text-align:center;min-width:110px;}
+.header-brand{font-family:'Cinzel Decorative',serif;color:var(--gold);text-shadow:0 0 14px rgba(201,168,76,.5);text-align:center;min-width:0;flex:1;}
 .brand-l1{font-size:clamp(1rem,2.4vw,1.6rem);letter-spacing:.22em;display:block;}
 .brand-sep{width:80%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:4px auto;}
 .brand-l2{font-size:clamp(.85rem,2vw,1.3rem);letter-spacing:.26em;color:var(--gold-b);display:block;}
-.header-center{text-align:center;}
-.header-center h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.6rem,5vw,3rem);letter-spacing:.06em;color:var(--text);text-shadow:0 0 30px rgba(201,168,76,.3);}
+.header-center{text-align:center;flex:2;min-width:0;}
+.header-center h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.2rem,5vw,3rem);letter-spacing:.04em;color:var(--text);text-shadow:0 0 30px rgba(201,168,76,.3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .header-center h1 em{font-style:normal;color:var(--gold);}
 .header-sub .line1{font-family:'Bebas Neue',sans-serif;font-size:clamp(.9rem,2.5vw,1.4rem);letter-spacing:.16em;color:var(--gold);}
 .header-sub .line2{font-size:clamp(.65rem,1.8vw,.85rem);letter-spacing:.2em;color:#666;text-transform:uppercase;}
@@ -81,6 +81,17 @@ header{position:relative;text-align:center;padding:14px 12px 10px;background:lin
 /* DUAL RANKING */
 .dual{display:grid;grid-template-columns:3fr 2fr;gap:12px;align-items:start;}
 @media(max-width:700px){.dual{grid-template-columns:1fr;}}
+@media(max-width:480px){
+  .header-inner{padding:0 6px;}
+  .brand-l1{font-size:.7rem;}
+  .brand-l2{font-size:.6rem;}
+  .header-sub .line1{font-size:.75rem;}
+  .header-sub .line2{font-size:.55rem;}
+  .header-center h1{font-size:clamp(1rem,4.5vw,1.8rem);}
+  .main{padding:5px;}
+  .tabs{font-size:.75rem;}
+  .tab{padding:8px 3px;font-size:.75rem;}
+}
 .panel-box{background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden;}
 .panel-box-hdr{padding:9px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;}
 .panel-box-title{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.12em;color:var(--gold);}
@@ -732,7 +743,13 @@ NOMBRES_DEFAULT.forEach(p => {
 
 // ═══════════════════ PERSISTENCIA LOCAL ═══════════════════
 function guardarLocal() {
-  try { localStorage.setItem('chupi_v9', JSON.stringify(S)); } catch(e) {}
+  try {
+    const toSave = Object.assign({}, S);
+    delete toSave.msgVisto; // session-only: reset on every page load
+    delete toSave.adminOpen;
+    delete toSave.admin2Open;
+    localStorage.setItem('chupi_v9', JSON.stringify(toSave));
+  } catch(e) {}
 }
 
 function cargarLocal() {
@@ -740,11 +757,12 @@ function cargarLocal() {
     const g = localStorage.getItem('chupi_v9');
     if (g) {
       const p = JSON.parse(g);
-      // Merge carefully - preserve structure
       Object.keys(p).forEach(k => { S[k] = p[k]; });
-      S.adminOpen = false; // never restore adminOpen
     }
   } catch(e) { console.warn('Local load error'); }
+  S.adminOpen = false;
+  S.admin2Open = false;
+  S.msgVisto = false;
 }
 
 cargarLocal();
@@ -801,15 +819,12 @@ async function fbCargar(force) {
       const wasAdmin = S.adminOpen;
       const wasAdmin2 = S.admin2Open;
       const wasMsgVisto = S.msgVisto;
-      const prevActiveMsgs = (S.mensajes||[]).filter(m=>m.activo).length;
       Object.keys(remoteState).forEach(k => {
         if (k !== 'adminOpen' && k !== 'admin2Open' && k !== 'msgVisto') S[k] = remoteState[k];
       });
       S.adminOpen = wasAdmin;
       S.admin2Open = wasAdmin2;
-      // Si hay más mensajes activos que antes, resetear msgVisto para que aparezca el badge
-      const newActiveMsgs = (S.mensajes||[]).filter(m=>m.activo).length;
-      S.msgVisto = wasMsgVisto && newActiveMsgs <= prevActiveMsgs;
+      S.msgVisto = wasMsgVisto; // session-only, never overwrite from Firebase
       S.admin2Open = wasAdmin2;
       // Ensure all slots exist
       NOMBRES_DEFAULT.forEach(p => {
