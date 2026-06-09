@@ -824,7 +824,12 @@ async function fbCargar(force) {
       });
       S.adminOpen = wasAdmin;
       S.admin2Open = wasAdmin2;
-      S.msgVisto = wasMsgVisto; // session-only, never overwrite from Firebase
+      // Badge logic: show if there are active messages not yet seen this session
+      // Reset if new messages appeared since last check
+      const prevMsgIds = new Set((S.mensajes||[]).filter(m=>m.activo).map(m=>m.id));
+      const newMsgIds = new Set((remoteState.mensajes||[]).filter(m=>m.activo).map(m=>m.id));
+      const hasNewMsgs = [...newMsgIds].some(id => !prevMsgIds.has(id));
+      S.msgVisto = wasMsgVisto && !hasNewMsgs;
       S.admin2Open = wasAdmin2;
       // Ensure all slots exist
       NOMBRES_DEFAULT.forEach(p => {
