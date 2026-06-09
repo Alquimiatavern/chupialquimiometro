@@ -435,6 +435,13 @@ function applyLed(){
   }
   const st=document.getElementById('led-stage');
   if(st)st.className=S.led.posicion||'centro';
+  // Move overlay alignment based on position
+  if(o){
+    const pos=S.led.posicion||'centro';
+    o.style.alignItems=pos==='arriba'?'flex-start':pos==='abajo'?'flex-end':'center';
+    o.style.paddingTop=pos==='arriba'?'8vh':'0';
+    o.style.paddingBottom=pos==='abajo'?'8vh':'0';
+  }
   if(window._ledTimer)clearInterval(window._ledTimer);
   if(S.led.duracion>0){
     window._ledTimer=setInterval(()=>{
