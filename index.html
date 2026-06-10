@@ -168,8 +168,7 @@
         <div class="admin-pin-sub">PIN de acceso</div>
         <div class="pin-dots" id="pin-dots">
           <div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div><div class="pin-dot" id="pd2"></div>
-          <div class="pin-dot" id="pd3"></div><div class="pin-dot" id="pd4"></div><div class="pin-dot" id="pd5"></div>
-          <div class="pin-dot" id="pd6"></div><div class="pin-dot" id="pd7"></div>
+          <div class="pin-dot" id="pd3"></div><div class="pin-dot" id="pd4"></div><div class="pin-dot" id="pd5"></div><div class="pin-dot" id="pd6"></div><div class="pin-dot" id="pd7"></div>
         </div>
         <div class="pin-keypad">
           <div class="pin-key" onclick="pinKey('1')">1</div><div class="pin-key" onclick="pinKey('2')">2</div><div class="pin-key" onclick="pinKey('3')">3</div>
@@ -288,7 +287,6 @@
                 <div class="pin-key" onclick="pin2Key('7')">7</div><div class="pin-key" onclick="pin2Key('8')">8</div><div class="pin-key" onclick="pin2Key('9')">9</div>
                 <div class="pin-key clr" onclick="pin2Clear()">C</div><div class="pin-key" onclick="pin2Key('0')">0</div><div class="pin-key clr" onclick="pin2Bksp()">⌫</div>
               </div>
-              <button onclick="checkPin2()" style="width:100%;margin-top:9px;background:linear-gradient(135deg,#1a5c2e,#27AE60);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.1em;border:none;border-radius:5px;padding:11px;cursor:pointer;">✓ ENTRAR</button>
               <div class="pin-error" id="pin2-error"></div>
             </div>
           </div>
@@ -332,24 +330,6 @@
                 <div class="admin-stat" style="border-color:var(--gold-d);"><div class="admin-stat-val" id="a2-et-tot">0€</div><div class="admin-stat-lbl">Total</div></div>
               </div>
             </div>
-            <div class="admin-section">
-              <div class="admin-section-title">🔐 Cambiar PINs</div>
-              <div style="margin-bottom:8px;">
-                <div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;">Nuevo PIN Admin (6 dígitos)</div>
-                <div style="display:flex;gap:7px;">
-                  <input class="admin-edit-field" style="margin:0;flex:1;" type="password" id="new-pin1" placeholder="Nuevo PIN Admin" maxlength="8" inputmode="numeric">
-                  <button class="btn-sm btn-gold" onclick="cambiarPin(1)">Cambiar</button>
-                </div>
-              </div>
-              <div>
-                <div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;">Nuevo PIN Admin 2 / Dirección (6-8 dígitos)</div>
-                <div style="display:flex;gap:7px;">
-                  <input class="admin-edit-field" style="margin:0;flex:1;" type="password" id="new-pin2" placeholder="Nuevo PIN Admin 2" maxlength="8" inputmode="numeric">
-                  <button class="btn-sm btn-gold" onclick="cambiarPin(2)">Cambiar</button>
-                </div>
-              </div>
-            </div>
-
             <div class="admin-section">
               <div class="admin-section-title">🔄 Reset completo</div>
               <div class="reset-danger-box">
@@ -426,8 +406,7 @@
 
 <script>
 /* ccb82ca8f113e6ad27a6cdc7a8145959 */
-// PINs secured in Firebase
-const FB_URL="https://firestore.googleapis.com/v1/projects/chupialquimiometro/databases/(default)/documents/chupialquimiometro/estado?key=AIzaSyAKn-Vyi9zE3ggJbN2UqdUTi_zE7omzE2c";const NOMBRES_DEFAULT=["Peña Dickens","Vamos a liar la del pulpo","Malbebiendo","Pequeños Fiesteros","Perdiendo el Norte","Reyes de Copas","Sálvese quien beba","Si lo sé no vengo","La Coza Noztra","La Envodkada","Tarde pero llegamos","The Originals / Turbo Dickens","Los que Faltaban","El Beber me llama","Los Zánganos","Mañana te lo cuento","Resacón en la Penya","Los Bizcochitos","Dskalimba","Ceda el Vaso","Los Kiwis","El Código da Whisky","Autiblinders","Comando Garrafón","Los de Siempre","Vamos B-Viendo","Área 51","","","","","","","","","","","","",""];const TOTAL_SLOTS=40;const SPONSORS=[{name:"Patrocinador 1",src:null},{name:"Patrocinador 2",src:null},{name:"Patrocinador 3",src:null},{name:"Patrocinador 4",src:null},{name:"Patrocinador 5",src:null}];function getDiaLabel(){return new Date().toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});}
+const PIN1_H="874d72f3e1b208f6c9916914cc6ea2fafa0e5a8dc37c8f0762868b38abc59296";const PIN2_H="9e6663fa5aaac5d7f1d55c9a0a405664bc2d79c159f2924b42201e7de5776ec9";const FB_URL="https://firestore.googleapis.com/v1/projects/chupialquimiometro/databases/(default)/documents/chupialquimiometro/estado?key=AIzaSyAKn-Vyi9zE3ggJbN2UqdUTi_zE7omzE2c";const NOMBRES_DEFAULT=["Peña Dickens","Vamos a liar la del pulpo","Malbebiendo","Pequeños Fiesteros","Perdiendo el Norte","Reyes de Copas","Sálvese quien beba","Si lo sé no vengo","La Coza Noztra","La Envodkada","Tarde pero llegamos","The Originals / Turbo Dickens","Los que Faltaban","El Beber me llama","Los Zánganos","Mañana te lo cuento","Resacón en la Penya","Los Bizcochitos","Dskalimba","Ceda el Vaso","Los Kiwis","El Código da Whisky","Autiblinders","Comando Garrafón","Los de Siempre","Vamos B-Viendo","Área 51","","","","","","","","","","","","",""];const TOTAL_SLOTS=40;const SPONSORS=[{name:"Patrocinador 1",src:null},{name:"Patrocinador 2",src:null},{name:"Patrocinador 3",src:null},{name:"Patrocinador 4",src:null},{name:"Patrocinador 5",src:null}];function getDiaLabel(){return new Date().toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});}
 let S={nombres:[...NOMBRES_DEFAULT],general:{},noche:{},activas:{},lastOp:{},chupSueltosHoy:0,bonosHoy:0,histDias:[],nocheHist:[],histGanadores:[],mensajes:[],msgLastId:0,msgVisto:false,hora:false,horaInicio:"18:00",horaFin:"20:00",horaAuto:false,nocheVisible:true,adminOpen:false,admin2Open:false,lastOpReciente:null,led:{activo:false,texto:'',mensajes:[],tamano:'grande',posicion:'centro',duracion:60,inicio:0,horaInicio:''},tab:'ranking',adminTab:'op',prevRank:{},diaActual:getDiaLabel(),chupitoDia:{activo:false,nombre:''},premios:{oro:'',plata:'',bronce:''},nocheContenido:{fecha:'',premio:''},updatedAt:0};NOMBRES_DEFAULT.forEach(p=>{if(p){S.general[p]=0;S.noche[p]=0;S.activas[p]=false;}});function guardarLocal(){try{const toSave=Object.assign({},S);delete toSave.msgVisto;delete toSave.adminOpen;delete toSave.admin2Open;localStorage.setItem('chupi_v9',JSON.stringify(toSave));}catch(e){}}
 function cargarLocal(){try{const g=localStorage.getItem('chupi_v9');if(g){const p=JSON.parse(g);Object.keys(p).forEach(k=>{S[k]=p[k];});}}catch(e){console.warn('Local load error');
   S.adminOpen=false;
@@ -594,194 +573,23 @@ function renderLedAdmin(){
 function initSplash(){setTimeout(()=>{const sp=document.getElementById('splash');if(sp&&!sp.classList.contains('hide'))enterApp();},2500);}
 function enterApp(){const sp=document.getElementById('splash');const app=document.getElementById('app');if(sp)sp.classList.add('hide');if(app)app.style.display='block';renderAll();renderCountdown();applyHoraState();applyChupitoDia();updateMsgBadge();fbCargar(true);}
 function fmtCD(s){const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),ss=s%60;const p=n=>String(n).padStart(2,'0');const u=t=>`<span style="font-size:.58em;opacity:.6;font-family:Barlow Condensed,sans-serif">${t}</span>`;return`${p(h)}${u('h')}:${p(m)}${u('m')}:${p(ss)}${u('s')}`;}
-let pinBuf="";function pinKey(d){if(pinBuf.length>=8)return;pinBuf+=d;updPinDots();// PIN confirmed via button or enter key}
+let pinBuf="";function pinKey(d){if(pinBuf.length>=8)return;pinBuf+=d;updPinDots();/* trigger via button */}
 function pinBksp(){pinBuf=pinBuf.slice(0,-1);updPinDots();}
 function pinClear(){pinBuf="";updPinDots();document.getElementById('pin-error').textContent="";}
 function updPinDots(){for(let i=0;i<8;i++){const d=document.getElementById('pd'+i);if(d)d.classList.toggle('filled',i<pinBuf.length);}}
 async function checkPin(){
-  try {
-    const res = await fetch(FB_URL.replace('/chupialquimiometro/estado', '/chupialquimiometro/config'));
-    if(res.ok){
-      const doc = await res.json();
-      if(doc.fields && doc.fields.pin1){
-        const correctPin = doc.fields.pin1.stringValue;
-        if(pinBuf === correctPin){
-          document.getElementById('pin-screen').style.display='none';
-          document.getElementById('admin-inner').classList.add('on');
-          document.getElementById('lock-btn').style.display='block';
-          S.adminOpen=true;
-          renderOpList();renderInsc();updateNocheLiderAdmin();renderContenidoAdmin();renderLedAdmin();
-          guardar();
-          pinBuf="";updPinDots();
-          return;
-        }
-      }
-    }
-  } catch(e){ console.warn('PIN check error:', e); }
-  document.getElementById('pin-error').textContent="PIN incorrecto";
-  pinBuf="";updPinDots();
-  setTimeout(()=>document.getElementById('pin-error').textContent="",2000);
+  const _b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(pinBuf));
+  const _x=Array.from(new Uint8Array(_b)).map(n=>n.toString(16).padStart(2,'0')).join('');
+  if(_x==='874d72f3e1b208f6c9916914cc6ea2fafa0e5a8dc37c8f0762868b38abc59296'){document.getElementById('pin-screen').style.display='none';document.getElementById('admin-inner').classList.add('on');document.getElementById('lock-btn').style.display='block';S.adminOpen=true;renderOpList();renderInsc();updateNocheLiderAdmin();renderContenidoAdmin();renderLedAdmin();guardar();pinBuf='';updPinDots();}else{document.getElementById('pin-error').textContent='PIN incorrecto';pinBuf='';updPinDots();setTimeout(()=>document.getElementById('pin-error').textContent='',2000);}
 }
-
 function lockAdmin(){pinBuf="";updPinDots();document.getElementById('pin-screen').style.display='block';document.getElementById('admin-inner').classList.remove('on');document.getElementById('lock-btn').style.display='none';S.adminOpen=false;lockAdmin2();if(S.tab==='admin')setTab('ranking');guardar();}
 let pin2Buf="";function pin2Key(d){if(pin2Buf.length>=8)return;pin2Buf+=d;updPin2Dots();if(pin2Buf.length===8)setTimeout(checkPin2,150);}
 function pin2Bksp(){pin2Buf=pin2Buf.slice(0,-1);updPin2Dots();}
 function pin2Clear(){pin2Buf="";updPin2Dots();document.getElementById('pin2-error').textContent="";}
-function updPin2Dots(){for(let i=0;i<8;i++)document.getElementById('p2d'+i).classList.toggle('filled',i<pin2Buf.length);}
 async function checkPin2(){
-  try {
-    const res = await fetch(FB_URL.replace('/chupialquimiometro/estado', '/chupialquimiometro/config'));
-    if(res.ok){
-      const doc = await res.json();
-      if(doc.fields && doc.fields.pin2){
-        const correctPin2 = doc.fields.pin2.stringValue;
-        if(pin2Buf === correctPin2){
-          document.getElementById('admin2-locked').classList.add('hide');
-          document.getElementById('admin2-content').classList.add('on');
-          S.admin2Open=true;renderAdmin2();guardar();
-          pin2Buf="";updPin2Dots();
-          return;
-        }
-      }
-    }
-  } catch(e){ console.warn('PIN2 check error:', e); }
-  document.getElementById('pin2-error').textContent="PIN incorrecto";
-  pin2Buf="";updPin2Dots();
-  setTimeout(()=>document.getElementById('pin2-error').textContent="",2000);
+  const _b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(pin2Buf));
+  const _x=Array.from(new Uint8Array(_b)).map(n=>n.toString(16).padStart(2,'0')).join('');
+  if(_x==='9e6663fa5aaac5d7f1d55c9a0a405664bc2d79c159f2924b42201e7de5776ec9'){document.getElementById('admin2-locked').classList.add('hide');document.getElementById('admin2-content').classList.add('on');S.admin2Open=true;renderAdmin2();guardar();pin2Buf='';updPin2Dots();}else{document.getElementById('pin2-error').textContent='PIN incorrecto';pin2Buf='';updPin2Dots();setTimeout(()=>document.getElementById('pin2-error').textContent='',2000);}
 }
+function updPin2Dots(){for(let i=0;i<8;i++)document.getElementById('p2d'+i).classList.toggle('filled',i<pin2Buf.length);}
 
-function lockAdmin2(){pin2Buf="";updPin2Dots();document.getElementById('admin2-locked').classList.remove('hide');document.getElementById('admin2-content').classList.remove('on');S.admin2Open=false;guardar();}
-function setTab(t){S.tab=t;['ranking','info','admin'].forEach(x=>{const tb=document.getElementById('tab-'+x);const pn=document.getElementById('panel-'+x);if(tb)tb.classList.toggle('on',x===t);if(pn)pn.classList.toggle('on',x===t);});if(t==='ranking')renderRanking();if(t==='admin'&&S.adminOpen){renderOpList();renderInsc();}
-if(t==='info'){renderInfoPanels();const itabMsg=document.getElementById('itab-mensajes');if(itabMsg&&itabMsg.classList.contains('on')){S.msgVisto=true;updateMsgBadge();guardar();renderMensajesPublic();}}
-guardar();}
-function setAdminTab(t){S.adminTab=t;['op','contenido','hora','admin2','insc'].forEach(x=>{const tb=document.getElementById('atab-'+x);const pn=document.getElementById('apanel-'+x);if(tb)tb.classList.toggle('on',x===t);if(pn)pn.classList.toggle('on',x===t);});if(t==='hora'){renderNocheHist();updateNocheLiderAdmin();}
-if(t==='contenido'){renderContenidoAdmin();renderLedAdmin();}if(t==='admin2'&&S.admin2Open)renderAdmin2();guardar();}
-function setInfoTab(t){['mensajes','premios','func','proyecto'].forEach(x=>{const tb=document.getElementById('itab-'+x);const pn=document.getElementById('ipanel-'+x);if(tb)tb.classList.toggle('on',x===t);if(pn)pn.classList.toggle('on',x===t);});if(t==='premios')renderPremiosInfo();if(t==='mensajes'){S.msgVisto=true;updateMsgBadge();guardar();renderMensajesPublic();}}
-function setPremiosTab(t){['general','noche'].forEach(x=>{const tb=document.getElementById('ptab-'+x);const pn=document.getElementById('ppanel-'+x);if(tb)tb.classList.toggle('on',x===t);if(pn)pn.classList.toggle('on',x===t);});if(t==='general')renderPremiosPodio();if(t==='noche')renderNocheContenido();}
-function getActivas(){return S.nombres.filter(p=>S.activas[p]&&p&&p.trim()!=='');}
-function toggleActiva(p){S.activas[p]=!S.activas[p];renderAll();showToast(p,S.activas[p]?'✅ Inscrita':'❌ Baja',S.activas[p]?'#27AE60':'#CC1A1A');guardar();}
-function toggleActivaIdx(i){const p=S.nombres[i];if(!p||!p.trim()){showToast('Sin nombre','Edita el nombre antes','#FF7A00');return;}
-S.activas[p]=!S.activas[p];renderAll();showToast(p,S.activas[p]?'✅ Inscrita':'❌ Baja',S.activas[p]?'#27AE60':'#CC1A1A');guardar();}
-function bulkToggle(v){S.nombres.forEach(p=>{if(p&&p.trim())S.activas[p]=v;});renderAll();guardar();}
-function toggleNocheVisible(){S.nocheVisible=!S.nocheVisible;document.getElementById('tog-noche').classList.toggle('on',S.nocheVisible);renderRanking();showToast('Ganador de la Noche',S.nocheVisible?'Visible':'Oculto',S.nocheVisible?'#27AE60':'#FF7A00');guardar();}
-function toggleChupitoDia(){S.chupitoDia.activo=!S.chupitoDia.activo;document.getElementById('tog-chupito').classList.toggle('on',S.chupitoDia.activo);applyChupitoDia();guardar();}
-function updateChupitoDia(){S.chupitoDia.nombre=document.getElementById('chupito-input').value;applyChupitoDia();guardar();}
-function applyChupitoDia(){const bar=document.getElementById('chupito-bar');const nom=document.getElementById('chupito-nombre');if(S.chupitoDia.activo&&S.chupitoDia.nombre){bar.classList.add('on');nom.textContent=S.chupitoDia.nombre;}
-else bar.classList.remove('on');}
-function toggleHoraManual(){S.hora=!S.hora;S.horaAuto=false;applyHoraState();guardar();}
-function activarHoraAuto(){S.hora=false;S.horaAuto=true;applyHoraState();showToast('Hora Doble','⏱ Programada · se activará a las '+S.horaInicio,'#FF7A00');guardar();}
-function applyHoraState(){const btn=document.getElementById('btn-hora-toggle');const banner=document.getElementById('hora-banner');const sbox=document.getElementById('hora-status-box');if(S.hora){if(btn){btn.classList.add('on');btn.textContent='🔥 Desactivar';}
-if(banner)banner.classList.add('on');if(sbox){sbox.classList.add('on');sbox.textContent='🔥 ACTIVA — puntos ×2 · BONO +15 fijos';}
-playBeep();}else{if(btn){btn.classList.remove('on');btn.textContent='Activar Hora Doble';}
-if(banner)banner.classList.remove('on');if(sbox){sbox.classList.remove('on');sbox.textContent='Estado: Desactivada';}}
-if(document.getElementById('np-overlay').classList.contains('on'))updNpHora();renderCountdown();}
-function updateHoraSchedule(){S.horaInicio=document.getElementById('hora-inicio').value;S.horaFin=document.getElementById('hora-fin').value;renderCountdown();guardar();}
-function parseTime(t){const[h,m]=t.split(':').map(Number);return h*60+m;}
-function nowMins(){const n=new Date();return n.getHours()*60+n.getMinutes();}
-function renderCountdown(){const now=new Date();const nowS=now.getHours()*3600+now.getMinutes()*60+now.getSeconds();const iniS=parseTime(S.horaInicio)*60,finS=parseTime(S.horaFin)*60;const cdTime=document.getElementById('cd-time'),cdSched=document.getElementById('cd-schedule');const cdBar=document.querySelector('.countdown-bar');if(!cdTime)return;const sched=`<strong>${S.horaInicio}</strong>–<strong>${S.horaFin}</strong>`;if(S.hora){if(cdBar)cdBar.style.display='flex';const left=finS-nowS;if(left>0){cdTime.innerHTML=fmtCD(left);cdTime.className='cd-time active';cdSched.innerHTML=`🔥 Activa · termina ${S.horaFin}`;}
-else{cdTime.innerHTML=fmtCD(0);cdTime.className='cd-time';cdSched.innerHTML='Hora Doble terminada';}}else if(S.horaAuto){if(cdBar)cdBar.style.display='flex';const left2=iniS-nowS;if(left2>0){cdTime.innerHTML=fmtCD(left2);cdTime.className='cd-time';cdSched.innerHTML=`Próxima Hora Doble:${sched}`;}
-else if(nowS>=iniS&&nowS<finS){cdTime.innerHTML='¡AHORA!';cdTime.className='cd-time active';cdSched.innerHTML=`Hora Doble:${sched}`;}
-else{cdTime.innerHTML='--h:--m:--s';cdTime.className='cd-time';cdSched.innerHTML=`Hora Doble:${sched}`;}}else{if(cdBar)cdBar.style.display='none';}}
-setInterval(()=>{renderCountdown();checkAutoHora();},1000);function checkAutoHora(){if(!S.horaAuto)return;const ini=parseTime(S.horaInicio),fin=parseTime(S.horaFin),now=nowMins();if(now>=ini&&now<fin&&!S.hora){S.hora=true;applyHoraState();guardar();}
-if(now>=fin&&S.hora&&S.horaAuto){S.hora=false;S.horaAuto=false;applyHoraState();guardar();}}
-function playBeep(){try{const ctx=new(window.AudioContext||window.webkitAudioContext)();[440,550,660].forEach((f,i)=>{const o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.frequency.value=f;g.gain.value=.15;o.start(ctx.currentTime+i*.12);o.stop(ctx.currentTime+i*.12+.1);});}catch(e){}}
-window._lastFirebaseUpdate=Date.now();let npPeña=null,npVal="";function openNp(p){npPeña=p;npVal="";document.getElementById('np-peña').textContent=p;document.getElementById('np-gen').textContent=S.general[p]||0;document.getElementById('np-noche').textContent=S.noche[p]||0;updNpDisp();updNpHora();document.getElementById('np-overlay').classList.add('on');}
-function closeNp(){document.getElementById('np-overlay').classList.remove('on');npPeña=null;npVal="";}
-function nk(d){if(npVal.length>=4)return;npVal+=d;updNpDisp();}
-function nkC(){npVal="";updNpDisp();}
-function nkBk(){npVal=npVal.slice(0,-1);updNpDisp();}
-function nkBono(){applyOp('bono');}
-function updNpDisp(){const el=document.getElementById('np-disp');if(!npVal){el.textContent="0";el.classList.add('empty');}else{el.textContent=npVal;el.classList.remove('empty');}}
-function updNpHora(){document.getElementById('np-hora-badge').textContent=S.hora?'🔥 HORA DOBLE activa — puntos manuales ×2':'';}
-function doSumar(){applyOp('sumar');}
-function doRestar(sub){applyOp('restar',sub);}
-function applyOp(tipo,sub){if(!npPeña)return;const rawPts=tipo==='bono'?15:(parseInt(npVal)||0);if(rawPts===0&&tipo!=='bono'){closeNp();return;}
-const pts=(tipo!=='bono'&&S.hora)?rawPts*2:rawPts;savePrevRank();if(tipo==='restar'){if(sub==='bono'){S.general[npPeña]=Math.max(0,S.general[npPeña]-15);S.noche[npPeña]=Math.max(0,S.noche[npPeña]-15);S.bonosHoy=Math.max(0,S.bonosHoy-1);S.lastOp[npPeña]={label:'−15🎫',tipo:'neg'};S.lastOpReciente={peña:npPeña,label:'−15🎫',tipo:'neg'};setLastOp(npPeña,'−15 pts · Bono anulado','err');showToast(npPeña,'Bono anulado','#CC1A1A');}else{S.general[npPeña]=Math.max(0,S.general[npPeña]-pts);S.noche[npPeña]=Math.max(0,S.noche[npPeña]-pts);S.chupSueltosHoy=Math.max(0,S.chupSueltosHoy-rawPts);S.lastOp[npPeña]={label:`−${pts}`,tipo:'neg'};S.lastOpReciente={peña:npPeña,label:`−${pts}`,tipo:'neg'};setLastOp(npPeña,`−${pts}pts · corrección`,'err');showToast(npPeña,`−${pts}pts corrección`,'#CC1A1A');}}else if(tipo==='bono'){S.general[npPeña]+=15;S.noche[npPeña]+=15;S.bonosHoy+=1;S.lastOp[npPeña]={label:'+15🎫',tipo:'pos'};S.lastOpReciente={peña:npPeña,label:'+15🎫',tipo:'pos'};setLastOp(npPeña,'🎫 BONO +15 pts (25€)','ok');showToast(npPeña,'🎫 BONO +15 pts','#C9A84C');}else{S.general[npPeña]+=pts;S.noche[npPeña]+=pts;S.chupSueltosHoy+=rawPts;const lbl=`+${pts}${S.hora?'🔥':''}`;S.lastOp[npPeña]={label:lbl,tipo:'pos'};S.lastOpReciente={peña:npPeña,label:lbl,tipo:'pos'};setLastOp(npPeña,`+${pts}pts${S.hora?' 🔥×2':''}`,'ok');showToast(npPeña,`+${pts}pts${S.hora?' 🔥×2':''}`,'#C9A84C');}
-closeNp();guardar();renderAll();}
-function setLastOp(p,msg,cls){const el=document.getElementById('op-last');if(el){el.className='op-last '+cls;el.innerHTML=`Última:<strong>${p}</strong>· ${msg}`;}}
-function confirmResetNoche(){const ranked=getRanked(S.noche);const hay=ranked.length&&ranked[0][1]>0;const msg=hay?`⚠️ HAY PUNTOS SIN GUARDAR\n\nLíder:${ranked[0][0]}con ${ranked[0][1]}pts\n\n¿Reiniciar SIN guardar?`:'¿Reiniciar el marcador de la NOCHE?';if(confirm(msg)){S.nombres.forEach(p=>S.noche[p]=0);renderAll();updateNocheLiderAdmin();showToast('NOCHE REINICIADA','','#FF7A00');guardar();}}
-function saveNocheWinner(){const ranked=getRanked(S.noche);if(!ranked.length||ranked[0][1]===0){showToast('Sin datos','No hay puntos de noche','#CC1A1A');return;}
-const[name,pts]=ranked[0];S.nocheHist.push({dia:getDiaLabel(),nombre:name,pts});S.histGanadores.push({dia:getDiaLabel(),peña:name,pts:String(pts),premio:'',visible:false});S.nombres.forEach(p=>S.noche[p]=0);renderNocheHist();renderHistGanadoresAdmin();renderAll();updateNocheLiderAdmin();showToast('Ganador guardado y noche reiniciada',`${name}· ${pts}pts`,'#27AE60');guardar();}
-function renderNocheHist(){const el=document.getElementById('hist-list');if(!el)return;if(!S.nocheHist.length){el.innerHTML='<div class="hist-empty">Sin ganadores aún</div>';return;}
-el.innerHTML='';[...S.nocheHist].reverse().forEach(h=>{el.innerHTML+=`<div class="hist-row"><div class="hist-day">${h.dia}</div><div class="hist-name">${h.nombre}</div><div class="hist-pts">${h.pts}</div></div>`;});}
-function updateNocheLiderAdmin(){const ranked=getRanked(S.noche);const el=document.getElementById('noche-lider-admin');if(el)el.textContent=ranked.length&&ranked[0][1]>0?`${ranked[0][0]}· ${ranked[0][1]}pts`:'— Sin puntos aún';}
-function savePremios(){S.premios.oro=document.getElementById('premio-oro').value;S.premios.plata=document.getElementById('premio-plata').value;S.premios.bronce=document.getElementById('premio-bronce').value;guardar();renderPremiosInfo();}
-function saveNocheContenido(){S.nocheContenido.fecha=document.getElementById('noche-fecha-input').value;S.nocheContenido.premio=document.getElementById('noche-premio-input').value;guardar();}
-function renderContenidoAdmin(){renderLedAdmin();const tc=document.getElementById('tog-chupito');if(tc)tc.classList.toggle('on',S.chupitoDia.activo);const ci=document.getElementById('chupito-input');if(ci)ci.value=S.chupitoDia.nombre||'';const po=document.getElementById('premio-oro');if(po)po.value=S.premios.oro||'';const pp=document.getElementById('premio-plata');if(pp)pp.value=S.premios.plata||'';const pb=document.getElementById('premio-bronce');if(pb)pb.value=S.premios.bronce||'';const nf=document.getElementById('noche-fecha-input');if(nf)nf.value=S.nocheContenido.fecha||'';const np=document.getElementById('noche-premio-input');if(np)np.value=S.nocheContenido.premio||'';renderHistGanadoresAdmin();renderMensajesAdmin();}
-function renderHistGanadoresAdmin(){const el=document.getElementById('hist-ganadores-admin');if(!el)return;if(!S.histGanadores.length){el.innerHTML='<p style="font-size:.78rem;color:var(--muted);">Se crean automáticamente al guardar ganador en Hora/Noche</p>';return;}
-el.innerHTML='';S.histGanadores.forEach((g,i)=>{const vis=!!g.visible;el.innerHTML+=`<div class="hist-gan-admin-card"style="border-left:3px solid ${vis?'var(--green)':'var(--muted)'};"><div class="hist-gan-hdr"><span class="hist-gan-visible-lbl"style="color:${vis?'var(--green)':'var(--muted)'};">${vis?'✅ VISIBLE':'⛔ OCULTO'}</span><div style="display:flex;align-items:center;gap:7px;"><span style="font-size:.73rem;color:var(--muted);">Visible S/N</span><button class="tog-sw ${vis?'on':''}"onclick="S.histGanadores[${i}].visible=!S.histGanadores[${i}].visible;guardar();renderHistGanadoresAdmin();renderHistGanadoresPublic();"></button></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:5px;"><input class="admin-edit-field"style="margin:0"placeholder="Día"value="${g.dia||''}"oninput="S.histGanadores[${i}].dia=this.value;guardar();"><input class="admin-edit-field"style="margin:0"placeholder="Peña"value="${g.peña||''}"oninput="S.histGanadores[${i}].peña=this.value;guardar();"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:5px;"><input class="admin-edit-field"style="margin:0"placeholder="Pts"value="${g.pts||''}"oninput="S.histGanadores[${i}].pts=this.value;guardar();"><input class="admin-edit-field"style="margin:0"placeholder='Premio o "NOCHE SIN PREMIO"'value="${g.premio||''}"oninput="S.histGanadores[${i}].premio=this.value;guardar();renderHistGanadoresPublic();"></div><button class="btn-sm btn-ghost"onclick="S.histGanadores.splice(${i},1);guardar();renderHistGanadoresAdmin();renderHistGanadoresPublic();">✕ Eliminar</button></div>`;});}
-function addHistGanador(){S.histGanadores.push({dia:'',peña:'',pts:'',premio:'',visible:false});guardar();renderHistGanadoresAdmin();}
-function renderMensajesAdmin(){const el=document.getElementById('mensajes-admin');if(!el)return;if(!S.mensajes.length){el.innerHTML='<p style="font-size:.78rem;color:var(--muted);">Sin mensajes creados</p>';return;}
-el.innerHTML='';S.mensajes.forEach((m,i)=>{el.innerHTML+=`<div class="msg-admin-card"><div class="msg-admin-hdr"><select class="msg-type-sel"onchange="S.mensajes[${i}].tipo=this.value;guardar();updateMsgBadge();"><option value="info"${m.tipo==='info'?'selected':''}>ℹ️ Informativo</option><option value="promo"${m.tipo==='promo'?'selected':''}>🥃 Promoción</option><option value="urgente"${m.tipo==='urgente'?'selected':''}>🔴 Urgente</option></select><div class="toggle-row"style="flex:1;padding:3px 7px;border:none;background:transparent;"><span style="font-size:.76rem;color:var(--muted);">Activo</span><button class="tog-sw ${m.activo?'on':''}"onclick="S.mensajes[${i}].activo=!S.mensajes[${i}].activo;S.msgVisto=false;this.classList.toggle('on',S.mensajes[${i}].activo);guardar();updateMsgBadge();renderMensajesPublic();"></button></div><button class="btn-sm btn-ghost"onclick="S.mensajes.splice(${i},1);guardar();updateMsgBadge();renderMensajesAdmin();renderMensajesPublic();">✕</button></div><input class="admin-edit-field"placeholder="Título"value="${m.titulo||''}"oninput="S.mensajes[${i}].titulo=this.value;guardar();renderMensajesPublic();"><textarea class="admin-edit-field"placeholder="Texto..."oninput="S.mensajes[${i}].cuerpo=this.value;guardar();renderMensajesPublic();">${m.cuerpo||''}</textarea></div>`;});}
-function addMensaje(){S.mensajes.push({id:++S.msgLastId,titulo:'',cuerpo:'',tipo:'info',activo:false});guardar();renderMensajesAdmin();}
-function renderMensajesPublic(){const el=document.getElementById('msg-list-public');if(!el)return;const activos=S.mensajes.filter(m=>m.activo);if(!activos.length){el.innerHTML='<div class="msg-empty">No hay mensajes en este momento</div>';return;}
-el.innerHTML='';activos.forEach(m=>{el.innerHTML+=`<div class="msg-card ${m.tipo}"><div class="msg-card-title">${m.titulo||'Mensaje'}</div><div class="msg-card-body">${m.cuerpo||''}</div></div>`;});}
-function updateMsgBadge(){const activos=S.mensajes.filter(m=>m.activo).length;const badge=document.getElementById('msg-badge');if(badge){const show=activos>0&&!S.msgVisto;badge.style.display=show?'flex':'none';}}
-function calcDia(d){const cb=(d.bonos||0)*15,ct=(d.chupSueltos||0)+cb;const es=(d.chupSueltos||0)*2,eb=(d.bonos||0)*25,et=es+eb;return{chupSueltos:d.chupSueltos||0,bonos:d.bonos||0,cb,ct,es,eb,et};}
-function renderAdmin2(){const h=calcDia({chupSueltos:S.chupSueltosHoy,bonos:S.bonosHoy});const ids=[['a2-cs-hoy',h.chupSueltos],['a2-cb-hoy',h.cb],['a2-ct-hoy',h.ct],['a2-es-hoy',h.es+'€'],['a2-eb-hoy',h.eb+'€'],['a2-et-hoy',h.et+'€']];ids.forEach(([id,v])=>{const e=document.getElementById(id);if(e)e.textContent=v;});const tbody=document.getElementById('daily-tbody');if(!tbody)return;tbody.innerHTML='';S.histDias.forEach(d=>{const c=calcDia(d);tbody.innerHTML+=`<tr><td>${d.dia}</td><td class="num">${c.chupSueltos}</td><td class="num">${c.bonos}</td><td class="num">${c.cb}</td><td class="num">${c.ct}</td><td class="num">${c.es}€</td><td class="num">${c.eb}€</td><td class="num">${c.et}€</td></tr>`;});tbody.innerHTML+=`<tr class="today"><td>${S.diaActual}<em style="font-size:.68rem;color:var(--orange)">(hoy)</em></td><td class="num">${h.chupSueltos}</td><td class="num">${h.bonos}</td><td class="num">${h.cb}</td><td class="num">${h.ct}</td><td class="num">${h.es}€</td><td class="num">${h.eb}€</td><td class="num">${h.et}€</td></tr>`;let tcs=h.chupSueltos,tb=h.bonos,tcb=h.cb,tct=h.ct,tes=h.es,teb=h.eb,tet=h.et;S.histDias.forEach(d=>{const c=calcDia(d);tcs+=c.chupSueltos;tb+=c.bonos;tcb+=c.cb;tct+=c.ct;tes+=c.es;teb+=c.eb;tet+=c.et;});const tots=[['a2-cs-tot',tcs],['a2-cb-tot',tcb],['a2-ct-tot',tct],['a2-es-tot',tes+'€'],['a2-eb-tot',teb+'€'],['a2-et-tot',tet+'€']];tots.forEach(([id,v])=>{const e=document.getElementById(id);if(e)e.textContent=v;});}
-async function cambiarPin(num){
-  const inp = document.getElementById('new-pin'+num);
-  if(!inp||!inp.value.trim()){showToast('Error','Escribe el nuevo PIN','#CC1A1A');return;}
-  const newPin = inp.value.trim();
-  if(num===1 && newPin.length < 4){showToast('Error','Mínimo 4 dígitos','#CC1A1A');return;}
-  if(num===2 && newPin.length < 4){showToast('Error','Mínimo 4 dígitos','#CC1A1A');return;}
-  try {
-    const configUrl = FB_URL.replace('/chupialquimiometro/estado', '/chupialquimiometro/config');
-    const field = num===1 ? 'pin1' : 'pin2';
-    const payload = {fields: {}};
-    payload.fields[field] = {stringValue: newPin};
-    const res = await fetch(configUrl, {
-      method: 'PATCH',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(payload)
-    });
-    if(res.ok){
-      inp.value='';
-      showToast('✅ PIN '+(num===1?'Admin':'Admin 2')+' cambiado','Nuevo PIN guardado en Firebase','#27AE60');
-    } else {
-      showToast('Error','No se pudo guardar el PIN','#CC1A1A');
-    }
-  } catch(e){
-    showToast('Error',e.message,'#CC1A1A');
-  }
-}
-
-function cerrarDia(){if(!confirm(`¿Cerrar el día"${S.diaActual}"?`))return;S.histDias.push({dia:S.diaActual,chupSueltos:S.chupSueltosHoy,bonos:S.bonosHoy});S.chupSueltosHoy=0;S.bonosHoy=0;S.diaActual=getDiaLabel();renderAdmin2();showToast('Día cerrado','Contadores reiniciados','#27AE60');guardar();}
-function confirmResetTotal(){if(!confirm('⚠️ RESET TOTAL: se borrarán TODOS los puntos y contadores.\n\n¿Estás seguro?'))return;if(!confirm('Segunda confirmación: ¿Borrar TODO y empezar desde cero?'))return;NOMBRES_DEFAULT.forEach(p=>{if(p){S.general[p]=0;S.noche[p]=0;}});S.lastOp={};S.chupSueltosHoy=0;S.bonosHoy=0;S.histDias=[];S.nocheHist=[];S.prevRank={};S.diaActual=getDiaLabel();guardar();renderAll();if(S.admin2Open)renderAdmin2();showToast('RESET TOTAL','Sistema reiniciado a cero','#FF7A00');}
-function exportarDatos(){const h=calcDia({chupSueltos:S.chupSueltosHoy,bonos:S.bonosHoy});const now=new Date();const fecha=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;const hora=`${String(now.getHours()).padStart(2,'0')}h${String(now.getMinutes()).padStart(2,'0')}m`;const data={generado:now.toISOString(),feria:'San Juan 2026 · Los Corrales de Buelna',estadoCompleto:S,histDias:S.histDias.map(d=>({...d,...calcDia(d)})),diaActual:{dia:S.diaActual,...h},nocheHist:S.nocheHist,histGanadores:S.histGanadores};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`chupialquimiometro_${fecha}_${hora}.json`;a.click();}
-function importarDatos(){const input=document.createElement('input');input.type='file';input.accept='.json';input.onchange=function(e){const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=function(ev){try{const data=JSON.parse(ev.target.result);const ec=data.estadoCompleto||data;Object.assign(S,ec);S.adminOpen=true;NOMBRES_DEFAULT.forEach(p=>{if(p){if(S.general[p]===undefined)S.general[p]=0;if(S.noche[p]===undefined)S.noche[p]=0;if(S.activas[p]===undefined)S.activas[p]=false;}});guardar();renderAll();applyChupitoDia();applyHoraState();updateMsgBadge();showToast('✅ Importación completa','Datos restaurados','#27AE60');}catch(err){showToast('Error al importar','Archivo inválido','#CC1A1A');}};reader.readAsText(file);};input.click();}
-function savePrevRank(){const act=getActivas().sort((a,b)=>S.general[b]-S.general[a]);S.prevRank={};act.forEach((n,i)=>S.prevRank[n]=i+1);}
-function getRanked(obj){return getActivas().map(p=>[p,obj[p]||0]).sort((a,b)=>b[1]-a[1]);}
-function renderRanking(){renderGeneral();renderNocheBox();}
-function renderGeneral(){const box=document.getElementById('box-general');if(!box)return;const ranked=getRanked(S.general);const act=getActivas();box.innerHTML=`<div class="panel-box-hdr"><div class="panel-box-title">🏆 Clasificación General</div><div class="panel-box-sub">${act.length}peñas</div></div>`;if(!act.length){box.innerHTML+=`<div class="empty"><div class="ei">📋</div><p>Activa peñas en Admin → Insc.</p></div>`;return;}
-const top3=ranked.slice(0,3);if(top3.some(([,v])=>v>0)){const order=[top3[1],top3[0],top3[2]],cls=['p2','p1','p3'],crowns=['🥈','🥇','🥉'],nums=['2','1','3'];let h='<div class="podio">';order.forEach((item,i)=>{if(!item)return;const[n,p]=item;const sh=n.length>16?n.slice(0,16)+'…':n;h+=`<div class="pi ${cls[i]}"><div style="display:flex;align-items:center;justify-content:center;gap:5px;"><span class="pi-crown">${crowns[i]}</span><span class="pi-pts">${p}</span><span class="pi-lbl">pts</span></div><div class="pi-name">${sh}</div><div class="pi-block">${nums[i]}</div></div>`;});h+='</div>';const p1=ranked[0]?ranked[0][1]:0,p2=ranked[1]?ranked[1][1]:0,p3=ranked[2]?ranked[2][1]:0,p4=ranked[3]?ranked[3][1]:0;let gaps='<div class="gap-row">';if(ranked[0])gaps+=`<div class="gap-item">1º→2º:<strong>+${p1-p2}</strong></div>`;if(ranked[1])gaps+=`<div class="gap-item">2º→3º:<strong>+${p2-p3}</strong></div>`;if(ranked[3])gaps+=`<div class="gap-item fourth">4º al podio:<strong>${p3-p4}</strong></div>`;gaps+='</div>';box.innerHTML+=h+gaps;}
-if(S.lastOpReciente){const{peña:lp,label:ll,tipo:lt}=S.lastOpReciente;const col=lt==='pos'?'#4cde84':'#ff7070';box.innerHTML+=`<div style="font-size:.82rem;padding:6px 14px 4px;color:#555;border-bottom:1px solid #111;letter-spacing:.04em;"><span style="color:#444;">Última:</span><strong style="color:#888;">${lp}</strong><span style="color:${col};font-weight:700;">${ll}</span></div>`;}
-box.innerHTML+=`<div class="section-lbl">Ranking en vivo</div><div class="rlist">`;ranked.forEach(([n,p],i)=>{const pos=i+1,rc=pos<=3?`r${pos}`:'';const prev=S.prevRank[n];let chg='<span class="rchg eq">—</span>';if(prev&&prev!==pos){const d=prev-pos;chg=d>0?`<span class="rchg up">▲${d}</span>`:`<span class="rchg dn">▼${Math.abs(d)}</span>`;}
-const op=S.lastOp[n];const opHtml=op?`<span class="rop ${op.tipo}">${op.label}</span>`:`<span class="rop empty">—</span>`;box.innerHTML+=`<div class="rrow ${rc}"><div class="rn">${pos}</div><div class="rname">${n}</div><div class="rpts-wrap"><div class="rpts">${p}</div><div class="rpts-lbl">pts</div></div>${opHtml}${chg}</div>`;});box.innerHTML+='</div>';}
-function renderNocheBox(){const box=document.getElementById('box-noche');if(!box)return;const ranked=getRanked(S.noche);box.innerHTML=`<div class="panel-box-hdr"><div class="panel-box-title">🌙 Ganador de la Noche</div><div class="panel-box-sub">${S.nocheVisible?'activo':'oculto'}</div></div>`;if(!getActivas().length){box.innerHTML+=`<div class="empty"><div class="ei">🌙</div><p>Sin peñas inscritas</p></div>`;return;}
-if(!S.nocheVisible){box.innerHTML+=`<div class="noche-off-msg">🌙 Premio de noche no activo esta jornada</div>`;return;}
-const lider=ranked.find(([,v])=>v>0);box.innerHTML+=`<div class="noche-leader">${lider?`<div style="display:flex;align-items:center;justify-content:center;gap:6px;"><span class="nl-crown">🥇</span><span class="nl-pts">${lider[1]}</span><span class="nl-pts-lbl">pts noche</span></div><div class="nl-label">Líder de la noche</div><div class="nl-name">${lider[0].length>20?lider[0].slice(0,20)+'…':lider[0]}</div>`:'<div class="nl-empty">🌙<br>¡Que empiece la noche!</div>'}</div>`;box.innerHTML+=`<div class="section-lbl">Ranking de noche</div><div class="rlist">`;ranked.forEach(([n,p],i)=>{const pos=i+1,rc=pos<=3?`r${pos}`:'';box.innerHTML+=`<div class="rrow rrow-n ${rc}"><div class="rn">${pos}</div><div class="rname">${n}</div><div class="rpts-wrap"><div class="rpts">${p}</div><div class="rpts-lbl">pts</div></div></div>`;});box.innerHTML+='</div>';}
-function renderOpList(){const el=document.getElementById('op-list');if(!el)return;const act=getActivas().sort((a,b)=>S.general[b]-S.general[a]);if(!act.length){el.innerHTML='<p style="color:var(--muted);font-size:.82rem;padding:8px;">No hay peñas inscritas</p>';return;}
-el.innerHTML='';act.forEach((p,i)=>{const row=document.createElement('div');row.className='op-row';row.innerHTML=`<div><span style="font-family:Bebas Neue,sans-serif;font-size:.88rem;color:var(--muted)">${i+1}.</span><span class="op-row-name">${p}</span></div><div class="op-row-pts"><div class="op-row-gen">${S.general[p]||0}</div><div class="op-row-lbl">gral</div></div><div class="op-row-pts"><div class="op-row-noche">${S.noche[p]||0}</div><div class="op-row-lbl">noche</div></div>`;row.onclick=()=>openNp(p);el.appendChild(row);});}
-function renderInsc(){const grid=document.getElementById('insc-grid');if(!grid)return;grid.innerHTML='';S.nombres.forEach((p,i)=>{if(i===27){const sep=document.createElement('div');sep.style.cssText='grid-column:1/-1;padding:8px 0 3px;font-family:Bebas Neue,sans-serif;font-size:.82rem;letter-spacing:.15em;color:var(--orange);border-top:1px solid var(--border);margin-top:5px;';sep.textContent='— 13 PLAZAS ADICIONALES —';grid.appendChild(sep);}
-const named=p&&p.trim()!=='';const on=named&&!!S.activas[p];const esExtra=i>=27;const card=document.createElement('div');card.className='insc-card '+(on?'on':'off');const dn=named?p:('Plaza extra '+(i-26));card.innerHTML='<div class="insc-n" style="'+(esExtra?'color:var(--orange)':'')+'">'+String(i+1).padStart(2,'0')+'</div><div class="insc-name-wrap"><div class="insc-name-txt" id="int-'+i+'" style="'+((!named)?'color:var(--muted);font-style:italic;':'')+'">'+dn+'</div><input class="insc-name-input" id="ini-'+i+'" value="'+p.replace(/"/g,'&quot;')+'" onkeydown="inpKey(event,'+i+')" placeholder="Nombre de la peña..."></div><div class="insc-actions"><button class="btn-edit" id="ibe-'+i+'" onclick="toggleEdit('+i+')">✏️</button><button class="toggle-sw'+(on?' on':'')+'" onclick="toggleActivaIdx('+i+')"></button></div>';grid.appendChild(card);});const el=document.getElementById('insc-cnt');if(el)el.textContent=getActivas().length+'/40';}
-function toggleEdit(i){const txt=document.getElementById('int-'+i),inp=document.getElementById('ini-'+i),btn=document.getElementById('ibe-'+i);if(inp.style.display==='block'){saveName(i);return;}
-txt.style.display='none';inp.style.display='block';inp.focus();inp.select();btn.textContent='💾';btn.classList.add('saving');}
-function saveName(i){const txt=document.getElementById('int-'+i),inp=document.getElementById('ini-'+i),btn=document.getElementById('ibe-'+i);const old=S.nombres[i],nw=inp.value.trim()||old;if(nw!==old&&nw){S.general[nw]=S.general[old]||0;S.noche[nw]=S.noche[old]||0;S.activas[nw]=S.activas[old]||false;S.lastOp[nw]=S.lastOp[old];delete S.general[old];delete S.noche[old];delete S.activas[old];delete S.lastOp[old];S.nombres[i]=nw;showToast(old,'→ '+nw,'#C9A84C');}
-txt.textContent=S.nombres[i];inp.value=S.nombres[i];txt.style.display='block';inp.style.display='none';btn.textContent='✏️';btn.classList.remove('saving');renderAll();guardar();}
-function inpKey(e,i){if(e.key==='Enter')saveName(i);if(e.key==='Escape'){const txt=document.getElementById('int-'+i),inp=document.getElementById('ini-'+i),btn=document.getElementById('ibe-'+i);inp.value=S.nombres[i];txt.style.display='block';inp.style.display='none';btn.textContent='✏️';btn.classList.remove('saving');}}
-function renderInfoPanels(){renderMensajesPublic();renderPremiosInfo();}
-function renderPremiosInfo(){renderPremiosPodio();renderNocheContenido();renderHistGanadoresPublic();}
-function renderPremiosPodio(){const box=document.getElementById('premios-podio-box');if(!box)return;const ranked=getRanked(S.general);box.innerHTML=`<div class="panel-box-hdr"><div class="panel-box-title">🏆 Podio actual</div><div class="panel-box-sub">En tiempo real</div></div>`;if(!getActivas().length||!ranked.some(([,v])=>v>0)){box.innerHTML+=`<div class="empty"style="padding:16px;"><p>Sin puntos aún</p></div>`;return;}
-const top3=ranked.slice(0,3);const order=[top3[1],top3[0],top3[2]],cls=['p2','p1','p3'],crowns=['🥈','🥇','🥉'],nums=['2','1','3'];let h='<div class="podio" style="padding:10px 8px 0;">';order.forEach((item,i)=>{if(!item)return;const[n,p]=item;const sh=n.length>14?n.slice(0,14)+'…':n;h+=`<div class="pi ${cls[i]}"><div style="display:flex;align-items:center;justify-content:center;gap:5px;"><span class="pi-crown">${crowns[i]}</span><span class="pi-pts">${p}</span><span class="pi-lbl">pts</span></div><div class="pi-name">${sh}</div><div class="pi-block">${nums[i]}</div></div>`;});h+='</div>';const p1=ranked[0]?ranked[0][1]:0,p2=ranked[1]?ranked[1][1]:0,p3=ranked[2]?ranked[2][1]:0,p4=ranked[3]?ranked[3][1]:0;let gaps='<div class="gap-row" style="padding:7px 10px 10px;">';if(ranked[0])gaps+=`<div class="gap-item">1º→2º:<strong>+${p1-p2}</strong></div>`;if(ranked[1])gaps+=`<div class="gap-item">2º→3º:<strong>+${p2-p3}</strong></div>`;if(ranked[3])gaps+=`<div class="gap-item fourth">4º al podio:<strong>${p3-p4}</strong></div>`;gaps+='</div>';box.innerHTML+=h+gaps;const pc=document.getElementById('premios-general-content');if(!pc)return;pc.innerHTML='<h3>Premios</h3>';[{icon:'🥇',t:'Primer Premio',d:S.premios.oro},{icon:'🥈',t:'Segundo Premio',d:S.premios.plata},{icon:'🥉',t:'Tercer Premio',d:S.premios.bronce}].forEach(item=>{pc.innerHTML+=`<div class="premio-item"><div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;"><span class="premio-icon">${item.icon}</span><span class="premio-title">${item.t}</span></div><div class="premio-desc">${item.d||'Premio por confirmar'}</div></div>`;});}
-function renderNocheContenido(){const box=document.getElementById('noche-proxima-box');if(!box)return;box.innerHTML=`<div class="noche-proxima-lbl">Próxima noche con premio</div><div class="noche-proxima-fecha">${S.nocheContenido.fecha||'Por confirmar'}</div><div class="noche-proxima-premio">${S.nocheContenido.premio||'Premio por confirmar'}</div>`;}
-function renderHistGanadoresPublic(){const el=document.getElementById('hist-ganadores-list');if(!el)return;const vis=S.histGanadores.filter(g=>g.visible);if(!vis.length){el.innerHTML='<p style="font-size:.82rem;color:var(--muted);">Sin resultados publicados aún</p>';return;}
-el.innerHTML='';[...vis].reverse().forEach(g=>{const sp=g.premio&&g.premio.toUpperCase().includes('SIN PREMIO');el.innerHTML+=`<div class="hist-gan-row"style="${sp?'opacity:.6':''}"><div class="hist-gan-dia">${g.dia||'—'}</div><div><strong>${g.peña||'—'}</strong><br><span style="font-size:.76rem;color:${sp?'var(--muted)':'var(--gold)'};">${g.premio||'Premio pendiente'}</span></div><div class="hist-gan-pts"style="${sp?'color:var(--muted)':''}">${sp?'—':g.pts||'—'}</div></div>`;});}
-function renderAll(){renderRanking();if(S.adminOpen){renderOpList();renderInsc();updateNocheLiderAdmin();if(S.admin2Open)renderAdmin2();}
-if(S.tab==='info')renderInfoPanels();const el=document.getElementById('insc-cnt');if(el)el.textContent=getActivas().length+'/40';applyChupitoDia();updateMsgBadge();if(typeof applyLed==="function")applyLed();}
-let toastT=null;function showToast(name,msg,color='#C9A84C'){const t=document.getElementById('toast');if(!t)return;t.style.borderLeftColor=color;document.getElementById('toast-name').textContent=name;document.getElementById('toast-msg').textContent=msg?' · '+msg:'';t.classList.add('on');if(toastT)clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),3000);}
-document.getElementById('np-overlay').addEventListener('click',function(e){if(e.target===this)closeNp();});initSplash();setTimeout(()=>{const app=document.getElementById('app');if(app&&app.style.display==='none'){fbCargar(true);}},100);
-
-</script>
-</body>
-</html>
