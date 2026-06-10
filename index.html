@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<!-- 
+  CHUPIALQUIMIÓMETRO v2026
+  © Alquimia Tavern · Los Corrales de Buelna
+  Sistema desarrollado a medida. Uso no autorizado prohibido.
+  348ea88444c281a9
+-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Chupialquimiómetro">
+<title>CHUPIALQUIMIÓMETRO · Alquimia Tavern · San Juan 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800&family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
+<style>:root{--gold:#C9A84C;--gold-b:#FFD700;--gold-d:#7a6020;--silver:#B0B0B0;--bronze:#A0622A;--red:#CC1A1A;--red-b:#FF2D2D;--orange:#FF7A00;--green:#27AE60;--bg:#080808;--bg2:#0F0F0F;--bg3:#181818;--bg4:#222;--text:#EDE8DF;--muted:#555;--border:#2a2a2a;}*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--bg);color:var(--text);font-family:'Barlow Condensed',sans-serif;min-height:100vh;overflow-x:hidden;width:100%;max-width:100vw;}#splash{position:fixed;inset:0;background:#000;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;transition:opacity .5s;}#splash.hide{opacity:0;pointer-events:none;}.splash-logo{width:100px;height:100px;margin-bottom:14px;filter:drop-shadow(0 0 16px rgba(201,168,76,.5));}.splash-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,6vw,3.2rem);letter-spacing:.06em;color:var(--text);text-shadow:0 0 30px rgba(201,168,76,.3);}.splash-title em{font-style:normal;color:var(--gold);}.splash-sub1{font-family:'Bebas Neue',sans-serif;font-size:clamp(1rem,3vw,1.5rem);letter-spacing:.18em;color:var(--gold);margin-top:4px;}.splash-sub2{font-size:clamp(.7rem,2vw,.9rem);letter-spacing:.22em;color:#555;text-transform:uppercase;margin-top:2px;}.splash-divider{width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:14px auto;}.splash-brand-name{font-family:'Cinzel Decorative',serif;color:var(--gold);font-size:.9rem;letter-spacing:.2em;opacity:.7;}.splash-sponsors{min-height:70px;display:flex;align-items:center;justify-content:center;margin:10px 0;}.sponsor-placeholder{width:120px;height:60px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:.8rem;color:var(--muted);}header{position:relative;text-align:center;padding:14px 12px 10px;background:linear-gradient(180deg,#111,var(--bg));border-bottom:1px solid #1f1f1f;}.header-inner{display:flex;align-items:center;justify-content:space-between;padding:0 12px;width:100%;box-sizing:border-box;}.header-brand{font-family:'Cinzel Decorative',serif;color:var(--gold);text-shadow:0 0 14px rgba(201,168,76,.5);text-align:center;min-width:0;flex:1;}.brand-l1{font-size:clamp(1rem,2.4vw,1.6rem);letter-spacing:.22em;display:block;}.brand-sep{width:80%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:4px auto;}.brand-l2{font-size:clamp(.85rem,2vw,1.3rem);letter-spacing:.26em;color:var(--gold-b);display:block;}.header-center{text-align:center;flex:2;min-width:0;}.header-center h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.2rem,5vw,3rem);letter-spacing:.04em;color:var(--text);text-shadow:0 0 30px rgba(201,168,76,.3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}.header-center h1 em{font-style:normal;color:var(--gold);}.header-sub .line1{font-family:'Bebas Neue',sans-serif;font-size:clamp(.9rem,2.5vw,1.4rem);letter-spacing:.16em;color:var(--gold);}.header-sub .line2{font-size:clamp(.65rem,1.8vw,.85rem);letter-spacing:.2em;color:#666;text-transform:uppercase;}.hora-banner{display:none;align-items:center;justify-content:center;gap:10px;padding:9px;background:repeating-linear-gradient(90deg,rgba(255,122,0,.12) 0,rgba(255,122,0,.12) 20px,rgba(255,122,0,.06) 20px,rgba(255,122,0,.06) 40px);border-top:1px solid rgba(255,122,0,.25);border-bottom:1px solid rgba(255,122,0,.25);animation:hpulse 1.4s ease-in-out infinite;}.hora-banner.on{display:flex;}@keyframes hpulse{0%,100%{opacity:1}50%{opacity:.6}}.hora-banner-txt{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--orange);letter-spacing:.12em;}.chupito-bar{display:none;align-items:center;justify-content:center;gap:10px;padding:7px 16px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.08),rgba(201,168,76,.12),rgba(201,168,76,.08),transparent);border-bottom:1px solid rgba(201,168,76,.2);}.chupito-bar.on{display:flex;}.chupito-lbl{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.15em;}.chupito-nombre{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--gold);letter-spacing:.08em;}.countdown-bar{padding:7px 16px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;}.cd-label{color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-size:.7rem;}.cd-time{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--gold);letter-spacing:.08em;}.cd-time.active{color:var(--orange);animation:hpulse 1s infinite;}.cd-schedule{font-size:.76rem;color:var(--muted);}.cd-schedule strong{color:#888;}.tabs{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);}.tab{flex:1;padding:10px 6px;font-family:'Barlow Condensed',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:transparent;color:var(--muted);border:none;border-bottom:3px solid transparent;cursor:pointer;transition:all .2s;position:relative;}.tab:hover{color:#aaa;}.tab.on{color:var(--gold);border-bottom-color:var(--gold);}.tab-admin-btn{flex:0 0 38px;font-size:.95rem;opacity:.22;}.tab-admin-btn:hover{opacity:.55;}.tab-admin-btn.on{opacity:.85;color:var(--gold);border-bottom-color:var(--gold);}.msg-badge{display:none;position:absolute;top:3px;right:2px;width:26px;height:26px;background:#25D366;border-radius:50%;align-items:center;justify-content:center;animation:bpulse 1.2s ease-in-out infinite;}.msg-badge.on{display:flex;}@keyframes bpulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(37,211,102,.5)}50%{transform:scale(1.1);box-shadow:0 0 0 4px rgba(37,211,102,0)}}.msg-badge svg{width:15px;height:15px;fill:white;}.main{padding:8px;max-width:1400px;margin:0 auto;width:100%;box-sizing:border-box;}.panel{display:none;}.panel.on{display:block;}.dual{display:grid;grid-template-columns:3fr 2fr;gap:12px;align-items:start;}@media(max-width:700px){.dual{grid-template-columns:1fr;}}@media(max-width:480px){.header-inner{padding:0 6px;}.brand-l1{font-size:.7rem;}.brand-l2{font-size:.6rem;}.header-sub .line1{font-size:.75rem;}.header-sub .line2{font-size:.55rem;}.header-center h1{font-size:clamp(1rem,4.5vw,1.8rem);}.main{padding:5px;}.tabs{font-size:.75rem;}.tab{padding:8px 3px;font-size:.75rem;}}.panel-box{background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden;}.panel-box-hdr{padding:9px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;}.panel-box-title{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.12em;color:var(--gold);}.panel-box-sub{font-size:.7rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-left:auto;}.podio{display:flex;justify-content:center;align-items:flex-end;gap:10px;padding:14px 10px 0;}.pi{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1;max-width:150px;}.pi.p1{order:2}.pi.p2{order:1}.pi.p3{order:3}.pi-crown{font-size:1.2rem;}.pi-name{font-family:'Bebas Neue',sans-serif;font-size:.88rem;letter-spacing:.04em;text-align:center;line-height:1.15;word-break:break-word;}.pi-pts{font-family:'Bebas Neue',sans-serif;font-size:2rem;line-height:1;}.pi-lbl{font-size:.78rem;color:var(--muted);text-transform:uppercase;font-weight:700;letter-spacing:.08em;}.pi-block{width:100%;display:flex;align-items:center;justify-content:center;border-radius:3px 3px 0 0;font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:rgba(0,0,0,.4);}.pi.p1 .pi-block{height:70px;background:linear-gradient(180deg,#C9A84C,#7a6020);}.pi.p2 .pi-block{height:50px;background:linear-gradient(180deg,#909090,#505050);}.pi.p3 .pi-block{height:35px;background:linear-gradient(180deg,#A0622A,#5a3515);}.pi.p1 .pi-pts{color:var(--gold-b);}.pi.p2 .pi-pts{color:var(--silver);}.pi.p3 .pi-pts{color:var(--bronze);}.gap-row{display:flex;justify-content:space-around;padding:7px 10px 0;flex-wrap:wrap;gap:5px;}.gap-item{font-size:.7rem;color:var(--muted);text-align:center;background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:3px 8px;}.gap-item strong{color:var(--red-b);font-family:'Bebas Neue',sans-serif;font-size:.92rem;}.gap-item.fourth strong{color:var(--orange);}.noche-leader{margin:14px 10px 0;padding:12px;background:linear-gradient(135deg,rgba(255,122,0,.08),rgba(201,168,76,.06));border:1px solid rgba(255,122,0,.2);border-radius:6px;display:flex;flex-direction:column;align-items:center;gap:4px;min-height:155px;justify-content:center;}.nl-crown{font-size:1.8rem;}.nl-label{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.15em;}.nl-name{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.06em;text-align:center;color:var(--orange);line-height:1.1;}.nl-pts{font-family:'Bebas Neue',sans-serif;font-size:2.6rem;color:var(--gold-b);line-height:1;}.nl-pts-lbl{font-size:.82rem;color:var(--muted);text-transform:uppercase;font-weight:700;letter-spacing:.1em;}.nl-empty{color:var(--muted);font-size:.82rem;text-align:center;}.noche-off-msg{margin:14px 10px 0;padding:14px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;text-align:center;min-height:155px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.82rem;}.section-lbl{font-family:'Bebas Neue',sans-serif;font-size:.88rem;letter-spacing:.18em;color:var(--muted);padding:9px 12px 5px;border-bottom:1px solid var(--border);}.rlist{display:flex;flex-direction:column;}.rrow{display:grid;grid-template-columns:28px 1fr auto auto 50px;align-items:center;gap:5px;padding:7px 10px;border-bottom:1px solid #111;border-left:3px solid transparent;}.rrow:last-child{border-bottom:none;}.rrow.r1{border-left-color:var(--gold);background:linear-gradient(90deg,rgba(201,168,76,.07),transparent);}.rrow.r2{border-left-color:var(--silver);background:linear-gradient(90deg,rgba(176,176,176,.05),transparent);}.rrow.r3{border-left-color:var(--bronze);background:linear-gradient(90deg,rgba(160,98,42,.05),transparent);}.rn{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--muted);text-align:center;}.rrow.r1 .rn{color:var(--gold);}.rrow.r2 .rn{color:var(--silver);}.rrow.r3 .rn{color:var(--bronze);}.rname{font-size:.95rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;}.rpts-wrap{text-align:right;}.rpts{font-family:'Bebas Neue',sans-serif;font-size:1.35rem;line-height:1;}.rpts-lbl{font-size:.58rem;color:var(--muted);text-transform:uppercase;}.rchg{font-size:.7rem;font-weight:700;text-align:center;min-width:22px;}.rchg.up{color:#27AE60}.rchg.dn{color:var(--red-b)}.rchg.eq{color:var(--muted)}.rop{font-size:.66rem;font-weight:700;text-align:right;min-width:46px;padding:2px 4px;border-radius:3px;white-space:nowrap;}.rop.pos{background:rgba(39,174,96,.15);color:#4cde84;border:1px solid rgba(39,174,96,.25);}.rop.neg{background:rgba(204,26,26,.15);color:#ff7070;border:1px solid rgba(204,26,26,.25);}.rop.empty{background:transparent;border:none;color:transparent;}.rrow-n{grid-template-columns:26px 1fr auto;padding:6px 10px;}.empty{text-align:center;padding:36px 20px;color:var(--muted);}.empty .ei{font-size:2.2rem;margin-bottom:8px;}.info-tabs{display:flex;gap:4px;margin-bottom:12px;flex-wrap:wrap;}.info-tab{flex:1;min-width:70px;padding:7px 5px;font-family:'Barlow Condensed',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;background:var(--bg3);color:var(--muted);border:1px solid var(--border);border-radius:4px;cursor:pointer;transition:all .2s;text-align:center;}.info-tab.on{background:var(--gold-d);color:var(--text);border-color:var(--gold-d);}.info-panel{display:none;}.info-panel.on{display:block;}.info-block{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px;margin-bottom:10px;}.info-block h3{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.1em;color:var(--gold);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border);}.info-block p{font-size:.86rem;color:#ccc;line-height:1.6;margin-bottom:7px;}.info-block p:last-child{margin-bottom:0;}.info-block strong{color:var(--text);}.info-warning{background:rgba(204,26,26,.08);border:1px solid rgba(204,26,26,.25);border-left:4px solid var(--red-b);border-radius:4px;padding:11px 14px;margin-bottom:10px;}.info-warning p{font-size:.88rem;color:#ff9090;font-weight:700;line-height:1.5;margin-bottom:3px;}.info-tip{background:rgba(255,122,0,.06);border:1px solid rgba(255,122,0,.2);border-left:4px solid var(--orange);border-radius:4px;padding:9px 12px;margin:8px 0;font-size:.82rem;color:#ffbb77;}.premios-tabs{display:flex;gap:5px;margin-bottom:10px;}.premios-tab{flex:1;padding:7px;font-family:'Barlow Condensed',sans-serif;font-size:.76rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--bg3);color:var(--muted);border:1px solid var(--border);border-radius:4px;cursor:pointer;text-align:center;transition:all .2s;}.premios-tab.on{background:var(--gold-d);color:var(--text);}.premios-panel{display:none;}.premios-panel.on{display:block;}.premio-item{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:10px 12px;margin-bottom:7px;}.premio-icon{font-size:1.3rem;}.premio-title{font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:.08em;color:var(--gold);}.premio-desc{font-size:.83rem;color:#bbb;font-style:italic;margin-top:3px;}.noche-proxima{background:linear-gradient(135deg,rgba(255,122,0,.08),rgba(201,168,76,.05));border:1px solid rgba(255,122,0,.2);border-radius:6px;padding:12px;margin-bottom:10px;text-align:center;}.noche-proxima-lbl{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.15em;margin-bottom:3px;}.noche-proxima-fecha{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--orange);letter-spacing:.08em;}.noche-proxima-premio{font-size:.83rem;color:#bbb;margin-top:3px;}.hist-gan-row{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;padding:7px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;margin-bottom:5px;}.hist-gan-dia{font-size:.68rem;color:var(--muted);text-transform:uppercase;}.hist-gan-pts{font-family:'Bebas Neue',sans-serif;font-size:.95rem;color:var(--gold);}.msg-card{border-radius:5px;padding:12px 14px;margin-bottom:7px;}.msg-card.info{background:rgba(26,58,107,.2);border:1px solid rgba(26,58,107,.4);}.msg-card.promo{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);}.msg-card.urgente{background:rgba(204,26,26,.1);border:1px solid rgba(204,26,26,.3);}.msg-card-title{font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:.08em;margin-bottom:3px;}.msg-card.info .msg-card-title{color:#87aadd;}.msg-card.promo .msg-card-title{color:var(--gold);}.msg-card.urgente .msg-card-title{color:var(--red-b);}.msg-card-body{font-size:.85rem;color:#bbb;line-height:1.5;}.msg-empty{text-align:center;padding:24px;color:var(--muted);font-size:.83rem;}.admin-outer{max-width:600px;margin:0 auto;}.admin-pin-wrap{text-align:center;padding:32px 20px;}.admin-pin-title{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:.1em;color:var(--gold);margin-bottom:4px;}.admin-pin-sub{font-size:.83rem;color:var(--muted);margin-bottom:18px;}.pin-dots{display:flex;justify-content:center;gap:9px;margin-bottom:16px;}.pin-dot{width:12px;height:12px;border-radius:50%;background:var(--border);transition:background .2s;}.pin-dot.filled{background:var(--gold);}.pin-keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:190px;margin:0 auto;}.pin-key{padding:12px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--text);cursor:pointer;transition:all .12s;text-align:center;}.pin-key:hover{background:var(--bg4);border-color:var(--gold-d);}.pin-key.clr{color:var(--muted);font-size:.95rem;}.pin-error{color:var(--red-b);font-size:.83rem;margin-top:9px;min-height:18px;}.admin-inner{display:none;}.admin-inner.on{display:block;}.admin-tabs{display:flex;gap:4px;margin-bottom:12px;flex-wrap:wrap;}.admin-tab{flex:1;min-width:60px;padding:8px 5px;font-family:'Barlow Condensed',sans-serif;font-size:.76rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--bg3);color:var(--muted);border:1px solid var(--border);border-radius:4px;cursor:pointer;transition:all .2s;text-align:center;}.admin-tab.on{background:var(--gold-d);color:var(--text);border-color:var(--gold-d);}.admin-panel{display:none;}.admin-panel.on{display:block;}.admin-section{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:13px;margin-bottom:10px;}.admin-section-title{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.1em;color:var(--gold);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);}.op-list{display:flex;flex-direction:column;gap:4px;max-height:350px;overflow-y:auto;}.op-row{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:8px;padding:7px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;cursor:pointer;transition:all .15s;}.op-row:hover{border-color:var(--gold-d);}.op-row-name{font-size:.88rem;font-weight:600;}.op-row-pts{text-align:right;}.op-row-gen{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;color:var(--gold);}.op-row-noche{font-size:.7rem;color:var(--orange);}.op-row-lbl{font-size:.58rem;color:var(--muted);text-transform:uppercase;}.op-last{margin-top:8px;padding:9px 11px;background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--muted);border-radius:4px;font-size:.83rem;min-height:40px;color:var(--muted);}.op-last strong{color:var(--gold);}.op-last.ok{border-left-color:var(--green);}.op-last.err{border-left-color:var(--red-b);}.hora-time-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}.hora-time-box{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:9px 10px;}.hora-time-lbl{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;}.hora-time-input{width:100%;background:transparent;border:none;font-family:'Bebas Neue',sans-serif;font-size:1.7rem;color:var(--gold);letter-spacing:.1em;outline:none;text-align:center;}.hora-status-box{padding:9px 11px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;margin-bottom:9px;font-size:.85rem;color:var(--muted);}.hora-status-box.on{color:var(--orange);border-color:rgba(255,122,0,.3);background:rgba(255,122,0,.06);}.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;margin-bottom:9px;}.toggle-row-label{font-size:.86rem;font-weight:600;}.toggle-row-sub{font-size:.73rem;color:var(--muted);margin-top:1px;}.tog-sw{width:42px;height:22px;background:#333;border-radius:11px;position:relative;border:none;cursor:pointer;transition:background .2s;flex-shrink:0;}.tog-sw::after{content:'';position:absolute;width:16px;height:16px;background:#fff;border-radius:50%;top:3px;left:3px;transition:transform .2s;}.tog-sw.on{background:var(--green);}.tog-sw.on::after{transform:translateX(20px);}.hist-list{display:flex;flex-direction:column;gap:4px;max-height:180px;overflow-y:auto;}.hist-row{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;padding:6px 9px;background:var(--bg3);border-radius:4px;border:1px solid var(--border);}.hist-day{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}.hist-name{font-size:.88rem;font-weight:600;}.hist-pts{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;color:var(--gold);}.hist-empty{color:var(--muted);font-size:.82rem;padding:8px 0;}.admin2-locked{display:block;}.admin2-locked.hide{display:none;}.admin2-content{display:none;}.admin2-content.on{display:block;}.admin-stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:9px;}.admin-stat{text-align:center;padding:10px;background:var(--bg3);border-radius:4px;border:1px solid var(--border);}.admin-stat-val{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;color:var(--gold);line-height:1;}.admin-stat-lbl{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:2px;}.daily-table{width:100%;border-collapse:collapse;font-size:.8rem;}.daily-table th{padding:6px 9px;text-align:left;font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border);}.daily-table td{padding:6px 9px;border-bottom:1px solid #111;}.daily-table tr:last-child td{border-bottom:none;}.daily-table tr.today td{color:var(--gold);}.daily-table .num{text-align:right;font-family:'Bebas Neue',sans-serif;font-size:.95rem;}.insc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:4px;}.insc-card{display:flex;align-items:center;gap:7px;padding:8px 9px;background:var(--bg3);border:1px solid var(--border);border-left:3px solid #333;border-radius:4px;transition:all .2s;}.insc-card.on{border-left-color:var(--green);}.insc-card.off{opacity:.45;}.insc-n{font-family:'Bebas Neue',sans-serif;font-size:.95rem;color:var(--muted);min-width:20px;}.insc-name-wrap{flex:1;}.insc-name-txt{font-size:.86rem;font-weight:600;}.insc-name-input{display:none;width:100%;background:var(--bg2);border:1px solid var(--gold-d);color:var(--text);font-family:'Barlow Condensed',sans-serif;font-size:.86rem;font-weight:600;padding:2px 5px;border-radius:3px;outline:none;}.insc-actions{display:flex;gap:4px;align-items:center;}.btn-edit{background:transparent;border:1px solid var(--border);color:var(--muted);font-size:.65rem;padding:2px 6px;border-radius:3px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.05em;text-transform:uppercase;transition:all .15s;}.btn-edit:hover{border-color:var(--gold-d);color:var(--gold);}.btn-edit.saving{border-color:var(--green);color:var(--green);}.toggle-sw{width:30px;height:17px;background:#333;border-radius:9px;position:relative;border:none;cursor:pointer;transition:background .2s;flex-shrink:0;}.toggle-sw::after{content:'';position:absolute;width:11px;height:11px;background:#fff;border-radius:50%;top:3px;left:3px;transition:transform .2s;}.insc-card.on .toggle-sw{background:var(--green);}.insc-card.on .toggle-sw::after{transform:translateX(13px);}.admin-edit-field{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);font-family:'Barlow Condensed',sans-serif;font-size:.9rem;padding:7px 9px;border-radius:4px;outline:none;margin-bottom:5px;}.admin-edit-field:focus{border-color:var(--gold-d);}textarea.admin-edit-field{resize:vertical;min-height:55px;}.msg-admin-card{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:10px;margin-bottom:7px;}.msg-admin-hdr{display:flex;align-items:center;gap:7px;margin-bottom:7px;flex-wrap:wrap;}.msg-type-sel{background:var(--bg2);border:1px solid var(--border);color:var(--text);font-family:'Barlow Condensed',sans-serif;font-size:.8rem;padding:3px 7px;border-radius:3px;outline:none;cursor:pointer;}.reset-danger-box{background:rgba(204,26,26,.08);border:2px solid rgba(204,26,26,.3);border-radius:6px;padding:14px;text-align:center;}.reset-danger-title{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;color:var(--red-b);letter-spacing:.1em;margin-bottom:6px;}.reset-danger-sub{font-size:.8rem;color:#ff9090;margin-bottom:12px;}.hist-gan-admin-card{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:10px;margin-bottom:7px;}.hist-gan-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;flex-wrap:wrap;gap:5px;}.hist-gan-visible-lbl{font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:.08em;}button{font-family:'Barlow Condensed',sans-serif;font-size:.9rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:8px 16px;border:none;border-radius:4px;cursor:pointer;transition:all .15s;}.btn-gold{background:var(--gold-d);color:#111;}.btn-gold:hover{background:var(--gold);}.btn-green{background:var(--green);color:#fff;}.btn-green:hover{background:#1e8a4a;}.btn-orange{background:var(--orange);color:#fff;}.btn-orange.on{background:#333;color:var(--orange);border:1px solid var(--orange);}.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border);}.btn-ghost:hover{border-color:var(--red-b);color:var(--red-b);}.btn-danger{background:rgba(204,26,26,.15);color:var(--red-b);border:2px solid rgba(204,26,26,.4);}.btn-danger:hover{background:rgba(204,26,26,.3);}.btn-sm{font-size:.76rem;padding:5px 11px;}.btn-export{background:rgba(39,174,96,.15);color:var(--green);border:1px solid rgba(39,174,96,.3);}.btn-import{background:rgba(26,58,107,.15);color:#87aadd;border:1px solid rgba(26,58,107,.3);}.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:200;align-items:center;justify-content:center;}.modal-overlay.on{display:flex;}.numpad-modal{background:var(--bg2);border:1px solid var(--border);border-top:3px solid var(--gold-d);border-radius:8px;padding:16px;width:290px;max-width:95vw;}.np-title{font-family:'Bebas Neue',sans-serif;font-size:.92rem;letter-spacing:.1em;color:var(--muted);margin-bottom:2px;}.np-peña{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--gold);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}.np-pts-info{font-size:.76rem;color:var(--muted);margin-bottom:9px;}.np-pts-info span{color:var(--orange);}.np-display{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:8px 12px;font-family:'Bebas Neue',sans-serif;font-size:2rem;text-align:right;color:var(--text);margin-bottom:9px;min-height:50px;letter-spacing:.05em;}.np-display.empty{color:var(--muted);}.np-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:7px;}.nk{padding:11px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--text);cursor:pointer;text-align:center;transition:all .1s;user-select:none;}.nk:hover{background:var(--bg4);border-color:#444;}.nk:active{transform:scale(.93);}.nk.clr{color:var(--orange);border-color:rgba(255,122,0,.2);font-size:1rem;}.nk.bksp{color:var(--muted);font-size:1rem;}.nk.bono{grid-column:span 2;background:rgba(201,168,76,.1);border-color:var(--gold-d);color:var(--gold);font-size:.88rem;letter-spacing:.04em;}.nk.bono:hover{background:rgba(201,168,76,.2);}.np-bono-note{font-size:.68rem;color:var(--muted);text-align:center;margin-bottom:5px;letter-spacing:.05em;}.np-hora-badge{text-align:center;font-size:.7rem;color:var(--orange);min-height:15px;letter-spacing:.06em;font-weight:700;margin-bottom:5px;}.np-restar-opts{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:7px;}.btn-sub-restar{padding:9px 5px;font-family:'Barlow Condensed',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;border-radius:4px;cursor:pointer;text-align:center;transition:all .15s;user-select:none;}.btn-sub-restar:active{transform:scale(.96);}.btn-sub-restar.chup{background:rgba(204,26,26,.15);color:var(--red-b);border:1px solid rgba(204,26,26,.3);}.btn-sub-restar.bono{background:rgba(201,168,76,.12);color:var(--gold);border:1px solid rgba(201,168,76,.25);}.np-actions{display:grid;grid-template-columns:1fr;gap:7px;}.btn-sumar{padding:12px;background:linear-gradient(135deg,#1a5c2e,#27AE60);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:.1em;border:none;border-radius:5px;cursor:pointer;transition:all .15s;}.btn-sumar:hover{background:linear-gradient(135deg,#1e6e36,#2ecc71);}.btn-cancelar{width:100%;margin-top:6px;background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:4px;padding:6px;font-size:.78rem;}.lock-btn{position:fixed;bottom:16px;left:16px;background:var(--bg3);border:1px solid var(--border);color:var(--muted);padding:6px 12px;border-radius:4px;font-size:.7rem;cursor:pointer;z-index:100;transition:all .2s;}.lock-btn:hover{border-color:var(--gold-d);color:var(--gold);}.toast{position:fixed;bottom:18px;right:18px;background:var(--bg3);border:1px solid var(--border);border-left:4px solid var(--gold);padding:9px 14px;border-radius:5px;font-size:.9rem;font-weight:600;opacity:0;transform:translateY(14px);transition:all .3s;z-index:300;max-width:280px;pointer-events:none;}.toast.on{opacity:1;transform:translateY(0);}.toast .tn{color:var(--gold);display:block;}@media(max-width:500px){.admin-stat-grid{grid-template-columns:repeat(2,1fr);}}
+/* ── LED MARQUEE ── */
+@keyframes ledScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.led-pequeño{font-size:clamp(4rem,10vw,8rem)}
+.led-medio{font-size:clamp(6rem,16vw,12rem)}
+.led-grande{font-size:clamp(8rem,22vw,18rem)}
+#led-stage{width:100%;overflow:hidden;position:relative;}
+#led-stage.arriba{padding:8vh 0 0}
+#led-stage.centro{padding:0}
+#led-stage.abajo{padding:0 0 8vh}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <svg style="width:90px;height:90px;margin-bottom:12px;filter:drop-shadow(0 0 14px rgba(201,168,76,.5))" viewBox="0 0 200 200">
+    <defs><linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#FFD700"/><stop offset="50%" style="stop-color:#C9A84C"/><stop offset="100%" style="stop-color:#8a6020"/></linearGradient></defs>
+    <circle cx="100" cy="100" r="90" fill="none" stroke="url(#sg)" stroke-width="6"/>
+    <circle cx="100" cy="100" r="82" fill="none" stroke="url(#sg)" stroke-width="2" opacity=".4"/>
+    <polygon points="100,22 168,158 32,158" fill="none" stroke="url(#sg)" stroke-width="7" stroke-linejoin="round"/>
+    <polygon points="100,72 134,138 66,138" fill="none" stroke="url(#sg)" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M155,45 Q185,100 155,155 Q130,170 100,168" fill="none" stroke="url(#sg)" stroke-width="8" stroke-linecap="round"/>
+    <path d="M155,45 Q130,30 100,32" fill="none" stroke="url(#sg)" stroke-width="5" stroke-linecap="round" opacity=".6"/>
+  </svg>
+  <div class="splash-title">CHUPI<em>ALQUIMIÓ</em>METRO</div>
+  <div class="splash-sub1">San Juan 2026</div>
+  <div class="splash-sub2">Los Corrales de Buelna</div>
+  <div class="splash-divider"></div>
+  <div class="splash-brand-name">Alquimia Tavern</div>
+  <div class="splash-sponsors" id="splash-sponsors">
+    <div class="sponsor-placeholder">🥃 Patrocinadores</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none">
+
+<header>
+  <div class="header-inner">
+    <div class="header-brand">
+      <span class="brand-l1">Alquimia</span>
+      <div class="brand-sep"></div>
+      <span class="brand-l2">Tavern</span>
+    </div>
+    <div class="header-center">
+      <h1>CHUPI<em>ALQUIMIÓ</em>METRO</h1>
+      <div class="header-sub">
+        <div class="line1">San Juan 2026</div>
+        <div class="line2">Los Corrales de Buelna</div>
+      </div>
+    </div>
+    <div class="header-brand">
+      <span class="brand-l1">Alquimia</span>
+      <div class="brand-sep"></div>
+      <span class="brand-l2">Tavern</span>
+    </div>
+  </div>
+</header>
+
+<div class="chupito-bar" id="chupito-bar">
+  <span class="chupito-lbl">🥃 Chupito del día:</span>
+  <span class="chupito-nombre" id="chupito-nombre">—</span>
+</div>
+
+<div class="hora-banner" id="hora-banner">
+  <span>🔥</span><span class="hora-banner-txt">¡¡ HORA DOBLE ACTIVA · PUNTOS × 2 !!</span><span>🔥</span>
+</div>
+
+<div class="countdown-bar">
+  <span class="cd-label">Hora Doble</span>
+  <span class="cd-time" id="cd-time">--h:--m:--s</span>
+  <span class="cd-schedule" id="cd-schedule"></span>
+</div>
+
+<div class="tabs">
+  <button class="tab on" id="tab-ranking" onclick="setTab('ranking')">🏆 Ranking</button>
+  <button class="tab" id="tab-info" onclick="setTab('info')" style="display:flex;align-items:center;gap:5px;">
+    ℹ️ Info
+    <span id="msg-badge" style="display:none;background:#25D366;border-radius:50%;width:18px;height:18px;align-items:center;justify-content:center;flex-shrink:0;animation:bpulse 1.2s ease-in-out infinite;">
+      <svg viewBox="0 0 24 24" width="11" height="11" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+    </span>
+  </button>
+  <div style="flex:1;"></div>
+  <button class="tab tab-admin-btn" id="tab-admin" onclick="setTab('admin')" title="Admin" style="opacity:.22;font-size:.95rem;flex:0 0 38px;">🔑</button>
+</div>
+
+<div class="main">
+
+  <!-- RANKING -->
+  <div class="panel on" id="panel-ranking">
+    <div class="dual">
+      <div class="panel-box" id="box-general"></div>
+      <div class="panel-box" id="box-noche"></div>
+    </div>
+  </div>
+
+  <!-- INFO -->
+  <div class="panel" id="panel-info">
+    <div class="info-tabs">
+      <div class="info-tab on" id="itab-mensajes" onclick="setInfoTab('mensajes')">💬 Mensajes</div>
+      <div class="info-tab" id="itab-premios" onclick="setInfoTab('premios')">🏆 Premios</div>
+      <div class="info-tab" id="itab-func" onclick="setInfoTab('func')">📖 Instrucciones</div>
+      <div class="info-tab" id="itab-proyecto" onclick="setInfoTab('proyecto')">⚠️ Aviso</div>
+    </div>
+    <div class="info-panel on" id="ipanel-mensajes">
+      <div id="msg-list-public"><div class="msg-empty">No hay mensajes en este momento</div></div>
+    </div>
+    <div class="info-panel" id="ipanel-premios">
+      <div class="premios-tabs">
+        <div class="premios-tab on" id="ptab-general" onclick="setPremiosTab('general')">🏆 Ranking General</div>
+        <div class="premios-tab" id="ptab-noche" onclick="setPremiosTab('noche')">🌙 Ganador Noche</div>
+      </div>
+      <div class="premios-panel on" id="ppanel-general">
+        <div class="panel-box" id="premios-podio-box" style="margin-bottom:10px;"></div>
+        <div class="info-block" id="premios-general-content"></div>
+      </div>
+      <div class="premios-panel" id="ppanel-noche">
+        <div class="noche-proxima" id="noche-proxima-box"></div>
+        <div class="info-block"><h3>Ganadores anteriores</h3><div id="hist-ganadores-list"></div></div>
+      </div>
+    </div>
+    <div class="info-panel" id="ipanel-func">
+      <div class="info-warning">
+        <p>🔞 PROHIBIDA LA VENTA, CONSUMO Y PARTICIPACIÓN A MENORES DE 18 AÑOS</p>
+        <p>🍺 Alquimia Tavern promueve el consumo moderado y responsable de alcohol</p>
+      </div>
+      <div class="info-block"><h3>¿En qué consiste?</h3><p>El Chupialquimiómetro es el concurso oficial de chupitos de las Fiestas de San Juan. Las peñas inscritas compiten acumulando puntos durante los 10 días de feria. Cada chupito consumido suma puntos al marcador de tu peña.</p></div>
+      <div class="info-block"><h3>¿Cómo se suman los puntos?</h3><p>Cada chupito suma <strong>1 punto</strong>. En la barra podéis adquirir el <strong>Bono Peñero</strong>: 15 chupitos por 25€ (precio normal 30€). Al comprar el bono, los 15 puntos se suman de golpe al marcador.</p></div>
+      <div class="info-block"><h3>🔥 Hora Doble</h3><p>En determinadas franjas horarias los <strong>puntos valen el doble</strong>. Atentos a la cuenta atrás en pantalla y los avisos por megafonía.</p><div class="info-tip">⚠️ El Bono Peñero siempre suma 15 puntos fijos, independientemente de la Hora Doble.</div></div>
+      <div class="info-block"><h3>🏆 El Gran Podio Final</h3><p>Al terminar las fiestas, las <strong>tres peñas con más puntos</strong> se llevan los premios del podio.</p></div>
+      <div class="info-block"><h3>🌙 Ganador de la Noche</h3><p>En determinadas noches hay un premio para la peña que <strong>más puntos consiga esa noche</strong>. El marcador nocturno se reinicia cada noche.</p></div>
+      <div class="info-block"><h3>📡 Actualización del marcador</h3><p>El marcador se actualiza automáticamente cada pocos segundos en todos los dispositivos. Si ves que tarda, pulsa el botón <strong>↺</strong> en la barra superior para forzar la actualización.</p></div>
+    </div>
+    <div class="info-panel" id="ipanel-proyecto">
+      <div class="info-block">
+        <h3>El Chupialquimiómetro — Un proyecto propio</h3>
+        <p>El Chupialquimiómetro es una iniciativa creada íntegramente por el equipo de <strong>Alquimia Tavern</strong> para animar las Fiestas de San Juan de Los Corrales de Buelna.</p>
+        <p>Se trata de un <strong>proyecto nuevo, en su primera edición</strong>, desarrollado con mucha ilusión pero también con la honestidad de reconocer que es un sistema en periodo de prueba. Como cualquier proyecto tecnológico en sus inicios, puede cometer errores, pausarse o comportarse de forma inesperada.</p>
+        <p>Ante cualquier incidencia, el equipo de Alquimia Tavern hará todo lo posible por resolverla de la forma más justa y rápida posible.</p>
+        <p><strong>El Chupialquimiómetro nace para sumar, no para generar conflictos.</strong> Gracias por ser parte de esta primera edición.</p>
+        <p style="margin-top:10px;color:var(--gold);font-style:italic;">— El equipo de Alquimia Tavern · Desde 1999</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN -->
+  <div class="panel" id="panel-admin">
+    <div class="admin-outer">
+      <div class="admin-pin-wrap" id="pin-screen">
+        <div class="admin-pin-title">🔐 Admin</div>
+        <div class="admin-pin-sub">PIN de acceso</div>
+        <div class="pin-dots" id="pin-dots">
+          <div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div><div class="pin-dot" id="pd2"></div>
+          <div class="pin-dot" id="pd3"></div><div class="pin-dot" id="pd4"></div><div class="pin-dot" id="pd5"></div><div class="pin-dot" id="pd6"></div><div class="pin-dot" id="pd7"></div>
+        </div>
+        <div class="pin-keypad">
+          <div class="pin-key" onclick="pinKey('1')">1</div><div class="pin-key" onclick="pinKey('2')">2</div><div class="pin-key" onclick="pinKey('3')">3</div>
+          <div class="pin-key" onclick="pinKey('4')">4</div><div class="pin-key" onclick="pinKey('5')">5</div><div class="pin-key" onclick="pinKey('6')">6</div>
+          <div class="pin-key" onclick="pinKey('7')">7</div><div class="pin-key" onclick="pinKey('8')">8</div><div class="pin-key" onclick="pinKey('9')">9</div>
+          <div class="pin-key clr" onclick="pinClear()">C</div><div class="pin-key" onclick="pinKey('0')">0</div><div class="pin-key clr" onclick="pinBksp()">⌫</div>
+        </div>
+        <button onclick="checkPin()" style="width:100%;margin-top:9px;background:linear-gradient(135deg,#1a5c2e,#27AE60);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.1em;border:none;border-radius:5px;padding:11px;cursor:pointer;">✓ ENTRAR</button>
+        <div class="pin-error" id="pin-error"></div>
+      </div>
+      <div class="admin-inner" id="admin-inner">
+        <div class="admin-tabs">
+          <div class="admin-tab on" id="atab-op" onclick="setAdminTab('op')">🧮 Puntos</div>
+          <div class="admin-tab" id="atab-contenido" onclick="setAdminTab('contenido')">✏️ Contenido</div>
+          <div class="admin-tab" id="atab-hora" onclick="setAdminTab('hora')">⏰ Hora/Noche</div>
+          <div class="admin-tab" id="atab-admin2" onclick="setAdminTab('admin2')">📊 Admin 2</div>
+          <div class="admin-tab" id="atab-insc" onclick="setAdminTab('insc')">📋 Insc.</div>
+        </div>
+
+        <!-- PUNTOS -->
+        <div class="admin-panel on" id="apanel-op">
+          <div class="admin-section">
+            <div class="admin-section-title">🧮 Añadir / Restar puntos</div>
+            <p style="font-size:.78rem;color:var(--muted);margin-bottom:8px;">Ordenadas por clasificación · Toca una peña para abrir el teclado</p>
+            <div class="op-list" id="op-list"></div>
+            <div class="op-last" id="op-last">Última operación: <em style="color:var(--muted)">ninguna aún</em></div>
+          </div>
+        </div>
+
+        <!-- CONTENIDO -->
+        <div class="admin-panel" id="apanel-contenido">
+          <div class="admin-section" id="led-admin-panel" style="min-height:60px;"></div>
+
+          <div class="admin-section">
+            <div class="admin-section-title">🥃 Chupito del día</div>
+            <div class="toggle-row" style="margin-bottom:8px;">
+              <div><div class="toggle-row-label">Mostrar en pantalla principal</div></div>
+              <button class="tog-sw" id="tog-chupito" onclick="toggleChupitoDia()"></button>
+            </div>
+            <input class="admin-edit-field" type="text" id="chupito-input" placeholder="Ej: Licor de Piruleta" oninput="updateChupitoDia()">
+          </div>
+          <div class="admin-section">
+            <div class="admin-section-title">🏆 Premios Ranking General</div>
+            <div style="font-size:.7rem;color:var(--muted);margin-bottom:5px;">🥇 Primer premio</div>
+            <textarea class="admin-edit-field" id="premio-oro" placeholder="Describe el premio de oro..." oninput="savePremios()"></textarea>
+            <div style="font-size:.7rem;color:var(--muted);margin-bottom:5px;">🥈 Segundo premio</div>
+            <textarea class="admin-edit-field" id="premio-plata" placeholder="Describe el premio de plata..." oninput="savePremios()"></textarea>
+            <div style="font-size:.7rem;color:var(--muted);margin-bottom:5px;">🥉 Tercer premio</div>
+            <textarea class="admin-edit-field" id="premio-bronce" placeholder="Describe el premio de bronce..." oninput="savePremios()"></textarea>
+          </div>
+          <div class="admin-section">
+            <div class="admin-section-title">🌙 Próxima noche con premio</div>
+            <input class="admin-edit-field" type="text" id="noche-fecha-input" placeholder="Ej: Sábado 28 de junio" oninput="saveNocheContenido()">
+            <textarea class="admin-edit-field" id="noche-premio-input" placeholder="Describe el premio de la noche..." oninput="saveNocheContenido()"></textarea>
+          </div>
+          <div class="admin-section">
+            <div class="admin-section-title">📜 Historial ganadores noche</div>
+            <div id="hist-ganadores-admin"></div>
+            <button class="btn-sm btn-gold" style="margin-top:7px;" onclick="addHistGanador()">+ Añadir ganador</button>
+          </div>
+          <div class="admin-section">
+            <div class="admin-section-title">💬 Mensajes para Info</div>
+            <div id="mensajes-admin"></div>
+            <button class="btn-sm btn-gold" style="margin-top:7px;" onclick="addMensaje()">+ Nuevo mensaje</button>
+          </div>
+        </div>
+
+        <!-- HORA/NOCHE -->
+        <div class="admin-panel" id="apanel-hora">
+          <div class="admin-section">
+            <div class="admin-section-title">⏰ Hora Doble</div>
+            <div class="hora-time-row">
+              <div class="hora-time-box"><div class="hora-time-lbl">Inicio</div><input class="hora-time-input" type="time" id="hora-inicio" value="18:00" onchange="updateHoraSchedule()"></div>
+              <div class="hora-time-box"><div class="hora-time-lbl">Fin</div><input class="hora-time-input" type="time" id="hora-fin" value="20:00" onchange="updateHoraSchedule()"></div>
+            </div>
+            <div class="hora-status-box" id="hora-status-box">Estado: Desactivada</div>
+            <div style="display:flex;gap:7px;flex-wrap:wrap;">
+              <button class="btn-orange" id="btn-hora-toggle" onclick="toggleHoraManual()">Activar Hora Doble</button>
+              <button class="btn-sm btn-ghost" onclick="activarHoraAuto()">▶ Por horario</button>
+            </div>
+          </div>
+          <div class="admin-section">
+            <div class="admin-section-title">🌙 Control de Noche</div>
+            <div class="toggle-row" style="margin-bottom:10px;">
+              <div><div class="toggle-row-label">Mostrar "Ganador de la Noche" en ranking</div><div class="toggle-row-sub">Desactívalo en noches sin premio</div></div>
+              <button class="tog-sw on" id="tog-noche" onclick="toggleNocheVisible()"></button>
+            </div>
+            <div style="margin-bottom:9px;">
+              <div style="font-size:.78rem;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.1em;">Líder actual de la noche</div>
+              <div id="noche-lider-admin" style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--orange);">—</div>
+            </div>
+            <div style="margin-bottom:12px;">
+              <div style="font-size:.78rem;color:var(--muted);margin-bottom:7px;text-transform:uppercase;letter-spacing:.1em;">Historial ganadores noche</div>
+              <div class="hist-list" id="hist-list"></div>
+            </div>
+            <div style="display:flex;gap:7px;flex-wrap:wrap;">
+              <button class="btn-ghost" onclick="confirmResetNoche()">↺ Reiniciar noche</button>
+              <button class="btn-sm btn-gold" onclick="saveNocheWinner()">💾 Guardar ganador y reiniciar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADMIN 2 -->
+        <div class="admin-panel" id="apanel-admin2">
+          <div class="admin2-locked" id="admin2-locked">
+            <div class="admin-section" style="text-align:center;">
+              <div class="admin-pin-title" style="font-size:1.3rem;margin-bottom:3px;">🔒 Admin 2</div>
+              <div class="admin-pin-sub">Acceso restringido · dirección</div>
+              <div class="pin-dots" id="pin2-dots" style="justify-content:center;margin-bottom:12px;">
+                <div class="pin-dot" id="p2d0"></div><div class="pin-dot" id="p2d1"></div><div class="pin-dot" id="p2d2"></div><div class="pin-dot" id="p2d3"></div>
+                <div class="pin-dot" id="p2d4"></div><div class="pin-dot" id="p2d5"></div><div class="pin-dot" id="p2d6"></div><div class="pin-dot" id="p2d7"></div>
+              </div>
+              <div class="pin-keypad" style="margin:0 auto;">
+                <div class="pin-key" onclick="pin2Key('1')">1</div><div class="pin-key" onclick="pin2Key('2')">2</div><div class="pin-key" onclick="pin2Key('3')">3</div>
+                <div class="pin-key" onclick="pin2Key('4')">4</div><div class="pin-key" onclick="pin2Key('5')">5</div><div class="pin-key" onclick="pin2Key('6')">6</div>
+                <div class="pin-key" onclick="pin2Key('7')">7</div><div class="pin-key" onclick="pin2Key('8')">8</div><div class="pin-key" onclick="pin2Key('9')">9</div>
+                <div class="pin-key clr" onclick="pin2Clear()">C</div><div class="pin-key" onclick="pin2Key('0')">0</div><div class="pin-key clr" onclick="pin2Bksp()">⌫</div>
+              </div>
+              <div class="pin-error" id="pin2-error"></div>
+            </div>
+          </div>
+          <div class="admin2-content" id="admin2-content">
+            <div class="admin-section">
+              <div class="admin-section-title">📅 Día actual</div>
+              <div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;">🥃 Chupitos</div>
+              <div class="admin-stat-grid">
+                <div class="admin-stat"><div class="admin-stat-val" id="a2-cs-hoy">0</div><div class="admin-stat-lbl">Sueltos</div></div>
+                <div class="admin-stat"><div class="admin-stat-val" id="a2-cb-hoy">0</div><div class="admin-stat-lbl">Vía bono</div></div>
+                <div class="admin-stat" style="border-color:var(--gold-d);"><div class="admin-stat-val" id="a2-ct-hoy">0</div><div class="admin-stat-lbl">Total</div></div>
+              </div>
+              <div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin:8px 0 5px;">💰 Recaudación</div>
+              <div class="admin-stat-grid">
+                <div class="admin-stat"><div class="admin-stat-val" id="a2-es-hoy">0€</div><div class="admin-stat-lbl">Sueltos ×2€</div></div>
+                <div class="admin-stat"><div class="admin-stat-val" id="a2-eb-hoy">0€</div><div class="admin-stat-lbl">Bonos ×25€</div></div>
+                <div class="admin-stat" style="border-color:var(--gold-d);"><div class="admin-stat-val" id="a2-et-hoy">0€</div><div class="admin-stat-lbl">Total</div></div>
+              </div>
+            </div>
+            <div class="admin-section">
+              <div class="admin-section-title">📊 Histórico por día</div>
+              <div style="overflow-x:auto;">
+                <table class="daily-table">
+                  <thead><tr><th>Día</th><th class="num">Ch.sueltos</th><th class="num">Bonos</th><th class="num">Ch.bono</th><th class="num">Total ch.</th><th class="num">€sueltos</th><th class="num">€bonos</th><th class="num">Total€</th></tr></thead>
+                  <tbody id="daily-tbody"></tbody>
+                </table>
+              </div>
+            </div>
+            <div class="admin-section">
+              <div class="admin-section-title">📦 Totales acumulados</div>
+              <div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;">🥃 Chupitos</div>
+              <div class="admin-stat-grid">
+                <div class="admin-stat"><div class="admin-stat-val" id="a2-cs-tot">0</div><div class="admin-stat-lbl">Sueltos</div></div>
+                <div class="admin-stat"><div class="admin-stat-val" id="a2-cb-tot">0</div><div class="admin-stat-lbl">Vía bono</div></div>
+                <div class="admin-stat" style="border-color:var(--gold-d);"><div class="admin-stat-val" id="a2-ct-tot">0</div><div class="admin-stat-lbl">Total</div></div>
+              </div>
+              <div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin:8px 0 5px;">💰 Recaudación</div>
+              <div class="admin-stat-grid">
+                <div class="admin-stat"><div class="admin-stat-val" id="a2-es-tot">0€</div><div class="admin-stat-lbl">Sueltos ×2€</div></div>
+                <div class="admin-stat"><div class="admin-stat-val" id="a2-eb-tot">0€</div><div class="admin-stat-lbl">Bonos ×25€</div></div>
+                <div class="admin-stat" style="border-color:var(--gold-d);"><div class="admin-stat-val" id="a2-et-tot">0€</div><div class="admin-stat-lbl">Total</div></div>
+              </div>
+            </div>
+            <div class="admin-section">
+              <div class="admin-section-title">🔄 Reset completo</div>
+              <div class="reset-danger-box">
+                <div class="reset-danger-title">⚠️ ZONA DE PELIGRO</div>
+                <div class="reset-danger-sub">Borra TODOS los puntos, contadores y marcadores. Solo para pruebas antes de la feria.</div>
+                <button class="btn-danger" onclick="confirmResetTotal()">🔄 RESET TOTAL</button>
+              </div>
+            </div>
+            <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:3px;">
+              <button class="btn-sm btn-gold" onclick="cerrarDia()">📅 Cerrar día</button>
+              <button class="btn-sm btn-export" onclick="exportarDatos()">⬇ Exportar JSON</button>
+              <button class="btn-sm btn-import" onclick="importarDatos()">⬆ Importar JSON</button>
+              <button class="btn-sm btn-ghost" onclick="lockAdmin2()">🔒 Cerrar Admin 2</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- INSCRIPCIONES -->
+        <div class="admin-panel" id="apanel-insc">
+          <div class="admin-section">
+            <div class="admin-section-title">📋 Inscripciones</div>
+            <div style="display:flex;gap:7px;margin-bottom:9px;flex-wrap:wrap;align-items:center;">
+              <button class="btn-sm btn-green" onclick="bulkToggle(true)">✓ Activar todas</button>
+              <button class="btn-sm btn-ghost" onclick="bulkToggle(false)">✕ Desactivar todas</button>
+              <span style="font-size:.76rem;color:var(--muted);margin-left:auto;">Activas: <strong id="insc-cnt" style="color:var(--gold)">0/40</strong></span>
+            </div>
+            <div class="insc-grid" id="insc-grid"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<!-- LED MARQUEE OVERLAY -->
+<div id="led-overlay" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.60);flex-direction:column;align-items:center;justify-content:center;">
+  <button onclick="cerrarLed()" style="position:absolute;top:16px;right:16px;background:rgba(180,0,0,.3);border:1px solid #cc0000;color:#ff4444;font-family:'Barlow Condensed',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:.1em;padding:7px 16px;border-radius:4px;cursor:pointer;text-transform:uppercase;z-index:10;">✕ Cerrar</button>
+  <div id="led-timer" style="position:absolute;top:18px;left:18px;font-family:'Bebas Neue',sans-serif;font-size:1rem;color:rgba(255,255,255,.3);letter-spacing:.12em;"></div>
+  <div id="led-stage" class="centro">
+    <div id="led-track" style="display:inline-block;white-space:nowrap;animation:ledScroll 16s linear infinite;padding-left:100%;font-family:'Bebas Neue',sans-serif;color:#ff1a1a;text-shadow:0 0 20px #ff0000,0 0 40px #cc0000,0 0 80px #880000;-webkit-text-stroke:1px rgba(255,255,255,.15);letter-spacing:.08em;line-height:1.1;"></div>
+  </div>
+</div>
+</div><!-- /app -->
+
+<button class="lock-btn" id="lock-btn" onclick="lockAdmin()" style="display:none">🔒 Cerrar admin</button>
+<div class="toast" id="toast"><span class="tn" id="toast-name"></span><span id="toast-msg"></span></div>
+
+<!-- NUMPAD -->
+<div class="modal-overlay" id="np-overlay">
+  <div class="numpad-modal">
+    <div class="np-title">Operación de puntos</div>
+    <div class="np-peña" id="np-peña">—</div>
+    <div class="np-pts-info">General: <span id="np-gen">0</span> · Noche: <span id="np-noche" style="color:var(--orange)">0</span></div>
+    <div class="np-display empty" id="np-disp">0</div>
+    <div class="np-grid">
+      <div class="nk" onclick="nk('1')">1</div><div class="nk" onclick="nk('2')">2</div><div class="nk" onclick="nk('3')">3</div>
+      <div class="nk" onclick="nk('4')">4</div><div class="nk" onclick="nk('5')">5</div><div class="nk" onclick="nk('6')">6</div>
+      <div class="nk" onclick="nk('7')">7</div><div class="nk" onclick="nk('8')">8</div><div class="nk" onclick="nk('9')">9</div>
+      <div class="nk clr" onclick="nkC()">C</div><div class="nk" onclick="nk('0')">0</div><div class="nk bksp" onclick="nkBk()">⌫</div>
+      <div class="nk bono" onclick="nkBono()">🎫 BONO +15</div><div class="nk bksp" onclick="nkBk()" style="grid-column:3;">⌫</div>
+    </div>
+    <div class="np-bono-note">⚠️ BONO siempre +15 pts fijos (sin ×2 en Hora Doble)</div>
+    <div class="np-hora-badge" id="np-hora-badge"></div>
+    <div class="np-restar-opts">
+      <div class="btn-sub-restar chup" onclick="doRestar('chupito')">− CORREGIR CHUPITO</div>
+      <div class="btn-sub-restar bono" onclick="doRestar('bono')">− ANULAR BONO</div>
+    </div>
+    <div class="np-actions"><button class="btn-sumar" onclick="doSumar()">✚ SUMAR</button></div>
+    <button class="btn-cancelar" onclick="closeNp()">Cancelar</button>
+  </div>
+</div>
+
+<script>
+/* ccb82ca8f113e6ad27a6cdc7a8145959 */
+const PIN1_H="874d72f3e1b208f6c9916914cc6ea2fafa0e5a8dc37c8f0762868b38abc59296";const PIN2_H="9e6663fa5aaac5d7f1d55c9a0a405664bc2d79c159f2924b42201e7de5776ec9";const FB_URL="https://firestore.googleapis.com/v1/projects/chupialquimiometro/databases/(default)/documents/chupialquimiometro/estado?key=AIzaSyAKn-Vyi9zE3ggJbN2UqdUTi_zE7omzE2c";const NOMBRES_DEFAULT=["Peña Dickens","Vamos a liar la del pulpo","Malbebiendo","Pequeños Fiesteros","Perdiendo el Norte","Reyes de Copas","Sálvese quien beba","Si lo sé no vengo","La Coza Noztra","La Envodkada","Tarde pero llegamos","The Originals / Turbo Dickens","Los que Faltaban","El Beber me llama","Los Zánganos","Mañana te lo cuento","Resacón en la Penya","Los Bizcochitos","Dskalimba","Ceda el Vaso","Los Kiwis","El Código da Whisky","Autiblinders","Comando Garrafón","Los de Siempre","Vamos B-Viendo","Área 51","","","","","","","","","","","","",""];const TOTAL_SLOTS=40;const SPONSORS=[{name:"Patrocinador 1",src:null},{name:"Patrocinador 2",src:null},{name:"Patrocinador 3",src:null},{name:"Patrocinador 4",src:null},{name:"Patrocinador 5",src:null}];function getDiaLabel(){return new Date().toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});}
+let S={nombres:[...NOMBRES_DEFAULT],general:{},noche:{},activas:{},lastOp:{},chupSueltosHoy:0,bonosHoy:0,histDias:[],nocheHist:[],histGanadores:[],mensajes:[],msgLastId:0,msgVisto:false,hora:false,horaInicio:"18:00",horaFin:"20:00",horaAuto:false,nocheVisible:true,adminOpen:false,admin2Open:false,lastOpReciente:null,led:{activo:false,texto:'',mensajes:[],tamano:'grande',posicion:'centro',duracion:60,inicio:0,horaInicio:''},tab:'ranking',adminTab:'op',prevRank:{},diaActual:getDiaLabel(),chupitoDia:{activo:false,nombre:''},premios:{oro:'',plata:'',bronce:''},nocheContenido:{fecha:'',premio:''},updatedAt:0};NOMBRES_DEFAULT.forEach(p=>{if(p){S.general[p]=0;S.noche[p]=0;S.activas[p]=false;}});function guardarLocal(){try{const toSave=Object.assign({},S);delete toSave.msgVisto;delete toSave.adminOpen;delete toSave.admin2Open;localStorage.setItem('chupi_v9',JSON.stringify(toSave));}catch(e){}}
+function cargarLocal(){try{const g=localStorage.getItem('chupi_v9');if(g){const p=JSON.parse(g);Object.keys(p).forEach(k=>{S[k]=p[k];});}}catch(e){console.warn('Local load error');
+  S.adminOpen=false;
+  S.admin2Open=false;
+  S.msgVisto=false;
+}
+S.adminOpen=false;S.admin2Open=false;S.msgVisto=false;}
+cargarLocal();NOMBRES_DEFAULT.forEach(p=>{if(!p)return;if(S.general[p]===undefined)S.general[p]=0;if(S.noche[p]===undefined)S.noche[p]=0;if(S.activas[p]===undefined)S.activas[p]=false;});window._fbLastRemoteTime=0;async function fbGuardar(){try{S.updatedAt=Date.now();const toSave=Object.assign({},S);delete toSave.adminOpen;delete toSave.admin2Open;delete toSave.msgVisto;const payload={fields:{json:{stringValue:JSON.stringify(toSave)},updatedAt:{integerValue:String(S.updatedAt)}}};const res=await fetch(FB_URL,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});if(!res.ok)console.warn('Firebase save error:',res.status);else window._fbLastRemoteTime=S.updatedAt;}catch(e){console.warn('Firebase save error:',e.message);}}
+async function fbCargar(force){try{const res=await fetch(FB_URL);if(!res.ok)return;const doc=await res.json();if(!doc.fields||!doc.fields.json)return;const remoteState=JSON.parse(doc.fields.json.stringValue);const remoteTime=remoteState.updatedAt||0;if(force||remoteTime>window._fbLastRemoteTime){window._fbLastRemoteTime=remoteTime;const wasAdmin=S.adminOpen;const wasAdmin2=S.admin2Open;const wasMsgVisto=S.msgVisto;Object.keys(remoteState).forEach(k=>{if(k!=='adminOpen'&&k!=='admin2Open'&&k!=='msgVisto')S[k]=remoteState[k];});S.adminOpen=wasAdmin;S.admin2Open=wasAdmin2;const prevMsgIds=new Set((S.mensajes||[]).filter(m=>m.activo).map(m=>m.id));const newMsgIds=new Set((remoteState.mensajes||[]).filter(m=>m.activo).map(m=>m.id));const hasNewMsgs=[...newMsgIds].some(id=>!prevMsgIds.has(id));S.msgVisto=wasMsgVisto&&!hasNewMsgs;S.admin2Open=wasAdmin2;NOMBRES_DEFAULT.forEach(p=>{if(!p)return;if(S.general[p]===undefined)S.general[p]=0;if(S.noche[p]===undefined)S.noche[p]=0;if(S.activas[p]===undefined)S.activas[p]=false;});window._lastFirebaseUpdate=Date.now();guardarLocal();console.log('✅ Firebase sync:',new Date(remoteTime).toLocaleTimeString());renderAll();applyChupitoDia();applyHoraState();updateMsgBadge();}}catch(e){console.warn('Firebase load error:',e.message);}}
+setInterval(()=>{fbCargar(false);},4000);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')fbCargar(false);});function guardar(){guardarLocal();if(S.adminOpen){fbGuardar();}}
+
+// ── LED MARQUEE ──
+function applyLed(){
+  const o=document.getElementById('led-overlay');
+  if(!o)return;
+  if(!S.led||!S.led.activo||!S.led.texto){
+    o.style.display='none';
+    if(window._ledTimer){clearInterval(window._ledTimer);window._ledTimer=null;}
+    return;
+  }
+  o.style.display='flex';
+  const tr=document.getElementById('led-track');
+  if(tr){
+    const txt=S.led.texto+'   ·   ';
+    tr.textContent=txt+txt+txt+txt;
+    tr.className='led-'+(S.led.tamano||'grande');
+  }
+  const st=document.getElementById('led-stage');
+  if(st)st.className=S.led.posicion||'centro';
+  // Move overlay alignment based on position
+  if(o){
+    const pos=S.led.posicion||'centro';
+    o.style.alignItems=pos==='arriba'?'flex-start':pos==='abajo'?'flex-end':'center';
+    o.style.paddingTop=pos==='arriba'?'8vh':'0';
+    o.style.paddingBottom=pos==='abajo'?'8vh':'0';
+  }
+  if(window._ledTimer)clearInterval(window._ledTimer);
+  if(S.led.duracion>0){
+    window._ledTimer=setInterval(()=>{
+      const elapsed=Math.floor((Date.now()-S.led.inicio)/1000);
+      const left=Math.max(0,S.led.duracion-elapsed);
+      const el=document.getElementById('led-timer');
+      if(el)el.textContent=left>0?left+'s':'';
+      if(left<=0)cerrarLed();
+    },1000);
+  }
+}
+
+function cerrarLed(){
+  if(S.led)S.led.activo=false;
+  const o=document.getElementById('led-overlay');
+  if(o)o.style.display='none';
+  if(window._ledTimer){clearInterval(window._ledTimer);window._ledTimer=null;}
+  if(S.adminOpen)guardar();
+}
+
+function activarLed(){
+  if(!S.led||!S.led.texto){showToast('Sin texto','Escribe un mensaje primero','#CC1A1A');return;}
+  S.led.activo=true;
+  S.led.inicio=Date.now();
+  applyLed();
+  guardar();
+  showToast('📺 LED activado',S.led.texto.slice(0,30),'#CC1A1A');
+}
+
+function addLedMensaje(){
+  const inp=document.getElementById('led-new-msg');
+  if(!inp||!inp.value.trim())return;
+  if(!S.led.mensajes)S.led.mensajes=[];
+  S.led.mensajes.push(inp.value.trim());
+  if(!S.led.texto)S.led.texto=inp.value.trim();
+  inp.value='';
+  guardar();
+  renderLedAdmin();
+}
+
+// Check schedule every 5s
+setInterval(()=>{
+  if(!S.led||!S.led.horaInicio||S.led.activo)return;
+  const now=new Date();
+  const [h,m]=S.led.horaInicio.split(':').map(Number);
+  if(now.getHours()===h&&now.getMinutes()===m&&now.getSeconds()<10){
+    activarLed();
+  }
+},5000);
+
+function renderLedAdmin(){
+  const el=document.getElementById('led-admin-panel');
+  if(!el)return;
+  if(!S.led)S.led={activo:false,texto:'',mensajes:[],tamano:'grande',posicion:'centro',duracion:60,inicio:0,horaInicio:''};
+  const led=S.led;
+  const msjs=led.mensajes||[];
+  let h='';
+
+  h+='<div class="admin-section-title" style="margin-bottom:10px;">📺 Letrero LED</div>';
+
+  // Activar ahora
+  h+=`<div class="toggle-row" style="margin-bottom:9px;">
+    <div><div class="toggle-row-label">Activar ahora</div>
+    <div class="toggle-row-sub">${led.activo?'🔴 ACTIVO EN PANTALLA':'Desactivado'}</div></div>
+    <button class="tog-sw ${led.activo?'on':''}" onclick="if(S.led.activo){cerrarLed();}else{activarLed();}renderLedAdmin();"></button>
+  </div>`;
+
+  // Programar hora
+  h+=`<div style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:9px 11px;margin-bottom:9px;">
+    <div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;">⏱ Programar hora de inicio</div>
+    <div style="display:flex;align-items:center;gap:7px;">
+      <input type="time" class="admin-edit-field" style="margin:0;flex:1;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;" id="led-hora-input" value="${led.horaInicio||''}" onchange="S.led.horaInicio=this.value;guardar();">
+      <button class="btn-sm btn-gold" onclick="S.led.horaInicio=document.getElementById('led-hora-input').value;guardar();showToast('⏱ LED programado','Se activará a las '+S.led.horaInicio,'#C9A84C');renderLedAdmin();">Programar</button>
+      <button class="btn-sm btn-ghost" onclick="S.led.horaInicio='';guardar();renderLedAdmin();">✕</button>
+    </div>
+    ${led.horaInicio?`<div style="font-size:.72rem;color:#C9A84C;margin-top:5px;">⏰ Programado a las ${led.horaInicio}</div>`:''}
+  </div>`;
+
+  // Mensaje activo
+  h+=`<div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;">Mensaje activo</div>`;
+  h+=`<div style="background:var(--bg);border:1px solid ${led.texto?'#CC1A1A':'var(--border)'};border-radius:4px;padding:8px 11px;font-family:'Bebas Neue',sans-serif;font-size:.95rem;color:${led.texto?'#ff4444':'var(--muted)'};margin-bottom:9px;min-height:38px;">${led.texto||'Ninguno seleccionado'}</div>`;
+
+  // Lista de mensajes
+  h+=`<div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;">Mensajes guardados</div>`;
+  msjs.forEach((m,i)=>{
+    const sel=m===led.texto;
+    h+=`<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+      <div onclick="S.led.texto=S.led.mensajes[${i}];guardar();renderLedAdmin();" style="flex:1;background:${sel?'rgba(204,26,26,.15)':'var(--bg3)'};border:1px solid ${sel?'#CC1A1A':'var(--border)'};border-radius:4px;padding:6px 9px;font-size:.85rem;cursor:pointer;overflow:hidden;text-overflow:ellipsis;color:${sel?'#ff6666':'var(--text)'};">${m}</div>
+      <button class="btn-sm btn-ghost" onclick="S.led.mensajes.splice(${i},1);if(S.led.texto===S.led.mensajes[${i}])S.led.texto='';guardar();renderLedAdmin();" style="flex-shrink:0;">✕</button>
+    </div>`;
+  });
+
+  // Añadir mensaje
+  h+=`<div style="display:flex;gap:6px;margin-top:6px;margin-bottom:11px;">
+    <input class="admin-edit-field" style="margin:0;flex:1;" id="led-new-msg" placeholder="Escribe un mensaje LED..." onkeydown="if(event.key==='Enter'){addLedMensaje();}">
+    <button class="btn-sm btn-gold" onclick="addLedMensaje()">+ Añadir</button>
+  </div>`;
+
+  // Config
+  h+=`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:9px;">
+    <div><div style="font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;">Tamaño</div>
+    <select class="admin-edit-field" style="margin:0;" onchange="S.led.tamano=this.value;guardar();applyLed();">
+      <option value="pequeño" ${led.tamano==='pequeño'?'selected':''}>Pequeño</option>
+      <option value="medio" ${led.tamano==='medio'?'selected':''}>Medio</option>
+      <option value="grande" ${!led.tamano||led.tamano==='grande'?'selected':''}>Grande</option>
+    </select></div>
+    <div><div style="font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;">Posición</div>
+    <select class="admin-edit-field" style="margin:0;" onchange="S.led.posicion=this.value;guardar();applyLed();">
+      <option value="arriba" ${led.posicion==='arriba'?'selected':''}>Arriba</option>
+      <option value="centro" ${!led.posicion||led.posicion==='centro'?'selected':''}>Centro</option>
+      <option value="abajo" ${led.posicion==='abajo'?'selected':''}>Abajo</option>
+    </select></div>
+    <div><div style="font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;">Duración</div>
+    <select class="admin-edit-field" style="margin:0;" onchange="S.led.duracion=Number(this.value);guardar();">
+      <option value="30" ${led.duracion===30?'selected':''}>30 seg</option>
+      <option value="60" ${led.duracion===60||!led.duracion?'selected':''}>1 min</option>
+      <option value="120" ${led.duracion===120?'selected':''}>2 min</option>
+      <option value="300" ${led.duracion===300?'selected':''}>5 min</option>
+      <option value="0" ${led.duracion===0?'selected':''}>Sin límite</option>
+    </select></div>
+  </div>`;
+
+  h+=`<button class="btn-gold" style="width:100%;font-size:1rem;letter-spacing:.12em;padding:11px;" onclick="activarLed()">📺 ACTIVAR LETRERO LED</button>`;
+
+  el.innerHTML=h;
+}
+
+function initSplash(){setTimeout(()=>{const sp=document.getElementById('splash');if(sp&&!sp.classList.contains('hide'))enterApp();},2500);}
+function enterApp(){const sp=document.getElementById('splash');const app=document.getElementById('app');if(sp)sp.classList.add('hide');if(app)app.style.display='block';renderAll();renderCountdown();applyHoraState();applyChupitoDia();updateMsgBadge();fbCargar(true);}
+function fmtCD(s){const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),ss=s%60;const p=n=>String(n).padStart(2,'0');const u=t=>`<span style="font-size:.58em;opacity:.6;font-family:Barlow Condensed,sans-serif">${t}</span>`;return`${p(h)}${u('h')}:${p(m)}${u('m')}:${p(ss)}${u('s')}`;}
+let pinBuf="";function pinKey(d){if(pinBuf.length>=8)return;pinBuf+=d;updPinDots();/* trigger via button */}
+function pinBksp(){pinBuf=pinBuf.slice(0,-1);updPinDots();}
+function pinClear(){pinBuf="";updPinDots();document.getElementById('pin-error').textContent="";}
+function updPinDots(){for(let i=0;i<8;i++){const d=document.getElementById('pd'+i);if(d)d.classList.toggle('filled',i<pinBuf.length);}}
+async function checkPin(){
+  const _b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(pinBuf));
+  const _x=Array.from(new Uint8Array(_b)).map(n=>n.toString(16).padStart(2,'0')).join('');
+  if(_x==='874d72f3e1b208f6c9916914cc6ea2fafa0e5a8dc37c8f0762868b38abc59296'){document.getElementById('pin-screen').style.display='none';document.getElementById('admin-inner').classList.add('on');document.getElementById('lock-btn').style.display='block';S.adminOpen=true;renderOpList();renderInsc();updateNocheLiderAdmin();renderContenidoAdmin();renderLedAdmin();guardar();pinBuf='';updPinDots();}else{document.getElementById('pin-error').textContent='PIN incorrecto';pinBuf='';updPinDots();setTimeout(()=>document.getElementById('pin-error').textContent='',2000);}
+}
+function lockAdmin(){pinBuf="";updPinDots();document.getElementById('pin-screen').style.display='block';document.getElementById('admin-inner').classList.remove('on');document.getElementById('lock-btn').style.display='none';S.adminOpen=false;lockAdmin2();if(S.tab==='admin')setTab('ranking');guardar();}
+let pin2Buf="";function pin2Key(d){if(pin2Buf.length>=8)return;pin2Buf+=d;updPin2Dots();if(pin2Buf.length===8)setTimeout(checkPin2,150);}
+function pin2Bksp(){pin2Buf=pin2Buf.slice(0,-1);updPin2Dots();}
+function pin2Clear(){pin2Buf="";updPin2Dots();document.getElementById('pin2-error').textContent="";}
+async function checkPin2(){
+  const _b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(pin2Buf));
+  const _x=Array.from(new Uint8Array(_b)).map(n=>n.toString(16).padStart(2,'0')).join('');
+  if(_x==='9e6663fa5aaac5d7f1d55c9a0a405664bc2d79c159f2924b42201e7de5776ec9'){document.getElementById('admin2-locked').classList.add('hide');document.getElementById('admin2-content').classList.add('on');S.admin2Open=true;renderAdmin2();guardar();pin2Buf='';updPin2Dots();}else{document.getElementById('pin2-error').textContent='PIN incorrecto';pin2Buf='';updPin2Dots();setTimeout(()=>document.getElementById('pin2-error').textContent='',2000);}
+}
+function updPin2Dots(){for(let i=0;i<8;i++)document.getElementById('p2d'+i).classList.toggle('filled',i<pin2Buf.length);}
+
