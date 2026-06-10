@@ -165,10 +165,10 @@
     <div class="admin-outer">
       <div class="admin-pin-wrap" id="pin-screen">
         <div class="admin-pin-title">🔐 Admin</div>
-        <div class="admin-pin-sub">PIN de acceso (6 dígitos)</div>
+        <div class="admin-pin-sub">PIN de acceso</div>
         <div class="pin-dots" id="pin-dots">
           <div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div><div class="pin-dot" id="pd2"></div>
-          <div class="pin-dot" id="pd3"></div><div class="pin-dot" id="pd4"></div><div class="pin-dot" id="pd5"></div>
+          <div class="pin-dot" id="pd3"></div><div class="pin-dot" id="pd4"></div><div class="pin-dot" id="pd5"></div><div class="pin-dot" id="pd6"></div><div class="pin-dot" id="pd7"></div>
         </div>
         <div class="pin-keypad">
           <div class="pin-key" onclick="pinKey('1')">1</div><div class="pin-key" onclick="pinKey('2')">2</div><div class="pin-key" onclick="pinKey('3')">3</div>
@@ -176,6 +176,7 @@
           <div class="pin-key" onclick="pinKey('7')">7</div><div class="pin-key" onclick="pinKey('8')">8</div><div class="pin-key" onclick="pinKey('9')">9</div>
           <div class="pin-key clr" onclick="pinClear()">C</div><div class="pin-key" onclick="pinKey('0')">0</div><div class="pin-key clr" onclick="pinBksp()">⌫</div>
         </div>
+        <button id="btn-entrar" style="width:100%;margin-top:9px;background:linear-gradient(135deg,#1a5c2e,#27AE60);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.1em;border:none;border-radius:5px;padding:11px;cursor:pointer;">&#10003; ENTRAR</button>
         <div class="pin-error" id="pin-error"></div>
       </div>
       <div class="admin-inner" id="admin-inner">
@@ -405,7 +406,7 @@
 
 <script>
 /* ccb82ca8f113e6ad27a6cdc7a8145959 */
-const PIN1="394549";const PIN2="19761973";const FB_URL="https://firestore.googleapis.com/v1/projects/chupialquimiometro/databases/(default)/documents/chupialquimiometro/estado?key=AIzaSyAKn-Vyi9zE3ggJbN2UqdUTi_zE7omzE2c";const NOMBRES_DEFAULT=["Peña Dickens","Vamos a liar la del pulpo","Malbebiendo","Pequeños Fiesteros","Perdiendo el Norte","Reyes de Copas","Sálvese quien beba","Si lo sé no vengo","La Coza Noztra","La Envodkada","Tarde pero llegamos","The Originals / Turbo Dickens","Los que Faltaban","El Beber me llama","Los Zánganos","Mañana te lo cuento","Resacón en la Penya","Los Bizcochitos","Dskalimba","Ceda el Vaso","Los Kiwis","El Código da Whisky","Autiblinders","Comando Garrafón","Los de Siempre","Vamos B-Viendo","Área 51","","","","","","","","","","","","",""];const TOTAL_SLOTS=40;const SPONSORS=[{name:"Patrocinador 1",src:null},{name:"Patrocinador 2",src:null},{name:"Patrocinador 3",src:null},{name:"Patrocinador 4",src:null},{name:"Patrocinador 5",src:null}];function getDiaLabel(){return new Date().toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});}
+const P1H="874d72f3e1b208f6c9916914cc6ea2fafa0e5a8dc37c8f0762868b38abc59296";const P2H="9e6663fa5aaac5d7f1d55c9a0a405664bc2d79c159f2924b42201e7de5776ec9";const FB_URL="https://firestore.googleapis.com/v1/projects/chupialquimiometro/databases/(default)/documents/chupialquimiometro/estado?key=AIzaSyAKn-Vyi9zE3ggJbN2UqdUTi_zE7omzE2c";const NOMBRES_DEFAULT=["Peña Dickens","Vamos a liar la del pulpo","Malbebiendo","Pequeños Fiesteros","Perdiendo el Norte","Reyes de Copas","Sálvese quien beba","Si lo sé no vengo","La Coza Noztra","La Envodkada","Tarde pero llegamos","The Originals / Turbo Dickens","Los que Faltaban","El Beber me llama","Los Zánganos","Mañana te lo cuento","Resacón en la Penya","Los Bizcochitos","Dskalimba","Ceda el Vaso","Los Kiwis","El Código da Whisky","Autiblinders","Comando Garrafón","Los de Siempre","Vamos B-Viendo","Área 51","","","","","","","","","","","","",""];const TOTAL_SLOTS=40;const SPONSORS=[{name:"Patrocinador 1",src:null},{name:"Patrocinador 2",src:null},{name:"Patrocinador 3",src:null},{name:"Patrocinador 4",src:null},{name:"Patrocinador 5",src:null}];function getDiaLabel(){return new Date().toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});}
 let S={nombres:[...NOMBRES_DEFAULT],general:{},noche:{},activas:{},lastOp:{},chupSueltosHoy:0,bonosHoy:0,histDias:[],nocheHist:[],histGanadores:[],mensajes:[],msgLastId:0,msgVisto:false,hora:false,horaInicio:"18:00",horaFin:"20:00",horaAuto:false,nocheVisible:true,adminOpen:false,admin2Open:false,lastOpReciente:null,led:{activo:false,texto:'',mensajes:[],tamano:'grande',posicion:'centro',duracion:60,inicio:0,horaInicio:''},tab:'ranking',adminTab:'op',prevRank:{},diaActual:getDiaLabel(),chupitoDia:{activo:false,nombre:''},premios:{oro:'',plata:'',bronce:''},nocheContenido:{fecha:'',premio:''},updatedAt:0};NOMBRES_DEFAULT.forEach(p=>{if(p){S.general[p]=0;S.noche[p]=0;S.activas[p]=false;}});function guardarLocal(){try{const toSave=Object.assign({},S);delete toSave.msgVisto;delete toSave.adminOpen;delete toSave.admin2Open;localStorage.setItem('chupi_v9',JSON.stringify(toSave));}catch(e){}}
 function cargarLocal(){try{const g=localStorage.getItem('chupi_v9');if(g){const p=JSON.parse(g);Object.keys(p).forEach(k=>{S[k]=p[k];});}}catch(e){console.warn('Local load error');
   S.adminOpen=false;
@@ -572,17 +573,17 @@ function renderLedAdmin(){
 function initSplash(){setTimeout(()=>{const sp=document.getElementById('splash');if(sp&&!sp.classList.contains('hide'))enterApp();},2500);}
 function enterApp(){const sp=document.getElementById('splash');const app=document.getElementById('app');if(sp)sp.classList.add('hide');if(app)app.style.display='block';renderAll();renderCountdown();applyHoraState();applyChupitoDia();updateMsgBadge();fbCargar(true);}
 function fmtCD(s){const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),ss=s%60;const p=n=>String(n).padStart(2,'0');const u=t=>`<span style="font-size:.58em;opacity:.6;font-family:Barlow Condensed,sans-serif">${t}</span>`;return`${p(h)}${u('h')}:${p(m)}${u('m')}:${p(ss)}${u('s')}`;}
-let pinBuf="";function pinKey(d){if(pinBuf.length>=6)return;pinBuf+=d;updPinDots();if(pinBuf.length===6)setTimeout(checkPin,150);}
+let pinBuf="";function pinKey(d){if(pinBuf.length>=8)return;pinBuf+=d;updPinDots();}
 function pinBksp(){pinBuf=pinBuf.slice(0,-1);updPinDots();}
 function pinClear(){pinBuf="";updPinDots();document.getElementById('pin-error').textContent="";}
-function updPinDots(){for(let i=0;i<6;i++)document.getElementById('pd'+i).classList.toggle('filled',i<pinBuf.length);}
-function checkPin(){if(pinBuf===PIN1){document.getElementById('pin-screen').style.display='none';document.getElementById('admin-inner').classList.add('on');document.getElementById('lock-btn').style.display='block';S.adminOpen=true;renderOpList();renderInsc();updateNocheLiderAdmin();renderContenidoAdmin();renderLedAdmin();guardar();}else{document.getElementById('pin-error').textContent="PIN incorrecto";pinBuf="";updPinDots();setTimeout(()=>document.getElementById('pin-error').textContent="",2000);}}
+function updPinDots(){for(let i=0;i<8;i++){const d=document.getElementById('pd'+i);if(d)d.classList.toggle('filled',i<pinBuf.length);}}
+async function checkPin(){const _b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(pinBuf));const _x=Array.from(new Uint8Array(_b)).map(n=>n.toString(16).padStart(2,'0')).join('');if(_x===P1H){document.getElementById('pin-screen').style.display='none';document.getElementById('admin-inner').classList.add('on');document.getElementById('lock-btn').style.display='block';S.adminOpen=true;renderOpList();renderInsc();updateNocheLiderAdmin();renderContenidoAdmin();renderLedAdmin();guardar();}else{document.getElementById('pin-error').textContent="PIN incorrecto";pinBuf="";updPinDots();setTimeout(()=>document.getElementById('pin-error').textContent="",2000);}}
 function lockAdmin(){pinBuf="";updPinDots();document.getElementById('pin-screen').style.display='block';document.getElementById('admin-inner').classList.remove('on');document.getElementById('lock-btn').style.display='none';S.adminOpen=false;lockAdmin2();if(S.tab==='admin')setTab('ranking');guardar();}
 let pin2Buf="";function pin2Key(d){if(pin2Buf.length>=8)return;pin2Buf+=d;updPin2Dots();if(pin2Buf.length===8)setTimeout(checkPin2,150);}
 function pin2Bksp(){pin2Buf=pin2Buf.slice(0,-1);updPin2Dots();}
 function pin2Clear(){pin2Buf="";updPin2Dots();document.getElementById('pin2-error').textContent="";}
 function updPin2Dots(){for(let i=0;i<8;i++)document.getElementById('p2d'+i).classList.toggle('filled',i<pin2Buf.length);}
-function checkPin2(){if(pin2Buf===PIN2){document.getElementById('admin2-locked').classList.add('hide');document.getElementById('admin2-content').classList.add('on');S.admin2Open=true;renderAdmin2();guardar();}else{document.getElementById('pin2-error').textContent="PIN incorrecto";pin2Buf="";updPin2Dots();setTimeout(()=>document.getElementById('pin2-error').textContent="",2000);}}
+async function checkPin2(){const _b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(pin2Buf));const _x=Array.from(new Uint8Array(_b)).map(n=>n.toString(16).padStart(2,'0')).join('');if(_x===P2H){document.getElementById('admin2-locked').classList.add('hide');document.getElementById('admin2-content').classList.add('on');S.admin2Open=true;renderAdmin2();guardar();}else{document.getElementById('pin2-error').textContent="PIN incorrecto";pin2Buf="";updPin2Dots();setTimeout(()=>document.getElementById('pin2-error').textContent="",2000);}}
 function lockAdmin2(){pin2Buf="";updPin2Dots();document.getElementById('admin2-locked').classList.remove('hide');document.getElementById('admin2-content').classList.remove('on');S.admin2Open=false;guardar();}
 function setTab(t){S.tab=t;['ranking','info','admin'].forEach(x=>{const tb=document.getElementById('tab-'+x);const pn=document.getElementById('panel-'+x);if(tb)tb.classList.toggle('on',x===t);if(pn)pn.classList.toggle('on',x===t);});if(t==='ranking')renderRanking();if(t==='admin'&&S.adminOpen){renderOpList();renderInsc();}
 if(t==='info'){renderInfoPanels();const itabMsg=document.getElementById('itab-mensajes');if(itabMsg&&itabMsg.classList.contains('on')){S.msgVisto=true;updateMsgBadge();guardar();renderMensajesPublic();}}
@@ -686,7 +687,7 @@ el.innerHTML='';[...vis].reverse().forEach(g=>{const sp=g.premio&&g.premio.toUpp
 function renderAll(){renderRanking();if(S.adminOpen){renderOpList();renderInsc();updateNocheLiderAdmin();if(S.admin2Open)renderAdmin2();}
 if(S.tab==='info')renderInfoPanels();const el=document.getElementById('insc-cnt');if(el)el.textContent=getActivas().length+'/40';applyChupitoDia();updateMsgBadge();if(typeof applyLed==="function")applyLed();}
 let toastT=null;function showToast(name,msg,color='#C9A84C'){const t=document.getElementById('toast');if(!t)return;t.style.borderLeftColor=color;document.getElementById('toast-name').textContent=name;document.getElementById('toast-msg').textContent=msg?' · '+msg:'';t.classList.add('on');if(toastT)clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),3000);}
-document.getElementById('np-overlay').addEventListener('click',function(e){if(e.target===this)closeNp();});initSplash();setTimeout(()=>{const app=document.getElementById('app');if(app&&app.style.display==='none'){fbCargar(true);}},100);
+document.getElementById('np-overlay').addEventListener('click',function(e){if(e.target===this)closeNp();});initSplash();document.getElementById('btn-entrar').addEventListener('click',checkPin);setTimeout(()=>{const app=document.getElementById('app');if(app&&app.style.display==='none'){fbCargar(true);}},100);
 
 </script>
 </body>
