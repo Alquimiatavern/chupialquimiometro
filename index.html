@@ -165,10 +165,11 @@
     <div class="admin-outer">
       <div class="admin-pin-wrap" id="pin-screen">
         <div class="admin-pin-title">🔐 Admin</div>
-        <div class="admin-pin-sub">PIN de acceso (6 dígitos)</div>
+        <div class="admin-pin-sub">PIN de acceso</div>
         <div class="pin-dots" id="pin-dots">
           <div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div><div class="pin-dot" id="pd2"></div>
           <div class="pin-dot" id="pd3"></div><div class="pin-dot" id="pd4"></div><div class="pin-dot" id="pd5"></div>
+          <div class="pin-dot" id="pd6"></div><div class="pin-dot" id="pd7"></div>
         </div>
         <div class="pin-keypad">
           <div class="pin-key" onclick="pinKey('1')">1</div><div class="pin-key" onclick="pinKey('2')">2</div><div class="pin-key" onclick="pinKey('3')">3</div>
@@ -176,6 +177,7 @@
           <div class="pin-key" onclick="pinKey('7')">7</div><div class="pin-key" onclick="pinKey('8')">8</div><div class="pin-key" onclick="pinKey('9')">9</div>
           <div class="pin-key clr" onclick="pinClear()">C</div><div class="pin-key" onclick="pinKey('0')">0</div><div class="pin-key clr" onclick="pinBksp()">⌫</div>
         </div>
+        <button onclick="checkPin()" style="width:100%;margin-top:9px;background:linear-gradient(135deg,#1a5c2e,#27AE60);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.1em;border:none;border-radius:5px;padding:11px;cursor:pointer;">✓ ENTRAR</button>
         <div class="pin-error" id="pin-error"></div>
       </div>
       <div class="admin-inner" id="admin-inner">
@@ -286,6 +288,7 @@
                 <div class="pin-key" onclick="pin2Key('7')">7</div><div class="pin-key" onclick="pin2Key('8')">8</div><div class="pin-key" onclick="pin2Key('9')">9</div>
                 <div class="pin-key clr" onclick="pin2Clear()">C</div><div class="pin-key" onclick="pin2Key('0')">0</div><div class="pin-key clr" onclick="pin2Bksp()">⌫</div>
               </div>
+              <button onclick="checkPin2()" style="width:100%;margin-top:9px;background:linear-gradient(135deg,#1a5c2e,#27AE60);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.1em;border:none;border-radius:5px;padding:11px;cursor:pointer;">✓ ENTRAR</button>
               <div class="pin-error" id="pin2-error"></div>
             </div>
           </div>
@@ -329,6 +332,24 @@
                 <div class="admin-stat" style="border-color:var(--gold-d);"><div class="admin-stat-val" id="a2-et-tot">0€</div><div class="admin-stat-lbl">Total</div></div>
               </div>
             </div>
+            <div class="admin-section">
+              <div class="admin-section-title">🔐 Cambiar PINs</div>
+              <div style="margin-bottom:8px;">
+                <div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;">Nuevo PIN Admin (6 dígitos)</div>
+                <div style="display:flex;gap:7px;">
+                  <input class="admin-edit-field" style="margin:0;flex:1;" type="password" id="new-pin1" placeholder="Nuevo PIN Admin" maxlength="8" inputmode="numeric">
+                  <button class="btn-sm btn-gold" onclick="cambiarPin(1)">Cambiar</button>
+                </div>
+              </div>
+              <div>
+                <div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;">Nuevo PIN Admin 2 / Dirección (6-8 dígitos)</div>
+                <div style="display:flex;gap:7px;">
+                  <input class="admin-edit-field" style="margin:0;flex:1;" type="password" id="new-pin2" placeholder="Nuevo PIN Admin 2" maxlength="8" inputmode="numeric">
+                  <button class="btn-sm btn-gold" onclick="cambiarPin(2)">Cambiar</button>
+                </div>
+              </div>
+            </div>
+
             <div class="admin-section">
               <div class="admin-section-title">🔄 Reset completo</div>
               <div class="reset-danger-box">
@@ -405,7 +426,8 @@
 
 <script>
 /* ccb82ca8f113e6ad27a6cdc7a8145959 */
-const PIN1="394549";const PIN2="19761973";const FB_URL="https://firestore.googleapis.com/v1/projects/chupialquimiometro/databases/(default)/documents/chupialquimiometro/estado?key=AIzaSyAKn-Vyi9zE3ggJbN2UqdUTi_zE7omzE2c";const NOMBRES_DEFAULT=["Peña Dickens","Vamos a liar la del pulpo","Malbebiendo","Pequeños Fiesteros","Perdiendo el Norte","Reyes de Copas","Sálvese quien beba","Si lo sé no vengo","La Coza Noztra","La Envodkada","Tarde pero llegamos","The Originals / Turbo Dickens","Los que Faltaban","El Beber me llama","Los Zánganos","Mañana te lo cuento","Resacón en la Penya","Los Bizcochitos","Dskalimba","Ceda el Vaso","Los Kiwis","El Código da Whisky","Autiblinders","Comando Garrafón","Los de Siempre","Vamos B-Viendo","Área 51","","","","","","","","","","","","",""];const TOTAL_SLOTS=40;const SPONSORS=[{name:"Patrocinador 1",src:null},{name:"Patrocinador 2",src:null},{name:"Patrocinador 3",src:null},{name:"Patrocinador 4",src:null},{name:"Patrocinador 5",src:null}];function getDiaLabel(){return new Date().toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});}
+// PINs secured in Firebase
+const FB_URL="https://firestore.googleapis.com/v1/projects/chupialquimiometro/databases/(default)/documents/chupialquimiometro/estado?key=AIzaSyAKn-Vyi9zE3ggJbN2UqdUTi_zE7omzE2c";const NOMBRES_DEFAULT=["Peña Dickens","Vamos a liar la del pulpo","Malbebiendo","Pequeños Fiesteros","Perdiendo el Norte","Reyes de Copas","Sálvese quien beba","Si lo sé no vengo","La Coza Noztra","La Envodkada","Tarde pero llegamos","The Originals / Turbo Dickens","Los que Faltaban","El Beber me llama","Los Zánganos","Mañana te lo cuento","Resacón en la Penya","Los Bizcochitos","Dskalimba","Ceda el Vaso","Los Kiwis","El Código da Whisky","Autiblinders","Comando Garrafón","Los de Siempre","Vamos B-Viendo","Área 51","","","","","","","","","","","","",""];const TOTAL_SLOTS=40;const SPONSORS=[{name:"Patrocinador 1",src:null},{name:"Patrocinador 2",src:null},{name:"Patrocinador 3",src:null},{name:"Patrocinador 4",src:null},{name:"Patrocinador 5",src:null}];function getDiaLabel(){return new Date().toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});}
 let S={nombres:[...NOMBRES_DEFAULT],general:{},noche:{},activas:{},lastOp:{},chupSueltosHoy:0,bonosHoy:0,histDias:[],nocheHist:[],histGanadores:[],mensajes:[],msgLastId:0,msgVisto:false,hora:false,horaInicio:"18:00",horaFin:"20:00",horaAuto:false,nocheVisible:true,adminOpen:false,admin2Open:false,lastOpReciente:null,led:{activo:false,texto:'',mensajes:[],tamano:'grande',posicion:'centro',duracion:60,inicio:0,horaInicio:''},tab:'ranking',adminTab:'op',prevRank:{},diaActual:getDiaLabel(),chupitoDia:{activo:false,nombre:''},premios:{oro:'',plata:'',bronce:''},nocheContenido:{fecha:'',premio:''},updatedAt:0};NOMBRES_DEFAULT.forEach(p=>{if(p){S.general[p]=0;S.noche[p]=0;S.activas[p]=false;}});function guardarLocal(){try{const toSave=Object.assign({},S);delete toSave.msgVisto;delete toSave.adminOpen;delete toSave.admin2Open;localStorage.setItem('chupi_v9',JSON.stringify(toSave));}catch(e){}}
 function cargarLocal(){try{const g=localStorage.getItem('chupi_v9');if(g){const p=JSON.parse(g);Object.keys(p).forEach(k=>{S[k]=p[k];});}}catch(e){console.warn('Local load error');
   S.adminOpen=false;
@@ -572,17 +594,62 @@ function renderLedAdmin(){
 function initSplash(){setTimeout(()=>{const sp=document.getElementById('splash');if(sp&&!sp.classList.contains('hide'))enterApp();},2500);}
 function enterApp(){const sp=document.getElementById('splash');const app=document.getElementById('app');if(sp)sp.classList.add('hide');if(app)app.style.display='block';renderAll();renderCountdown();applyHoraState();applyChupitoDia();updateMsgBadge();fbCargar(true);}
 function fmtCD(s){const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),ss=s%60;const p=n=>String(n).padStart(2,'0');const u=t=>`<span style="font-size:.58em;opacity:.6;font-family:Barlow Condensed,sans-serif">${t}</span>`;return`${p(h)}${u('h')}:${p(m)}${u('m')}:${p(ss)}${u('s')}`;}
-let pinBuf="";function pinKey(d){if(pinBuf.length>=6)return;pinBuf+=d;updPinDots();if(pinBuf.length===6)setTimeout(checkPin,150);}
+let pinBuf="";function pinKey(d){if(pinBuf.length>=8)return;pinBuf+=d;updPinDots();// PIN confirmed via button or enter key}
 function pinBksp(){pinBuf=pinBuf.slice(0,-1);updPinDots();}
 function pinClear(){pinBuf="";updPinDots();document.getElementById('pin-error').textContent="";}
-function updPinDots(){for(let i=0;i<6;i++)document.getElementById('pd'+i).classList.toggle('filled',i<pinBuf.length);}
-function checkPin(){if(pinBuf===PIN1){document.getElementById('pin-screen').style.display='none';document.getElementById('admin-inner').classList.add('on');document.getElementById('lock-btn').style.display='block';S.adminOpen=true;renderOpList();renderInsc();updateNocheLiderAdmin();renderContenidoAdmin();renderLedAdmin();guardar();}else{document.getElementById('pin-error').textContent="PIN incorrecto";pinBuf="";updPinDots();setTimeout(()=>document.getElementById('pin-error').textContent="",2000);}}
+function updPinDots(){for(let i=0;i<8;i++){const d=document.getElementById('pd'+i);if(d)d.classList.toggle('filled',i<pinBuf.length);}}
+async function checkPin(){
+  try {
+    const res = await fetch(FB_URL.replace('/chupialquimiometro/estado', '/chupialquimiometro/config'));
+    if(res.ok){
+      const doc = await res.json();
+      if(doc.fields && doc.fields.pin1){
+        const correctPin = doc.fields.pin1.stringValue;
+        if(pinBuf === correctPin){
+          document.getElementById('pin-screen').style.display='none';
+          document.getElementById('admin-inner').classList.add('on');
+          document.getElementById('lock-btn').style.display='block';
+          S.adminOpen=true;
+          renderOpList();renderInsc();updateNocheLiderAdmin();renderContenidoAdmin();renderLedAdmin();
+          guardar();
+          pinBuf="";updPinDots();
+          return;
+        }
+      }
+    }
+  } catch(e){ console.warn('PIN check error:', e); }
+  document.getElementById('pin-error').textContent="PIN incorrecto";
+  pinBuf="";updPinDots();
+  setTimeout(()=>document.getElementById('pin-error').textContent="",2000);
+}
+
 function lockAdmin(){pinBuf="";updPinDots();document.getElementById('pin-screen').style.display='block';document.getElementById('admin-inner').classList.remove('on');document.getElementById('lock-btn').style.display='none';S.adminOpen=false;lockAdmin2();if(S.tab==='admin')setTab('ranking');guardar();}
 let pin2Buf="";function pin2Key(d){if(pin2Buf.length>=8)return;pin2Buf+=d;updPin2Dots();if(pin2Buf.length===8)setTimeout(checkPin2,150);}
 function pin2Bksp(){pin2Buf=pin2Buf.slice(0,-1);updPin2Dots();}
 function pin2Clear(){pin2Buf="";updPin2Dots();document.getElementById('pin2-error').textContent="";}
 function updPin2Dots(){for(let i=0;i<8;i++)document.getElementById('p2d'+i).classList.toggle('filled',i<pin2Buf.length);}
-function checkPin2(){if(pin2Buf===PIN2){document.getElementById('admin2-locked').classList.add('hide');document.getElementById('admin2-content').classList.add('on');S.admin2Open=true;renderAdmin2();guardar();}else{document.getElementById('pin2-error').textContent="PIN incorrecto";pin2Buf="";updPin2Dots();setTimeout(()=>document.getElementById('pin2-error').textContent="",2000);}}
+async function checkPin2(){
+  try {
+    const res = await fetch(FB_URL.replace('/chupialquimiometro/estado', '/chupialquimiometro/config'));
+    if(res.ok){
+      const doc = await res.json();
+      if(doc.fields && doc.fields.pin2){
+        const correctPin2 = doc.fields.pin2.stringValue;
+        if(pin2Buf === correctPin2){
+          document.getElementById('admin2-locked').classList.add('hide');
+          document.getElementById('admin2-content').classList.add('on');
+          S.admin2Open=true;renderAdmin2();guardar();
+          pin2Buf="";updPin2Dots();
+          return;
+        }
+      }
+    }
+  } catch(e){ console.warn('PIN2 check error:', e); }
+  document.getElementById('pin2-error').textContent="PIN incorrecto";
+  pin2Buf="";updPin2Dots();
+  setTimeout(()=>document.getElementById('pin2-error').textContent="",2000);
+}
+
 function lockAdmin2(){pin2Buf="";updPin2Dots();document.getElementById('admin2-locked').classList.remove('hide');document.getElementById('admin2-content').classList.remove('on');S.admin2Open=false;guardar();}
 function setTab(t){S.tab=t;['ranking','info','admin'].forEach(x=>{const tb=document.getElementById('tab-'+x);const pn=document.getElementById('panel-'+x);if(tb)tb.classList.toggle('on',x===t);if(pn)pn.classList.toggle('on',x===t);});if(t==='ranking')renderRanking();if(t==='admin'&&S.adminOpen){renderOpList();renderInsc();}
 if(t==='info'){renderInfoPanels();const itabMsg=document.getElementById('itab-mensajes');if(itabMsg&&itabMsg.classList.contains('on')){S.msgVisto=true;updateMsgBadge();guardar();renderMensajesPublic();}}
@@ -652,6 +719,33 @@ el.innerHTML='';activos.forEach(m=>{el.innerHTML+=`<div class="msg-card ${m.tipo
 function updateMsgBadge(){const activos=S.mensajes.filter(m=>m.activo).length;const badge=document.getElementById('msg-badge');if(badge){const show=activos>0&&!S.msgVisto;badge.style.display=show?'flex':'none';}}
 function calcDia(d){const cb=(d.bonos||0)*15,ct=(d.chupSueltos||0)+cb;const es=(d.chupSueltos||0)*2,eb=(d.bonos||0)*25,et=es+eb;return{chupSueltos:d.chupSueltos||0,bonos:d.bonos||0,cb,ct,es,eb,et};}
 function renderAdmin2(){const h=calcDia({chupSueltos:S.chupSueltosHoy,bonos:S.bonosHoy});const ids=[['a2-cs-hoy',h.chupSueltos],['a2-cb-hoy',h.cb],['a2-ct-hoy',h.ct],['a2-es-hoy',h.es+'€'],['a2-eb-hoy',h.eb+'€'],['a2-et-hoy',h.et+'€']];ids.forEach(([id,v])=>{const e=document.getElementById(id);if(e)e.textContent=v;});const tbody=document.getElementById('daily-tbody');if(!tbody)return;tbody.innerHTML='';S.histDias.forEach(d=>{const c=calcDia(d);tbody.innerHTML+=`<tr><td>${d.dia}</td><td class="num">${c.chupSueltos}</td><td class="num">${c.bonos}</td><td class="num">${c.cb}</td><td class="num">${c.ct}</td><td class="num">${c.es}€</td><td class="num">${c.eb}€</td><td class="num">${c.et}€</td></tr>`;});tbody.innerHTML+=`<tr class="today"><td>${S.diaActual}<em style="font-size:.68rem;color:var(--orange)">(hoy)</em></td><td class="num">${h.chupSueltos}</td><td class="num">${h.bonos}</td><td class="num">${h.cb}</td><td class="num">${h.ct}</td><td class="num">${h.es}€</td><td class="num">${h.eb}€</td><td class="num">${h.et}€</td></tr>`;let tcs=h.chupSueltos,tb=h.bonos,tcb=h.cb,tct=h.ct,tes=h.es,teb=h.eb,tet=h.et;S.histDias.forEach(d=>{const c=calcDia(d);tcs+=c.chupSueltos;tb+=c.bonos;tcb+=c.cb;tct+=c.ct;tes+=c.es;teb+=c.eb;tet+=c.et;});const tots=[['a2-cs-tot',tcs],['a2-cb-tot',tcb],['a2-ct-tot',tct],['a2-es-tot',tes+'€'],['a2-eb-tot',teb+'€'],['a2-et-tot',tet+'€']];tots.forEach(([id,v])=>{const e=document.getElementById(id);if(e)e.textContent=v;});}
+async function cambiarPin(num){
+  const inp = document.getElementById('new-pin'+num);
+  if(!inp||!inp.value.trim()){showToast('Error','Escribe el nuevo PIN','#CC1A1A');return;}
+  const newPin = inp.value.trim();
+  if(num===1 && newPin.length < 4){showToast('Error','Mínimo 4 dígitos','#CC1A1A');return;}
+  if(num===2 && newPin.length < 4){showToast('Error','Mínimo 4 dígitos','#CC1A1A');return;}
+  try {
+    const configUrl = FB_URL.replace('/chupialquimiometro/estado', '/chupialquimiometro/config');
+    const field = num===1 ? 'pin1' : 'pin2';
+    const payload = {fields: {}};
+    payload.fields[field] = {stringValue: newPin};
+    const res = await fetch(configUrl, {
+      method: 'PATCH',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+    if(res.ok){
+      inp.value='';
+      showToast('✅ PIN '+(num===1?'Admin':'Admin 2')+' cambiado','Nuevo PIN guardado en Firebase','#27AE60');
+    } else {
+      showToast('Error','No se pudo guardar el PIN','#CC1A1A');
+    }
+  } catch(e){
+    showToast('Error',e.message,'#CC1A1A');
+  }
+}
+
 function cerrarDia(){if(!confirm(`¿Cerrar el día"${S.diaActual}"?`))return;S.histDias.push({dia:S.diaActual,chupSueltos:S.chupSueltosHoy,bonos:S.bonosHoy});S.chupSueltosHoy=0;S.bonosHoy=0;S.diaActual=getDiaLabel();renderAdmin2();showToast('Día cerrado','Contadores reiniciados','#27AE60');guardar();}
 function confirmResetTotal(){if(!confirm('⚠️ RESET TOTAL: se borrarán TODOS los puntos y contadores.\n\n¿Estás seguro?'))return;if(!confirm('Segunda confirmación: ¿Borrar TODO y empezar desde cero?'))return;NOMBRES_DEFAULT.forEach(p=>{if(p){S.general[p]=0;S.noche[p]=0;}});S.lastOp={};S.chupSueltosHoy=0;S.bonosHoy=0;S.histDias=[];S.nocheHist=[];S.prevRank={};S.diaActual=getDiaLabel();guardar();renderAll();if(S.admin2Open)renderAdmin2();showToast('RESET TOTAL','Sistema reiniciado a cero','#FF7A00');}
 function exportarDatos(){const h=calcDia({chupSueltos:S.chupSueltosHoy,bonos:S.bonosHoy});const now=new Date();const fecha=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;const hora=`${String(now.getHours()).padStart(2,'0')}h${String(now.getMinutes()).padStart(2,'0')}m`;const data={generado:now.toISOString(),feria:'San Juan 2026 · Los Corrales de Buelna',estadoCompleto:S,histDias:S.histDias.map(d=>({...d,...calcDia(d)})),diaActual:{dia:S.diaActual,...h},nocheHist:S.nocheHist,histGanadores:S.histGanadores};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`chupialquimiometro_${fecha}_${hora}.json`;a.click();}
