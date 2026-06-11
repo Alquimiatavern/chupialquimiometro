@@ -232,7 +232,8 @@
         <div class="admin-tabs">
           <div class="admin-tab on" id="atab-op" onclick="setAdminTab('op')">🧮 Puntos</div>
           <div class="admin-tab" id="atab-contenido" onclick="setAdminTab('contenido')">✏️ Contenido</div>
-          <div class="admin-tab" id="atab-hora" onclick="setAdminTab('hora')">⏰ Hora/Noche</div>
+          <div class="admin-tab" id="atab-horadoble" onclick="setAdminTab('horadoble')">⏰ Hora Doble</div>
+          <div class="admin-tab" id="atab-noche" onclick="setAdminTab('noche')">🌙 Control Noche</div>
           <div class="admin-tab" id="atab-admin2" onclick="setAdminTab('admin2')">📊 Admin 2</div>
           <div class="admin-tab" id="atab-insc" onclick="setAdminTab('insc')">📋 Insc.</div>
         </div>
@@ -278,7 +279,7 @@
         </div>
 
         <!-- HORA/NOCHE -->
-        <div class="admin-panel" id="apanel-hora">
+        <div class="admin-panel" id="apanel-horadoble">
           <div class="admin-section">
             <div class="admin-section-title">⏰ Hora Doble</div>
             <div class="hora-time-row">
@@ -291,6 +292,9 @@
               <button class="btn-sm btn-ghost" onclick="activarHoraAuto()">▶ Por horario</button>
             </div>
           </div>
+        </div>
+
+        <div class="admin-panel" id="apanel-noche">
           <div class="admin-section">
             <div class="admin-section-title">🌙 Control de Noche</div>
             <div id="noche-admin-panel"><!-- rendered by renderNocheAdmin() --></div>
@@ -897,36 +901,6 @@ function nocheActivarToggle(idx){
 }
 
 // ── GUARDAR GANADOR Y FINALIZAR ──
-function saveNocheWinner(){
-  const ranked=getRanked(S.noche);
-  if(!ranked.length||ranked[0][1]===0){showToast('Sin datos','No hay puntos de noche','#CC1A1A');return;}
-  if(!confirm('¿Finalizar la noche y guardar ganador?'))return;
-  const[name,pts]=ranked[0];
-  const activa=ncGetActiva();
-  // Save to histGanadores with full info from nocheProgramada
-  S.histGanadores.push({
-    fecha:activa?activa.fecha:'',
-    dia:activa?formatFechaLarga(activa.fecha):getDiaLabel(),
-    peña:name,pts:String(pts),
-    premio:activa?activa.premio:'',
-    horaFin:activa?activa.horaFin:'',
-    efecha:activa?activa.efecha:'',
-    ehora:activa?activa.ehora:'',
-    elugar:activa?activa.elugar:'',
-    visible:true
-  });
-  // Also save to nocheHist for backward compat
-  S.nocheHist.push({dia:activa?formatFechaLarga(activa.fecha):getDiaLabel(),nombre:name,pts});
-  // Mark night as FINALIZADA — blocks further scoring
-  if(activa){
-    const idx=S.nocheProgramada.findIndex(n=>n.fecha===activa.fecha);
-    if(idx>=0)S.nocheProgramada[idx].finalizada=true;
-  }
-  // Reset noche points
-  S.nombres.forEach(p=>{if(p)S.noche[p]=0;});
-  renderNocheHist();renderNocheAdmin();renderAll();updateNocheLiderAdmin();guardar();
-  showToast('✅ Ganador guardado y noche finalizada',`${name} · ${pts} pts`,'#27AE60');
-}
 
 // ── RENDER ADMIN HORA/NOCHE PANEL ──
 function renderNocheAdmin(){
@@ -1026,70 +1000,6 @@ function renderNocheAdmin(){
 }
 
 // ── RENDER INFO → PREMIOS → GANADOR DE LA NOCHE ──
-function renderNocheContenido(){
-  const el=document.getElementById('noche-proxima-box');if(!el)return;
-  const activa=ncGetActiva();
-  const hoy=todayKey();
-  const ranked=getRanked(S.noche);
-  const lider=ranked.find(([,v])=>v>0);
-  let html_out='';
-
-  // ── BLOQUE 1: Noche de hoy ──
-  // Find today's night (active or finalized)
-  const nocheHoy=(S.nocheProgramada||[]).find(n=>n.fecha===hoy&&n.visible)||null;
-  if(nocheHoy){
-    const finalizada=!!nocheHoy.finalizada;
-    const entregaStr=_buildEntregaStr(nocheHoy);
-    // Badge
-    const badge=finalizada
-      ?'<span class="badge-finalizado">JUEGO FINALIZADO</span>'
-      :'<span class="badge-en-juego">EN JUEGO</span>';
-    // Find winner if finalized
-    const ganadorHoy=finalizada?S.histGanadores.find(g=>g.fecha===hoy):null;
-    html_out+=`<div style="background:rgba(255,122,0,.06);border:1px solid rgba(255,122,0,.2);border-radius:6px;padding:14px;margin-bottom:10px;">
-      <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-bottom:2px;">Noche</div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--orange);margin-bottom:6px;">${formatFechaDia(hoy)} ${badge}</div>
-      ${nocheHoy.premio?`<div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Premio en juego</div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--gold);margin-bottom:8px;">🏆 ${nocheHoy.premio}</div>`:''}
-      ${finalizada&&ganadorHoy?`<div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Ganador</div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--gold-b);line-height:1;">🥇 ${ganadorHoy.pts} <span style="font-size:.7rem;color:var(--muted);">pts</span></div>
-      <div style="font-size:1rem;font-weight:700;margin:2px 0 6px;">${ganadorHoy.peña}</div>`
-      :!finalizada&&lider?`<div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Líder temporal</div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--gold-b);line-height:1;">🥇 ${lider[1]} <span style="font-size:.7rem;color:var(--muted);">pts</span></div>
-      <div style="font-size:1rem;font-weight:700;margin:2px 0 6px;">${lider[0]}</div>`
-      :`<div style="font-size:.85rem;color:var(--muted);margin-bottom:6px;">🌙 Sin puntos aún esta noche</div>`}
-      ${entregaStr?`<div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Entrega del premio</div>
-      <div style="font-size:.82rem;color:#bbb;">📍 ${entregaStr}</div>`:''}
-    </div>`;
-  }
-
-  // ── BLOQUE 2: Próximas noches (futuras visibles no finalizadas) ──
-  const proximas=(S.nocheProgramada||[]).filter(n=>n.fecha>hoy&&n.visible&&!n.finalizada)
-    .sort((a,b)=>a.fecha.localeCompare(b.fecha));
-  if(proximas.length){
-    html_out+=`<div style="margin-bottom:10px;">
-      <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border);">📅 Próximas noches con premio</div>`;
-    proximas.forEach(n=>{
-      const entregaStr=_buildEntregaStr(n);
-      html_out+=`<div style="background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--orange);border-radius:4px;padding:10px 12px;margin-bottom:6px;">
-        <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Noche</div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--orange);">${formatFechaDia(n.fecha)}</div>
-        ${n.premio?`<div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:4px;margin-bottom:2px;">Premio en juego</div>
-        <div style="font-size:.85rem;color:var(--gold);">🏆 ${n.premio}</div>`:''}
-        ${entregaStr?`<div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:4px;margin-bottom:2px;">Entrega del premio</div>
-        <div style="font-size:.78rem;color:#bbb;">📍 ${entregaStr}</div>`:''}
-      </div>`;
-    });
-    html_out+=`</div>`;
-  }
-
-  // ── BLOQUE 3: Ganadores anteriores ──
-  html_out+=`<div id="hist-ganadores-list-container"></div>`;
-  el.innerHTML=html_out;
-
-  // Render ganadores in the container
-  renderHistGanadoresPublicInto(document.getElementById('hist-ganadores-list-container'));
-}
 
 function renderHistGanadoresPublicInto(container){
   if(!container)return;
@@ -1115,70 +1025,8 @@ function renderHistGanadoresPublicInto(container){
   container.innerHTML=h;
 }
 
-function renderHistGanadoresPublic(){
-  const el=document.getElementById('hist-ganadores-list');
-  if(el)renderHistGanadoresPublicInto(el);
-}
 
 // ── RENDER NOCHE BOX (ranking público) ──
-function renderNocheBox(){
-  const box=document.getElementById('box-noche');if(!box)return;
-  const activa=ncGetActiva();
-  const ranked=getRanked(S.noche);
-  const hoy=todayKey();
-  const nocheHoy=(S.nocheProgramada||[]).find(n=>n.fecha===hoy&&n.visible)||null;
-  const proxima=ncGetProximaFutura();
-
-  const badge=activa?'<span class="badge-en-juego">En juego</span>':'';
-  box.innerHTML=`<div class="panel-box-hdr"><div class="panel-box-title">🌙 Ganador de la Noche${badge}</div><div class="panel-box-sub">${activa?'activo':'oculto'}</div></div>`;
-
-  if(!getActivas().length){box.innerHTML+=`<div class="empty"><div class="ei">🌙</div><p>Sin peñas inscritas</p></div>`;return;}
-
-  if(!activa){
-    // No active night
-    let msg=`<div class="noche-off-msg">🌙 Premio de noche no activo esta jornada`;
-    if(proxima){
-      msg+=`<div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--orange);margin-top:6px;">📅 Próxima: ${formatFechaDia(proxima.fecha)}</div>`;
-      if(proxima.premio)msg+=`<div style="font-size:.78rem;color:var(--gold);margin-top:3px;">🏆 ${proxima.premio}</div>`;
-    }
-    msg+=`</div>`;
-    box.innerHTML+=msg;
-    // Show recent winners
-    const visibles=(S.histGanadores||[]).filter(g=>g.visible);
-    if(visibles.length){
-      box.innerHTML+=`<div class="section-lbl">Ganadores anteriores</div><div class="rlist">`;
-      [...visibles].reverse().slice(0,3).forEach(g=>{
-        box.innerHTML+=`<div class="rrow rrow-n" style="grid-template-columns:1fr auto;padding:7px 10px;">
-          <div><div style="font-size:.88rem;font-weight:600;">${g.peña}</div>
-          <div style="font-size:.65rem;color:var(--muted);">${g.fecha?formatFechaDia(g.fecha):g.dia||''}</div></div>
-          <div class="rpts-wrap"><div class="rpts">${g.pts}</div><div class="rpts-lbl">pts</div></div>
-        </div>`;
-      });
-      box.innerHTML+=`</div>`;
-    }
-    return;
-  }
-
-  // Active night
-  const lider=ranked.find(([,v])=>v>0);
-  box.innerHTML+=`<div class="noche-leader">
-    ${lider?`
-      <div style="display:flex;align-items:center;justify-content:center;gap:6px;">
-        <span class="nl-crown">🥇</span><span class="nl-pts">${lider[1]}</span><span class="nl-pts-lbl">pts noche</span>
-      </div>
-      <div class="nl-label">Líder de la noche <span style="color:var(--orange);font-size:.75em;">(temporal)</span></div>
-      <div class="nl-name">${lider[0].length>20?lider[0].slice(0,20)+'…':lider[0]}</div>
-      ${activa.premio?`<div style="font-size:.76rem;color:var(--gold);margin-top:4px;text-align:center;">🏆 ${activa.premio}</div>`:''}
-      <div style="font-size:.68rem;color:var(--muted);margin-top:3px;text-align:center;">${formatFechaDia(activa.fecha)}</div>
-    `:'<div class="nl-empty">🌙<br>¡Que empiece la noche!</div>'}
-  </div>`;
-  box.innerHTML+=`<div class="section-lbl">Ranking de noche</div><div class="rlist">`;
-  ranked.forEach(([n,p],i)=>{
-    const pos=i+1,rc=pos<=3?`r${pos}`:'';
-    box.innerHTML+=`<div class="rrow rrow-n ${rc}"><div class="rn">${pos}</div><div class="rname">${n}</div><div class="rpts-wrap"><div class="rpts">${p}</div><div class="rpts-lbl">pts</div></div></div>`;
-  });
-  box.innerHTML+=`</div>`;
-}
 
 // ── HELPER: build entrega string ──
 function _buildEntregaStr(obj){
@@ -1204,7 +1052,7 @@ let pinBuf="";function pinKey(d){if(pinBuf.length>=8)return;pinBuf+=d;updPinDots
 function pinBksp(){pinBuf=pinBuf.slice(0,-1);updPinDots();}
 function pinClear(){pinBuf="";updPinDots();document.getElementById('pin-error').textContent="";}
 function updPinDots(){for(let i=0;i<8;i++){const d=document.getElementById('pd'+i);if(d)d.classList.toggle('filled',i<pinBuf.length);}}
-async function checkPin(){const _b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(pinBuf));const _x=Array.from(new Uint8Array(_b)).map(n=>n.toString(16).padStart(2,'0')).join('');if(_x===P1H){document.getElementById('pin-screen').style.display='none';document.getElementById('admin-inner').classList.add('on');document.getElementById('lock-btn').style.display='block';S.adminOpen=true;renderOpList();renderInsc();updateNocheLiderAdmin();renderContenidoAdmin();renderLedAdmin();renderNocheAdmin();guardar();}else{document.getElementById('pin-error').textContent="PIN incorrecto";pinBuf="";updPinDots();setTimeout(()=>document.getElementById('pin-error').textContent="",2000);}}
+async function checkPin(){const _b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(pinBuf));const _x=Array.from(new Uint8Array(_b)).map(n=>n.toString(16).padStart(2,'0')).join('');if(_x===P1H){document.getElementById('pin-screen').style.display='none';document.getElementById('admin-inner').classList.add('on');document.getElementById('lock-btn').style.display='block';S.adminOpen=true;renderOpList();renderInsc();updateNocheLiderAdmin();renderContenidoAdmin();renderLedAdmin();if(typeof renderNocheAdmin==='function')renderNocheAdmin();guardar();}else{document.getElementById('pin-error').textContent="PIN incorrecto";pinBuf="";updPinDots();setTimeout(()=>document.getElementById('pin-error').textContent="",2000);}}
 function lockAdmin(){pinBuf="";updPinDots();document.getElementById('pin-screen').style.display='block';document.getElementById('admin-inner').classList.remove('on');document.getElementById('lock-btn').style.display='none';S.adminOpen=false;lockAdmin2();if(S.tab==='admin')setTab('ranking');guardar();}
 let pin2Buf="";function pin2Key(d){if(pin2Buf.length>=8)return;pin2Buf+=d;updPin2Dots();if(pin2Buf.length===8)setTimeout(checkPin2,150);}
 function pin2Bksp(){pin2Buf=pin2Buf.slice(0,-1);updPin2Dots();}
@@ -1215,8 +1063,7 @@ function lockAdmin2(){pin2Buf="";updPin2Dots();document.getElementById('admin2-l
 function setTab(t){S.tab=t;['ranking','info','admin'].forEach(x=>{const tb=document.getElementById('tab-'+x);const pn=document.getElementById('panel-'+x);if(tb)tb.classList.toggle('on',x===t);if(pn)pn.classList.toggle('on',x===t);});if(t==='ranking')renderRanking();if(t==='admin'&&S.adminOpen){renderOpList();renderInsc();}
 if(t==='info'){renderInfoPanels();const itabMsg=document.getElementById('itab-mensajes');if(itabMsg&&itabMsg.classList.contains('on')){S.msgVisto=true;updateMsgBadge();guardar();renderMensajesPublic();}}
 guardar();}
-function setAdminTab(t){S.adminTab=t;['op','contenido','hora','admin2','insc'].forEach(x=>{const tb=document.getElementById('atab-'+x);const pn=document.getElementById('apanel-'+x);if(tb)tb.classList.toggle('on',x===t);if(pn)pn.classList.toggle('on',x===t);});if(t==='hora'){renderNocheHist();updateNocheLiderAdmin();if(typeof renderNocheAdmin==='function')renderNocheAdmin();}
-if(t==='contenido'){renderContenidoAdmin();renderLedAdmin();}if(t==='admin2'&&S.admin2Open)renderAdmin2();guardar();}
+function setAdminTab(t){S.adminTab=t;['op','contenido','horadoble','noche','admin2','insc'].forEach(x=>{const tb=document.getElementById('atab-'+x);const pn=document.getElementById('apanel-'+x);if(tb)tb.classList.toggle('on',x===t);if(pn)pn.classList.toggle('on',x===t);});if(t==='noche'){renderNocheHist();updateNocheLiderAdmin();if(typeof renderNocheAdmin==='function')renderNocheAdmin();}if(t==='contenido'){renderContenidoAdmin();renderLedAdmin();}if(t==='admin2'&&S.admin2Open)renderAdmin2();guardar();}
 function setInfoTab(t){['mensajes','premios','func','proyecto'].forEach(x=>{const tb=document.getElementById('itab-'+x);const pn=document.getElementById('ipanel-'+x);if(tb)tb.classList.toggle('on',x===t);if(pn)pn.classList.toggle('on',x===t);});if(t==='premios')renderPremiosInfo();if(t==='mensajes'){S.msgVisto=true;updateMsgBadge();guardar();renderMensajesPublic();}}
 function setPremiosTab(t){['general','noche'].forEach(x=>{const tb=document.getElementById('ptab-'+x);const pn=document.getElementById('ppanel-'+x);if(tb)tb.classList.toggle('on',x===t);if(pn)pn.classList.toggle('on',x===t);});if(t==='general')renderPremiosPodio();if(t==='noche'){if(typeof renderNocheContenido==='function')renderNocheContenido();}}
 function getActivas(){return S.nombres.filter(p=>S.activas[p]&&p&&p.trim()!=='');}
@@ -1261,8 +1108,32 @@ const pts=(tipo!=='bono'&&S.hora)?rawPts*2:rawPts;savePrevRank();if(tipo==='rest
 closeNp();guardar();renderAll();}
 function setLastOp(p,msg,cls){const el=document.getElementById('op-last');if(el){el.className='op-last '+cls;el.innerHTML=`Última:<strong>${p}</strong>· ${msg}`;}}
 function confirmResetNoche(){const ranked=getRanked(S.noche);const hay=ranked.length&&ranked[0][1]>0;const msg=hay?`⚠️ HAY PUNTOS SIN GUARDAR\n\nLíder:${ranked[0][0]}con ${ranked[0][1]}pts\n\n¿Reiniciar SIN guardar?`:'¿Reiniciar el marcador de la NOCHE?';if(confirm(msg)){S.nombres.forEach(p=>S.noche[p]=0);renderAll();updateNocheLiderAdmin();showToast('NOCHE REINICIADA','','#FF7A00');guardar();}}
-function saveNocheWinner(){const ranked=getRanked(S.noche);if(!ranked.length||ranked[0][1]===0){showToast('Sin datos','No hay puntos de noche','#CC1A1A');return;}
-const[name,pts]=ranked[0];S.nocheHist.push({dia:getDiaLabel(),nombre:name,pts});S.histGanadores.push({dia:getDiaLabel(),peña:name,pts:String(pts),premio:'',visible:false});S.nombres.forEach(p=>S.noche[p]=0);renderNocheHist();renderHistGanadoresAdmin();renderAll();updateNocheLiderAdmin();showToast('Ganador guardado y noche reiniciada',`${name}· ${pts}pts`,'#27AE60');guardar();}
+function saveNocheWinner(){
+  const ranked=getRanked(S.noche);
+  if(!ranked.length||ranked[0][1]===0){showToast('Sin datos','No hay puntos de noche','#CC1A1A');return;}
+  if(!confirm('¿Finalizar la noche y guardar ganador?'))return;
+  const[name,pts]=ranked[0];
+  const activa=ncGetActiva();
+  S.histGanadores.push({
+    fecha:activa?activa.fecha:'',
+    dia:activa?formatFechaLarga(activa.fecha):getDiaLabel(),
+    peña:name,pts:String(pts),
+    premio:activa?activa.premio:'',
+    horaFin:activa?activa.horaFin:'',
+    efecha:activa?activa.efecha:'',
+    ehora:activa?activa.ehora:'',
+    elugar:activa?activa.elugar:'',
+    visible:true
+  });
+  S.nocheHist.push({dia:activa?formatFechaLarga(activa.fecha):getDiaLabel(),nombre:name,pts});
+  if(activa){
+    const idx=S.nocheProgramada.findIndex(n=>n.fecha===activa.fecha);
+    if(idx>=0)S.nocheProgramada[idx].finalizada=true;
+  }
+  S.nombres.forEach(p=>{if(p)S.noche[p]=0;});
+  renderNocheHist();if(typeof renderNocheAdmin==='function')renderNocheAdmin();renderAll();updateNocheLiderAdmin();guardar();
+  showToast('✅ Ganador guardado y noche finalizada',`${name} · ${pts} pts`,'#27AE60');
+}
 function renderNocheHist(){const el=document.getElementById('hist-list');if(!el)return;if(!S.nocheHist.length){el.innerHTML='<div class="hist-empty">Sin ganadores aún</div>';return;}
 el.innerHTML='';[...S.nocheHist].reverse().forEach(h=>{el.innerHTML+=`<div class="hist-row"><div class="hist-day">${h.dia}</div><div class="hist-name">${h.nombre}</div><div class="hist-pts">${h.pts}</div></div>`;});}
 function updateNocheLiderAdmin(){const ranked=getRanked(S.noche);const el=document.getElementById('noche-lider-admin');if(el)el.textContent=ranked.length&&ranked[0][1]>0?`${ranked[0][0]}· ${ranked[0][1]}pts`:'— Sin puntos aún';}
