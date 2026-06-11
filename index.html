@@ -46,8 +46,33 @@
 
 /* ── EN JUEGO badge ── */
 @keyframes enJuegoPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.05)}}
-.en-juego-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(39,174,96,.15);border:1px solid rgba(39,174,96,.4);border-radius:12px;padding:2px 8px;font-size:.65rem;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.1em;color:#4cde84;text-transform:uppercase;animation:enJuegoPulse 2s ease-in-out infinite;vertical-align:middle;margin-left:6px;}
+
 .en-juego-badge::before{content:'●';font-size:.5rem;}
+
+/* ══ NOCHE SYSTEM ══ */
+@keyframes enJuegoPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.05)}}
+@keyframes finalizadoPulse{0%,100%{opacity:1}50%{opacity:.7}}
+.badge-en-juego{display:inline-flex;align-items:center;gap:3px;background:rgba(39,174,96,.15);border:1px solid rgba(39,174,96,.4);border-radius:10px;padding:2px 8px;font-size:.62rem;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.1em;color:#4cde84;text-transform:uppercase;animation:enJuegoPulse 2s ease-in-out infinite;vertical-align:middle;margin-left:5px;}
+.badge-en-juego::before{content:'●';font-size:.45rem;margin-right:1px;}
+.badge-finalizado{display:inline-flex;align-items:center;gap:3px;background:rgba(204,26,26,.15);border:1px solid rgba(204,26,26,.4);border-radius:10px;padding:2px 8px;font-size:.62rem;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.1em;color:#ff6060;text-transform:uppercase;vertical-align:middle;margin-left:5px;}
+.noche-card{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:12px 14px;margin-bottom:8px;}
+.noche-card.activa{border-color:rgba(255,122,0,.4);background:rgba(255,122,0,.05);}
+.noche-card.finalizada{border-color:rgba(204,26,26,.3);background:rgba(204,26,26,.04);}
+.noche-card-label{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-bottom:3px;}
+.noche-card-fecha{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.08em;color:var(--orange);margin-bottom:6px;}
+.noche-card-row{display:flex;align-items:flex-start;gap:6px;margin-bottom:4px;font-size:.82rem;color:#bbb;}
+.noche-card-row .icon{flex-shrink:0;font-size:.9rem;}
+.noche-card-row .label{color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;margin-right:4px;}
+.noche-card-peña{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--gold-b);letter-spacing:.04em;margin:4px 0 2px;}
+.noche-card-pts{font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--gold);margin-bottom:6px;}
+/* Cal entry in admin */
+.noche-cal-entry{background:var(--bg3);border:1px solid var(--border);border-left:4px solid var(--muted);border-radius:4px;padding:10px 12px;margin-bottom:6px;transition:border-color .2s;}
+.noche-cal-entry.activa{border-left-color:var(--green);}
+.noche-cal-entry.finalizada{border-left-color:var(--red-b);opacity:.7;}
+.noche-cal-entry.proxima{border-left-color:var(--orange);}
+.noche-cal-entry-fecha{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.08em;color:var(--text);}
+.noche-cal-entry-premio{font-size:.82rem;color:var(--gold);margin-top:2px;}
+.noche-cal-entry-entrega{font-size:.72rem;color:var(--muted);margin-top:2px;}
 </style>
 </head>
 <body>
@@ -268,32 +293,7 @@
           </div>
           <div class="admin-section">
             <div class="admin-section-title">🌙 Control de Noche</div>
-
-            <!-- Líder actual -->
-            <div style="background:rgba(255,122,0,.06);border:1px solid rgba(255,122,0,.2);border-radius:4px;padding:9px 11px;margin-bottom:10px;">
-              <div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;">Líder actual</div>
-              <div id="noche-lider-admin" style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--orange);">—</div>
-              <div id="noche-activa-info" style="font-size:.76rem;color:var(--muted);margin-top:3px;"></div>
-            </div>
-
-            <!-- Acciones -->
-            <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;">
-              <button class="btn-ghost" onclick="confirmResetNoche()">↺ Reiniciar</button>
-              <button class="btn-sm btn-gold" onclick="saveNocheWinner()">💾 Guardar ganador y reiniciar</button>
-            </div>
-
-            <!-- Historial interno -->
-            <div style="margin-bottom:12px;">
-              <div style="font-size:.78rem;color:var(--muted);margin-bottom:7px;text-transform:uppercase;letter-spacing:.1em;">Historial ganadores · edición actual</div>
-              <div id="hist-ganadores-admin"></div>
-            </div>
-
-            <!-- Calendario de noches con premio -->
-            <div style="border-top:1px solid var(--border);padding-top:11px;">
-              <div style="font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;">📅 Calendario · Noches con premio</div>
-              <div id="cal-noche-admin"></div>
-              <button class="btn-sm btn-gold" style="margin-top:8px;width:100%;" onclick="abrirCalendarioModal()">+ Añadir noche con premio</button>
-            </div>
+            <div id="noche-admin-panel"><!-- rendered by renderNocheAdmin() --></div>
           </div>
         </div>
 
@@ -392,26 +392,65 @@
 
 </div><!-- /main -->
 
+
+<!-- ══ NOCHE CALENDAR MODAL ══ -->
+<div id="noche-cal-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:600;align-items:flex-start;justify-content:center;padding-top:4vh;overflow-y:auto;">
+  <div style="background:var(--bg2);border:1px solid var(--border);border-top:3px solid var(--gold-d);border-radius:8px;width:340px;max-width:95vw;padding:16px;margin-bottom:20px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+      <button onclick="nocheCalPrev()" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:5px 12px;border-radius:4px;cursor:pointer;font-size:1.1rem;">‹</button>
+      <div id="noche-cal-month" style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:.1em;color:var(--gold);"></div>
+      <button onclick="nocheCalNext()" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:5px 12px;border-radius:4px;cursor:pointer;font-size:1.1rem;">›</button>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:6px;" id="noche-cal-hdr"></div>
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;" id="noche-cal-grid"></div>
+    <button onclick="nocheCalCerrar()" style="width:100%;margin-top:12px;padding:9px;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:4px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:.9rem;">Cerrar</button>
+  </div>
+</div>
+
+<!-- ══ NOCHE DETAIL MODAL ══ -->
+<div id="noche-det-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:700;align-items:flex-start;justify-content:center;padding-top:3vh;overflow-y:auto;">
+  <div style="background:var(--bg2);border:1px solid var(--border);border-top:3px solid var(--orange);border-radius:8px;width:380px;max-width:95vw;padding:18px;margin-bottom:20px;">
+    <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-bottom:3px;">Noche seleccionada</div>
+    <div id="noche-det-titulo" style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--orange);letter-spacing:.06em;margin-bottom:14px;"></div>
+
+    <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;">🏆 Premio en juego</div>
+    <input class="admin-edit-field" id="noche-det-premio" placeholder="Ej: Jamón Ibérico + lote de productos" style="margin-bottom:12px;font-size:.95rem;">
+
+    <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;">⏰ Hora de fin estimada</div>
+    <input type="time" class="admin-edit-field" id="noche-det-horafin" value="23:00" style="margin-bottom:12px;font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--gold);text-align:center;letter-spacing:.1em;">
+
+    <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;">📍 Entrega del premio</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+      <div>
+        <div style="font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;">Fecha</div>
+        <input type="date" class="admin-edit-field" id="noche-det-efecha" style="margin:0;font-size:.88rem;">
+      </div>
+      <div>
+        <div style="font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;">Hora</div>
+        <input type="time" class="admin-edit-field" id="noche-det-ehora" style="margin:0;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--gold);">
+      </div>
+    </div>
+    <div style="font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;">Lugar</div>
+    <input class="admin-edit-field" id="noche-det-elugar" placeholder="Ej: Escenario principal · Caseta Alquimia" style="margin-bottom:12px;font-size:.88rem;">
+
+    <div class="toggle-row" style="margin-bottom:14px;padding:9px 11px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;">
+      <div><div class="toggle-row-label">Visible al público</div><div class="toggle-row-sub">Mostrar en Info → Premios</div></div>
+      <button class="tog-sw" id="noche-det-visible" onclick="this.classList.toggle('on');"></button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <button onclick="nocheDetGuardar()" style="padding:13px;background:linear-gradient(135deg,#1a5c2e,#27AE60);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.1em;border:none;border-radius:5px;cursor:pointer;">💾 Guardar</button>
+      <button onclick="nocheDetCerrar()" style="padding:13px;background:rgba(204,26,26,.12);color:#ff7070;border:2px solid rgba(204,26,26,.3);border-radius:5px;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.08em;cursor:pointer;">✕ Cancelar</button>
+    </div>
+  </div>
+</div>
+
 <!-- LED MARQUEE OVERLAY -->
 <div id="led-overlay" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.60);flex-direction:column;align-items:center;justify-content:center;">
   <button onclick="cerrarLed()" style="position:absolute;top:16px;right:16px;background:rgba(180,0,0,.3);border:1px solid #cc0000;color:#ff4444;font-family:'Barlow Condensed',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:.1em;padding:7px 16px;border-radius:4px;cursor:pointer;text-transform:uppercase;z-index:10;">✕ Cerrar</button>
   <div id="led-timer" style="position:absolute;top:18px;left:18px;font-family:'Bebas Neue',sans-serif;font-size:1rem;color:rgba(255,255,255,.3);letter-spacing:.12em;"></div>
   <div id="led-stage" class="centro">
     <div id="led-track" style="display:inline-block;white-space:nowrap;animation:ledScroll 16s linear infinite;padding-left:100%;font-family:'Bebas Neue',sans-serif;color:#ff1a1a;text-shadow:0 0 20px #ff0000,0 0 40px #cc0000,0 0 80px #880000;-webkit-text-stroke:1px rgba(255,255,255,.15);letter-spacing:.08em;line-height:1.1;"></div>
-  </div>
-</div>
-
-<!-- CALENDAR MODAL -->
-<div id="cal-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:600;align-items:flex-start;justify-content:center;padding-top:5vh;overflow-y:auto;">
-  <div style="background:var(--bg2);border:1px solid var(--border);border-top:3px solid var(--gold-d);border-radius:8px;width:340px;max-width:95vw;padding:16px;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-      <button onclick="calPrevMonth()" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:5px 10px;border-radius:4px;cursor:pointer;font-size:1rem;">‹</button>
-      <div id="cal-month-label" style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.1em;color:var(--gold);"></div>
-      <button onclick="calNextMonth()" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:5px 10px;border-radius:4px;cursor:pointer;font-size:1rem;">›</button>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:8px;" id="cal-days-header"></div>
-    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;" id="cal-days-grid"></div>
-    <button onclick="cerrarCalendarioModal()" style="width:100%;margin-top:12px;background:transparent;border:1px solid var(--border);color:var(--muted);padding:7px;border-radius:4px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:.85rem;">Cerrar</button>
   </div>
 </div>
 
@@ -664,273 +703,463 @@ function renderLedAdmin(){
   el.innerHTML=h;
 }
 
-// ══════════════════════════════════════════════════════
-// SISTEMA DE NOCHES CON PREMIO — funciones completas
-// ══════════════════════════════════════════════════════
+
+// ══════════════════════════════════════════════════════════════
+// SISTEMA DE NOCHES CON PREMIO — reescritura completa limpia
+// ══════════════════════════════════════════════════════════════
 
 // ── Estado del calendario ──
-let _calYear = new Date().getFullYear();
-let _calMonth = new Date().getMonth(); // 0-11
-let _calEditIdx = -1; // -1 = nuevo, N = editando índice N
+let _ncYear = new Date().getFullYear();
+let _ncMonth = new Date().getMonth();
+let _ncEditIdx = -1; // -1=nueva, N=editando índice
 
 // ── Utilidades de fecha ──
-function dateKey(y,m,d){return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
-function parseDateKey(k){const[y,m,d]=k.split('-').map(Number);return{y,m:m-1,d};}
-function formatFecha(k){
-  const{y,m,d}=parseDateKey(k);
+function todayKey(){
+  const n=new Date();
+  return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`;
+}
+function dateKeyFrom(y,m,d){
+  return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+}
+function parseDK(k){
+  const[y,m,d]=k.split('-').map(Number);return{y,m:m-1,d};
+}
+function formatFechaLarga(k){
+  const{y,m,d}=parseDK(k);
   const dias=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
   const meses=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-  const fecha=new Date(y,m,d);
-  return `${dias[fecha.getDay()]} ${d} de ${meses[m]} de ${y}`;
+  return `${dias[new Date(y,m,d).getDay()]} ${d} de ${meses[m]} de ${y}`;
 }
-function todayKey(){const n=new Date();return dateKey(n.getFullYear(),n.getMonth(),n.getDate());}
-function getNocheActiva(){
-  if(!S.nocheProgramada||!S.nocheProgramada.length)return null;
-  const hoy=todayKey();
-  // Active night = today's night that is visible and NOT closed
-  return S.nocheProgramada.find(n=>n.fecha===hoy&&n.visible&&!n.cerrada)||null;
-}
-function getNocheMasProxima(){
-  if(!S.nocheProgramada||!S.nocheProgramada.length)return null;
-  const hoy=todayKey();
-  return [...S.nocheProgramada].filter(n=>n.visible&&n.fecha>=hoy).sort((a,b)=>a.fecha.localeCompare(b.fecha))[0]||null;
-}
-
-// ── Calendar Modal ──
-function abrirCalendarioModal(){
-  _calYear=new Date().getFullYear();_calMonth=new Date().getMonth();
-  renderCalModal();document.getElementById('cal-modal').style.display='flex';
-}
-function cerrarCalendarioModal(){document.getElementById('cal-modal').style.display='none';}
-function calPrevMonth(){_calMonth--;if(_calMonth<0){_calMonth=11;_calYear--;}renderCalModal();}
-function calNextMonth(){_calMonth++;if(_calMonth>11){_calMonth=0;_calYear++;}renderCalModal();}
-
-function renderCalModal(){
-  const meses=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-  const label=document.getElementById('cal-month-label');
-  if(label)label.textContent=meses[_calMonth]+' '+_calYear;
-  const hdr=document.getElementById('cal-days-header');
-  if(hdr){
-    hdr.innerHTML='';
-    ['L','M','X','J','V','S','D'].forEach(d=>{
-      const el=document.createElement('div');el.className='cal-header-day';el.textContent=d;hdr.appendChild(el);
-    });
-  }
-  const grid=document.getElementById('cal-days-grid');if(!grid)return;
-  grid.innerHTML='';
-  const firstDay=new Date(_calYear,_calMonth,1);
-  let startDow=firstDay.getDay();if(startDow===0)startDow=7;// Mon=1
-  const daysInMonth=new Date(_calYear,_calMonth+1,0).getDate();
-  const daysInPrev=new Date(_calYear,_calMonth,0).getDate();
-  const hoy=todayKey();
-  const premiasMap={};
-  (S.nocheProgramada||[]).forEach(n=>{premiasMap[n.fecha]=n;});
-  // Previous month days
-  for(let i=startDow-2;i>=0;i--){
-    const el=document.createElement('div');el.className='cal-day other-month';
-    el.textContent=daysInPrev-i;grid.appendChild(el);
-  }
-  // Current month days
-  for(let d=1;d<=daysInMonth;d++){
-    const k=dateKey(_calYear,_calMonth,d);
-    const el=document.createElement('div');
-    let cls='cal-day';
-    if(k===hoy)cls+=' today';
-    if(premiasMap[k])cls+=(premiasMap[k].visible?' has-premio visible':' has-premio');
-    el.className=cls;el.textContent=d;
-    el.addEventListener('click',()=>abrirNocheDetalle(k));
-    grid.appendChild(el);
-  }
-  // Next month fill
-  const total=grid.children.length;const rows=Math.ceil(total/7)*7;
-  for(let i=1;i<=rows-total;i++){
-    const el=document.createElement('div');el.className='cal-day other-month';el.textContent=i;grid.appendChild(el);
-  }
-}
-
-// ── Noche Detail Modal ──
-function abrirNocheDetalle(fechaKey){
-  cerrarCalendarioModal();
-  const existing=(S.nocheProgramada||[]).findIndex(n=>n.fecha===fechaKey);
-  _calEditIdx=existing;
-  const n=existing>=0?S.nocheProgramada[existing]:{fecha:fechaKey,premio:'',horaFin:'23:00',entregaFecha:'',entregaHora:'',entregaLugar:'',visible:true};
-  // Format fecha display: DD/MM/YYYY style header
-  const{y,m,d}=parseDateKey(fechaKey);
+function formatFechaDia(k){
+  // Returns "JUEVES · 11/06/2026"
+  const{y,m,d}=parseDK(k);
   const dias=['DOMINGO','LUNES','MARTES','MIÉRCOLES','JUEVES','VIERNES','SÁBADO'];
-  const fecha=new Date(y,m,d);
-  const diaStr=dias[fecha.getDay()];
-  document.getElementById('noche-detail-fecha').textContent=`${diaStr} · ${String(d).padStart(2,'0')}/${String(m+1).padStart(2,'0')}/${y}`;
-  document.getElementById('nd-premio').value=n.premio||'';
-  document.getElementById('nd-hora-fin').value=n.horaFin||'23:00';
-  document.getElementById('nd-entrega-fecha').value=n.entregaFecha||'';
-  document.getElementById('nd-entrega-hora').value=n.entregaHora||'';
-  document.getElementById('nd-entrega-lugar').value=n.entregaLugar||'';
-  const tog=document.getElementById('nd-visible-tog');
-  if(tog){tog.className='tog-sw'+(n.visible?' on':'');}
-  document.getElementById('noche-detail-modal').style.display='flex';
-  document.getElementById('noche-detail-modal').dataset.fecha=fechaKey;
+  const f=new Date(y,m,d);
+  return `${dias[f.getDay()]} · ${String(d).padStart(2,'0')}/${String(m+1).padStart(2,'0')}/${y}`;
 }
-function cerrarNocheDetalle(){
-  document.getElementById('noche-detail-modal').style.display='none';
-  if(typeof renderCalNocheAdmin==='function')renderCalNocheAdmin();
-}
-function guardarNocheDetalle(){
-  const fechaKey=document.getElementById('noche-detail-modal').dataset.fecha;
-  if(!S.nocheProgramada)S.nocheProgramada=[];
-  const premio=document.getElementById('nd-premio').value.trim();
-  const horaFin=document.getElementById('nd-hora-fin').value;
-  const entregaFecha=document.getElementById('nd-entrega-fecha').value;
-  const entregaHora=document.getElementById('nd-entrega-hora').value;
-  const entregaLugar=document.getElementById('nd-entrega-lugar').value.trim();
-  const visible=document.getElementById('nd-visible-tog').classList.contains('on');
-  // Build entrega string for backward compat
-  let entrega='';
-  if(entregaFecha||entregaHora){
-    const ef=entregaFecha?formatFechaCorta(entregaFecha):'';
-    entrega=(ef?ef+' ':'')+(entregaHora?entregaHora+'h':'');
-  }
-  if(entregaLugar)entrega+=(entrega?' · ':'')+entregaLugar;
-  const obj={fecha:fechaKey,premio,horaFin,entregaFecha,entregaHora,entregaLugar,entrega,visible,cerrada:false};
-  if(_calEditIdx>=0){S.nocheProgramada[_calEditIdx]=obj;}
-  else{S.nocheProgramada.push(obj);}
-  S.nocheProgramada.sort((a,b)=>a.fecha.localeCompare(b.fecha));
-  guardar();renderCalNocheAdmin();updateNocheActivaState();renderAll();
-  cerrarNocheDetalle();
-  showToast('Noche guardada',formatFecha(fechaKey).slice(0,30),'#FF7A00');
-}
-function formatFechaCorta(isoDate){
+function formatFechaEntrega(isoDate){
   if(!isoDate)return'';
   const[y,m,d]=isoDate.split('-').map(Number);
   const dias=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
-  const fecha=new Date(y,m-1,d);
-  return `${dias[fecha.getDay()]} ${String(d).padStart(2,'0')}/${String(m).padStart(2,'0')}/${y}`;
+  const f=new Date(y,m-1,d);
+  return `${dias[f.getDay()]} ${String(d).padStart(2,'0')}/${String(m).padStart(2,'0')}/${y}`;
 }
-function eliminarNocheProgramada(idx){
+
+// ── Queries sobre nocheProgramada ──
+function ncGetActiva(){
+  // Noche activa = fecha es hoy, visible, no finalizada
+  const hoy=todayKey();
+  return (S.nocheProgramada||[]).find(n=>n.fecha===hoy&&n.visible&&!n.finalizada)||null;
+}
+function ncGetProximaActivable(){
+  // La noche más próxima que es hoy o la primera futura, visible, no finalizada
+  const hoy=todayKey();
+  const candidates=(S.nocheProgramada||[])
+    .filter(n=>n.fecha>=hoy&&n.visible&&!n.finalizada)
+    .sort((a,b)=>a.fecha.localeCompare(b.fecha));
+  return candidates[0]||null;
+}
+function ncGetProximaFutura(){
+  // Primera noche futura visible no finalizada (fecha > hoy)
+  const hoy=todayKey();
+  return (S.nocheProgramada||[])
+    .filter(n=>n.fecha>hoy&&n.visible&&!n.finalizada)
+    .sort((a,b)=>a.fecha.localeCompare(b.fecha))[0]||null;
+}
+function ncPuedeActivar(n){
+  // Toggle activar visible solo en: hoy o la próxima inmediata
+  const hoy=todayKey();
+  if(n.fecha===hoy)return true;
+  // Es la primera futura?
+  const prox=ncGetProximaFutura();
+  return prox&&prox.fecha===n.fecha;
+}
+
+// ── CALENDAR MODAL ──
+function nocheCalAbrir(){
+  _ncYear=new Date().getFullYear();_ncMonth=new Date().getMonth();
+  nocheCalRender();
+  document.getElementById('noche-cal-modal').style.display='flex';
+}
+function nocheCalCerrar(){document.getElementById('noche-cal-modal').style.display='none';}
+function nocheCalPrev(){_ncMonth--;if(_ncMonth<0){_ncMonth=11;_ncYear--;}nocheCalRender();}
+function nocheCalNext(){_ncMonth++;if(_ncMonth>11){_ncMonth=0;_ncYear++;}nocheCalRender();}
+
+function nocheCalRender(){
+  const meses=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  const el=document.getElementById('noche-cal-month');
+  if(el)el.textContent=`${meses[_ncMonth]} ${_ncYear}`;
+
+  const hdr=document.getElementById('noche-cal-hdr');
+  if(hdr){
+    hdr.innerHTML='';
+    ['L','M','X','J','V','S','D'].forEach(d=>{
+      const div=document.createElement('div');
+      div.style.cssText='text-align:center;font-size:.62rem;color:var(--muted);text-transform:uppercase;padding:3px 0;';
+      div.textContent=d;hdr.appendChild(div);
+    });
+  }
+
+  const grid=document.getElementById('noche-cal-grid');if(!grid)return;
+  grid.innerHTML='';
+
+  const first=new Date(_ncYear,_ncMonth,1);
+  let dow=first.getDay();if(dow===0)dow=7;// Mon=1
+  const daysInMonth=new Date(_ncYear,_ncMonth+1,0).getDate();
+  const daysInPrev=new Date(_ncYear,_ncMonth,0).getDate();
+  const hoy=todayKey();
+  const ncMap={};
+  (S.nocheProgramada||[]).forEach(n=>{ncMap[n.fecha]=n;});
+
+  // Prev month fill
+  for(let i=dow-2;i>=0;i--){
+    const div=document.createElement('div');
+    div.style.cssText='aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:.8rem;opacity:.25;';
+    div.textContent=daysInPrev-i;grid.appendChild(div);
+  }
+
+  // Current month
+  for(let d=1;d<=daysInMonth;d++){
+    const k=dateKeyFrom(_ncYear,_ncMonth,d);
+    const nc=ncMap[k];
+    const div=document.createElement('div');
+    let bg='transparent';let color='var(--text)';let border='1px solid transparent';
+    if(k===hoy){bg='rgba(201,168,76,.15)';border='1px solid var(--gold-d)';color='var(--gold)';}
+    if(nc&&nc.visible&&!nc.finalizada){bg='rgba(255,122,0,.2)';border='1px solid var(--orange)';color='var(--orange)';}
+    if(nc&&nc.finalizada){bg='rgba(204,26,26,.1)';border='1px solid rgba(204,26,26,.3)';color='#ff6060';}
+    div.style.cssText=`aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:.85rem;border-radius:4px;cursor:pointer;background:${bg};border:${border};color:${color};font-weight:${nc?'700':'400'};position:relative;`;
+    div.textContent=d;
+    if(nc)div.innerHTML+=`<span style="position:absolute;bottom:1px;right:1px;font-size:.45rem;">🌙</span>`;
+    div.addEventListener('click',()=>nocheDetAbrir(k));
+    grid.appendChild(div);
+  }
+  // Next fill
+  const total=grid.children.length;const rows=Math.ceil(total/7)*7;
+  for(let i=1;i<=rows-total;i++){
+    const div=document.createElement('div');
+    div.style.cssText='aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:.8rem;opacity:.25;';
+    div.textContent=i;grid.appendChild(div);
+  }
+}
+
+// ── DETAIL MODAL ──
+function nocheDetAbrir(fechaKey){
+  nocheCalCerrar();
+  const idx=(S.nocheProgramada||[]).findIndex(n=>n.fecha===fechaKey);
+  _ncEditIdx=idx;
+  const n=idx>=0?S.nocheProgramada[idx]:{
+    fecha:fechaKey,premio:'',horaFin:'23:00',
+    efecha:'',ehora:'',elugar:'',visible:true,finalizada:false
+  };
+  document.getElementById('noche-det-titulo').textContent=formatFechaDia(fechaKey);
+  document.getElementById('noche-det-premio').value=n.premio||'';
+  document.getElementById('noche-det-horafin').value=n.horaFin||'23:00';
+  document.getElementById('noche-det-efecha').value=n.efecha||'';
+  document.getElementById('noche-det-ehora').value=n.ehora||'';
+  document.getElementById('noche-det-elugar').value=n.elugar||'';
+  const tog=document.getElementById('noche-det-visible');
+  if(tog)tog.className='tog-sw'+(n.visible?' on':'');
+  document.getElementById('noche-det-modal').style.display='flex';
+  document.getElementById('noche-det-modal').dataset.fecha=fechaKey;
+}
+function nocheDetCerrar(){
+  document.getElementById('noche-det-modal').style.display='none';
+  renderNocheAdmin();
+}
+function nocheDetGuardar(){
+  const fechaKey=document.getElementById('noche-det-modal').dataset.fecha;
+  if(!S.nocheProgramada)S.nocheProgramada=[];
+  const premio=document.getElementById('noche-det-premio').value.trim();
+  const horaFin=document.getElementById('noche-det-horafin').value;
+  const efecha=document.getElementById('noche-det-efecha').value;
+  const ehora=document.getElementById('noche-det-ehora').value;
+  const elugar=document.getElementById('noche-det-elugar').value.trim();
+  const visible=document.getElementById('noche-det-visible').classList.contains('on');
+  const existing=_ncEditIdx>=0?S.nocheProgramada[_ncEditIdx]:{};
+  const obj={...existing,fecha:fechaKey,premio,horaFin,efecha,ehora,elugar,visible,finalizada:existing.finalizada||false};
+  if(_ncEditIdx>=0){S.nocheProgramada[_ncEditIdx]=obj;}
+  else{S.nocheProgramada.push(obj);}
+  S.nocheProgramada.sort((a,b)=>a.fecha.localeCompare(b.fecha));
+  guardar();nocheDetCerrar();renderAll();
+  showToast('Noche guardada',formatFechaDia(fechaKey),'#FF7A00');
+}
+function nocheEliminar(idx){
   if(!confirm('¿Eliminar esta noche del calendario?'))return;
   S.nocheProgramada.splice(idx,1);
-  guardar();renderCalNocheAdmin();updateNocheActivaState();renderAll();
+  guardar();renderNocheAdmin();renderAll();
+}
+function nocheActivarToggle(idx){
+  if(!S.nocheProgramada[idx])return;
+  S.nocheProgramada[idx].visible=!S.nocheProgramada[idx].visible;
+  guardar();renderNocheAdmin();renderAll();
+  showToast(S.nocheProgramada[idx].visible?'✅ Noche activada':'⛔ Noche desactivada',
+    formatFechaDia(S.nocheProgramada[idx].fecha),'#FF7A00');
 }
 
-// ── Render lista de noches en Admin ──
-function renderCalNocheAdmin(){
-  const el=document.getElementById('cal-noche-admin');if(!el)return;
-  if(!S.nocheProgramada||!S.nocheProgramada.length){
-    el.innerHTML='<p style="font-size:.78rem;color:var(--muted);padding:4px 0;">Sin noches programadas</p>';return;
-  }
-  el.innerHTML='';
-  const hoy=todayKey();
-  S.nocheProgramada.forEach((n,i)=>{
-    const pasada=n.fecha<hoy;
-    const card=document.createElement('div');
-    card.className='np-card'+(n.visible?' visible':'')+(pasada?' opacity:.5':'');
-    if(pasada)card.style.opacity='.5';
-    card.innerHTML=`
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
-        <div style="flex:1;">
-          <div class="np-card-fecha">${n.visible?'✅':'⛔'} ${formatFecha(n.fecha)}</div>
-          ${n.premio?`<div class="np-card-premio">🏆 ${n.premio}</div>`:''}
-          ${n.entrega?`<div class="np-card-entrega">📍 ${n.entrega}</div>`:''}
-          ${n.horaFin?`<div class="np-card-entrega">⏰ Fin estimado: ${n.horaFin}h</div>`:''}
-        </div>
-        <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0;">
-          <button class="btn-sm btn-gold" onclick="abrirNocheDetalle('${n.fecha}')">✏️</button>
-          <button class="btn-sm btn-ghost" onclick="eliminarNocheProgramada(${i})">✕</button>
-        </div>
-      </div>`;
-    el.appendChild(card);
-  });
-}
-
-// ── Update nocheActiva state ──
-function updateNocheActivaState(){
-  const activa=getNocheActiva();
-  if(activa){
-    S.nocheVisible=true;
-    S.nocheActiva=activa.fecha;
-  } else {
-    const proxima=getNocheMasProxima();
-    if(!proxima){S.nocheVisible=false;S.nocheActiva=null;}
-    else{S.nocheVisible=false;S.nocheActiva=null;}
-  }
-  const tog=document.getElementById('tog-noche');
-  if(tog)tog.classList.toggle('on',S.nocheVisible);
-  // Update noche activa info
-  const infoEl=document.getElementById('noche-activa-info');
-  if(infoEl){
-    if(activa){infoEl.textContent='🌙 Noche activa · '+formatFecha(activa.fecha)+(activa.horaFin?' · fin est. '+activa.horaFin+'h':'');}
-    else{const p=getNocheMasProxima();infoEl.textContent=p?'Próxima: '+formatFecha(p.fecha):'Sin noches programadas';}
-  }
-}
-
-// ── Override saveNocheWinner to auto-rearm ──
+// ── GUARDAR GANADOR Y FINALIZAR ──
 function saveNocheWinner(){
   const ranked=getRanked(S.noche);
   if(!ranked.length||ranked[0][1]===0){showToast('Sin datos','No hay puntos de noche','#CC1A1A');return;}
+  if(!confirm('¿Finalizar la noche y guardar ganador?'))return;
   const[name,pts]=ranked[0];
-  const activa=getNocheActiva();
-  // Save to nocheHist
-  S.nocheHist.push({dia:activa?formatFecha(activa.fecha):getDiaLabel(),nombre:name,pts});
-  // Save to histGanadores with full delivery data
+  const activa=ncGetActiva();
+  // Save to histGanadores with full info from nocheProgramada
   S.histGanadores.push({
-    dia:activa?formatFecha(activa.fecha):getDiaLabel(),
-    fechaKey:activa?activa.fecha:'',
+    fecha:activa?activa.fecha:'',
+    dia:activa?formatFechaLarga(activa.fecha):getDiaLabel(),
     peña:name,pts:String(pts),
     premio:activa?activa.premio:'',
-    entrega:activa?activa.entrega:'',
-    entregaFecha:activa?activa.entregaFecha||'':'',
-    entregaHora:activa?activa.entregaHora||'':'',
-    entregaLugar:activa?activa.entregaLugar||'':'',
+    horaFin:activa?activa.horaFin:'',
+    efecha:activa?activa.efecha:'',
+    ehora:activa?activa.ehora:'',
+    elugar:activa?activa.elugar:'',
     visible:true
   });
-  // MARK current night as closed - block further scoring
+  // Also save to nocheHist for backward compat
+  S.nocheHist.push({dia:activa?formatFechaLarga(activa.fecha):getDiaLabel(),nombre:name,pts});
+  // Mark night as FINALIZADA — blocks further scoring
   if(activa){
-    const idx=(S.nocheProgramada||[]).findIndex(n=>n.fecha===activa.fecha);
-    if(idx>=0)S.nocheProgramada[idx].cerrada=true;
+    const idx=S.nocheProgramada.findIndex(n=>n.fecha===activa.fecha);
+    if(idx>=0)S.nocheProgramada[idx].finalizada=true;
   }
-  // Reset noche points immediately
+  // Reset noche points
   S.nombres.forEach(p=>{if(p)S.noche[p]=0;});
-  // Auto-rearm: check next programmed night
-  const proxima=getProximaNocheSiguiente(activa?activa.fecha:null);
-  if(proxima&&proxima.visible){
-    S.nocheActiva=proxima.fecha;S.nocheVisible=true;
-    showToast('✅ Ganador guardado','Próxima: '+formatFecha(proxima.fecha),'#27AE60');
-  } else {
-    S.nocheActiva=null;S.nocheVisible=false;
-    showToast('✅ Ganador guardado',name+' · '+pts+' pts','#27AE60');
-  }
-  renderNocheHist();renderCalNocheAdmin();renderAll();updateNocheLiderAdmin();updateNocheActivaState();guardar();
-}
-function getProximaNocheSiguiente(afterFecha){
-  if(!S.nocheProgramada||!S.nocheProgramada.length)return null;
-  const hoy=todayKey();
-  const base=afterFecha||hoy;
-  return [...S.nocheProgramada].filter(n=>n.visible&&n.fecha>base).sort((a,b)=>a.fecha.localeCompare(b.fecha))[0]||null;
+  renderNocheHist();renderNocheAdmin();renderAll();updateNocheLiderAdmin();guardar();
+  showToast('✅ Ganador guardado y noche finalizada',`${name} · ${pts} pts`,'#27AE60');
 }
 
-// ── Override renderNocheBox to show prize info ──
+// ── RENDER ADMIN HORA/NOCHE PANEL ──
+function renderNocheAdmin(){
+  const el=document.getElementById('noche-admin-panel');if(!el)return;
+  if(!S.nocheProgramada)S.nocheProgramada=[];
+
+  const activa=ncGetActiva();
+  const hoy=todayKey();
+  let h='';
+
+  // ── Líder actual ──
+  const ranked=getRanked(S.noche);
+  const lider=ranked.find(([,v])=>v>0);
+  h+=`<div style="background:rgba(255,122,0,.06);border:1px solid rgba(255,122,0,.2);border-radius:4px;padding:9px 11px;margin-bottom:10px;">
+    <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px;">Líder actual de la noche</div>
+    <div id="noche-lider-admin" style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--orange);">${lider?`${lider[0]} · ${lider[1]} pts`:'— Sin puntos aún'}</div>
+    ${activa?`<div style="font-size:.72rem;color:var(--muted);margin-top:2px;">🌙 Noche activa: ${formatFechaDia(activa.fecha)}</div>`:''}
+  </div>`;
+
+  // ── Acciones ──
+  h+=`<div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;">
+    <button class="btn-ghost" onclick="confirmResetNoche()">↺ Reiniciar puntos</button>
+    <button class="btn-gold" onclick="saveNocheWinner()" style="flex:1;">💾 Guardar ganador y finalizar</button>
+  </div>`;
+
+  // ── Historial ganadores ──
+  h+=`<div style="margin-bottom:14px;">
+    <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;">📋 Historial ganadores · edición actual</div>`;
+  if(!S.histGanadores||!S.histGanadores.length){
+    h+=`<p style="font-size:.78rem;color:var(--muted);">Sin ganadores registrados aún</p>`;
+  } else {
+    [...S.histGanadores].reverse().forEach((g,ri)=>{
+      const realIdx=S.histGanadores.length-1-ri;
+      const entregaStr=_buildEntregaStr(g);
+      h+=`<div style="background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--orange);border-radius:4px;padding:9px 11px;margin-bottom:5px;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
+          <div style="flex:1;">
+            <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;">Noche</div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:.95rem;color:var(--orange);">${g.fecha?formatFechaDia(g.fecha):g.dia||'—'}</div>
+            <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:4px;">Peña ganadora</div>
+            <div style="font-size:.9rem;font-weight:700;">${g.peña} · <span style="color:var(--gold);font-family:'Bebas Neue',sans-serif;">${g.pts} pts</span></div>
+            ${g.premio?`<div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:3px;">Premio</div><div style="font-size:.82rem;color:var(--gold);">🏆 ${g.premio}</div>`:''}
+            ${entregaStr?`<div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:3px;">Entrega</div><div style="font-size:.78rem;color:#bbb;">📍 ${entregaStr}</div>`:''}
+          </div>
+          <div style="display:flex;flex-direction:column;gap:4px;align-items:center;">
+            <button class="tog-sw${g.visible?' on':''}" onclick="S.histGanadores[${realIdx}].visible=!S.histGanadores[${realIdx}].visible;guardar();renderNocheAdmin();renderAll();" title="Visible al público"></button>
+            <div style="font-size:.55rem;color:var(--muted);text-align:center;">${g.visible?'Visible':'Oculto'}</div>
+          </div>
+        </div>
+      </div>`;
+    });
+  }
+  h+=`</div>`;
+
+  // ── Calendario noches ──
+  h+=`<div style="border-top:1px solid var(--border);padding-top:12px;">
+    <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;">📅 Calendario · Noches con premio</div>`;
+  
+  if(!S.nocheProgramada.length){
+    h+=`<p style="font-size:.78rem;color:var(--muted);margin-bottom:8px;">Sin noches programadas</p>`;
+  } else {
+    S.nocheProgramada.forEach((n,i)=>{
+      const esHoy=n.fecha===hoy;
+      const esPasada=n.fecha<hoy;
+      const esFinalizada=!!n.finalizada;
+      const puedeActivar=ncPuedeActivar(n)&&!esFinalizada;
+      let estado='próxima';
+      if(esFinalizada)estado='finalizada';
+      else if(n.visible&&esHoy)estado='activa';
+      else if(esPasada)estado='pasada';
+      const entregaStr=_buildEntregaStr(n);
+      h+=`<div class="noche-cal-entry ${estado}" style="${esPasada&&!esFinalizada?'opacity:.5':''}">
+        <div style="display:flex;align-items:flex-start;gap:8px;">
+          <div style="flex:1;">
+            <div class="noche-cal-entry-fecha">
+              ${esFinalizada?'<span class="badge-finalizado">Finalizada</span>':n.visible&&esHoy?'<span class="badge-en-juego">En juego</span>':''}
+              ${formatFechaDia(n.fecha)}
+            </div>
+            ${n.premio?`<div class="noche-cal-entry-premio">🏆 ${n.premio}</div>`:''}
+            ${n.horaFin?`<div class="noche-cal-entry-entrega"><span style="color:var(--muted);">Fin estimado:</span> ${n.horaFin}h</div>`:''}
+            ${entregaStr?`<div class="noche-cal-entry-entrega"><span style="color:var(--muted);">📍 Entrega:</span> ${entregaStr}</div>`:''}
+          </div>
+          <div style="display:flex;flex-direction:column;gap:5px;align-items:center;flex-shrink:0;">
+            ${puedeActivar?`<div style="font-size:.55rem;color:var(--muted);text-align:center;">${n.visible?'Activada':'Activar'}</div>
+            <button class="tog-sw${n.visible?' on':''}" onclick="nocheActivarToggle(${i});" title="${n.visible?'Desactivar':'Activar noche'}"></button>`:''}
+            <button class="btn-sm" style="background:rgba(201,168,76,.12);border:1px solid var(--gold-d);color:var(--gold);padding:4px 8px;font-size:.7rem;border-radius:3px;cursor:pointer;" onclick="nocheDetAbrir('${n.fecha}')">✏️</button>
+            ${!esFinalizada?`<button class="btn-sm btn-ghost" style="padding:4px 8px;font-size:.7rem;" onclick="nocheEliminar(${i})">✕</button>`:''}
+          </div>
+        </div>
+      </div>`;
+    });
+  }
+  h+=`<button class="btn-gold" style="width:100%;margin-top:8px;font-size:.9rem;" onclick="nocheCalAbrir()">+ Añadir noche con premio</button>
+  </div>`;
+
+  el.innerHTML=h;
+}
+
+// ── RENDER INFO → PREMIOS → GANADOR DE LA NOCHE ──
+function renderNocheContenido(){
+  const el=document.getElementById('noche-proxima-box');if(!el)return;
+  const activa=ncGetActiva();
+  const hoy=todayKey();
+  const ranked=getRanked(S.noche);
+  const lider=ranked.find(([,v])=>v>0);
+  let html_out='';
+
+  // ── BLOQUE 1: Noche de hoy ──
+  // Find today's night (active or finalized)
+  const nocheHoy=(S.nocheProgramada||[]).find(n=>n.fecha===hoy&&n.visible)||null;
+  if(nocheHoy){
+    const finalizada=!!nocheHoy.finalizada;
+    const entregaStr=_buildEntregaStr(nocheHoy);
+    // Badge
+    const badge=finalizada
+      ?'<span class="badge-finalizado">JUEGO FINALIZADO</span>'
+      :'<span class="badge-en-juego">EN JUEGO</span>';
+    // Find winner if finalized
+    const ganadorHoy=finalizada?S.histGanadores.find(g=>g.fecha===hoy):null;
+    html_out+=`<div style="background:rgba(255,122,0,.06);border:1px solid rgba(255,122,0,.2);border-radius:6px;padding:14px;margin-bottom:10px;">
+      <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-bottom:2px;">Noche</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--orange);margin-bottom:6px;">${formatFechaDia(hoy)} ${badge}</div>
+      ${nocheHoy.premio?`<div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Premio en juego</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--gold);margin-bottom:8px;">🏆 ${nocheHoy.premio}</div>`:''}
+      ${finalizada&&ganadorHoy?`<div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Ganador</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--gold-b);line-height:1;">🥇 ${ganadorHoy.pts} <span style="font-size:.7rem;color:var(--muted);">pts</span></div>
+      <div style="font-size:1rem;font-weight:700;margin:2px 0 6px;">${ganadorHoy.peña}</div>`
+      :!finalizada&&lider?`<div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Líder temporal</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--gold-b);line-height:1;">🥇 ${lider[1]} <span style="font-size:.7rem;color:var(--muted);">pts</span></div>
+      <div style="font-size:1rem;font-weight:700;margin:2px 0 6px;">${lider[0]}</div>`
+      :`<div style="font-size:.85rem;color:var(--muted);margin-bottom:6px;">🌙 Sin puntos aún esta noche</div>`}
+      ${entregaStr?`<div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Entrega del premio</div>
+      <div style="font-size:.82rem;color:#bbb;">📍 ${entregaStr}</div>`:''}
+    </div>`;
+  }
+
+  // ── BLOQUE 2: Próximas noches (futuras visibles no finalizadas) ──
+  const proximas=(S.nocheProgramada||[]).filter(n=>n.fecha>hoy&&n.visible&&!n.finalizada)
+    .sort((a,b)=>a.fecha.localeCompare(b.fecha));
+  if(proximas.length){
+    html_out+=`<div style="margin-bottom:10px;">
+      <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border);">📅 Próximas noches con premio</div>`;
+    proximas.forEach(n=>{
+      const entregaStr=_buildEntregaStr(n);
+      html_out+=`<div style="background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--orange);border-radius:4px;padding:10px 12px;margin-bottom:6px;">
+        <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Noche</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--orange);">${formatFechaDia(n.fecha)}</div>
+        ${n.premio?`<div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:4px;margin-bottom:2px;">Premio en juego</div>
+        <div style="font-size:.85rem;color:var(--gold);">🏆 ${n.premio}</div>`:''}
+        ${entregaStr?`<div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:4px;margin-bottom:2px;">Entrega del premio</div>
+        <div style="font-size:.78rem;color:#bbb;">📍 ${entregaStr}</div>`:''}
+      </div>`;
+    });
+    html_out+=`</div>`;
+  }
+
+  // ── BLOQUE 3: Ganadores anteriores ──
+  html_out+=`<div id="hist-ganadores-list-container"></div>`;
+  el.innerHTML=html_out;
+
+  // Render ganadores in the container
+  renderHistGanadoresPublicInto(document.getElementById('hist-ganadores-list-container'));
+}
+
+function renderHistGanadoresPublicInto(container){
+  if(!container)return;
+  const vis=(S.histGanadores||[]).filter(g=>g.visible);
+  if(!vis.length){
+    container.innerHTML='';return;
+  }
+  let h=`<div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border);">🏆 Ganadores anteriores</div>`;
+  [...vis].reverse().forEach(g=>{
+    const entregaStr=_buildEntregaStr(g);
+    h+=`<div style="background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--orange);border-radius:4px;padding:10px 12px;margin-bottom:7px;">
+      <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Noche</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:.95rem;color:var(--orange);margin-bottom:5px;">${g.fecha?formatFechaDia(g.fecha):g.dia||'—'}</div>
+      <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Peña ganadora</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--gold-b);line-height:1;">🥇 ${g.pts} <span style="font-size:.65rem;color:var(--muted);">pts</span></div>
+      <div style="font-size:.95rem;font-weight:700;margin-bottom:${g.premio?'5':'0'}px;">${g.peña}</div>
+      ${g.premio?`<div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Premio</div>
+      <div style="font-size:.82rem;color:var(--gold);">🏆 ${g.premio}</div>`:''}
+      ${entregaStr?`<div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:5px;margin-bottom:2px;">Entrega del premio</div>
+      <div style="font-size:.78rem;color:#bbb;">📍 ${entregaStr}</div>`:''}
+    </div>`;
+  });
+  container.innerHTML=h;
+}
+
+function renderHistGanadoresPublic(){
+  const el=document.getElementById('hist-ganadores-list');
+  if(el)renderHistGanadoresPublicInto(el);
+}
+
+// ── RENDER NOCHE BOX (ranking público) ──
 function renderNocheBox(){
   const box=document.getElementById('box-noche');if(!box)return;
+  const activa=ncGetActiva();
   const ranked=getRanked(S.noche);
-  const activa=getNocheActiva();
-  const proxima=getNocheMasProxima();
-  box.innerHTML=`<div class="panel-box-hdr"><div class="panel-box-title">🌙 Ganador de la Noche${activa?'<span class="en-juego-badge">En juego</span>':''}</div><div class="panel-box-sub">${activa?'activo':'oculto'}</div></div>`;
+  const hoy=todayKey();
+  const nocheHoy=(S.nocheProgramada||[]).find(n=>n.fecha===hoy&&n.visible)||null;
+  const proxima=ncGetProximaFutura();
+
+  const badge=activa?'<span class="badge-en-juego">En juego</span>':'';
+  box.innerHTML=`<div class="panel-box-hdr"><div class="panel-box-title">🌙 Ganador de la Noche${badge}</div><div class="panel-box-sub">${activa?'activo':'oculto'}</div></div>`;
+
   if(!getActivas().length){box.innerHTML+=`<div class="empty"><div class="ei">🌙</div><p>Sin peñas inscritas</p></div>`;return;}
+
   if(!activa){
+    // No active night
     let msg=`<div class="noche-off-msg">🌙 Premio de noche no activo esta jornada`;
-    if(proxima){msg+=`<div style="font-size:.75rem;color:var(--orange);margin-top:5px;">📅 Próxima: ${formatFecha(proxima.fecha)}</div>`;}
+    if(proxima){
+      msg+=`<div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--orange);margin-top:6px;">📅 Próxima: ${formatFechaDia(proxima.fecha)}</div>`;
+      if(proxima.premio)msg+=`<div style="font-size:.78rem;color:var(--gold);margin-top:3px;">🏆 ${proxima.premio}</div>`;
+    }
     msg+=`</div>`;
     box.innerHTML+=msg;
-    // Show previous winners
+    // Show recent winners
     const visibles=(S.histGanadores||[]).filter(g=>g.visible);
     if(visibles.length){
-      box.innerHTML+=`<div class="section-lbl">Ganadores anteriores</div>`;
+      box.innerHTML+=`<div class="section-lbl">Ganadores anteriores</div><div class="rlist">`;
       [...visibles].reverse().slice(0,3).forEach(g=>{
-        box.innerHTML+=`<div class="rrow rrow-n" style="grid-template-columns:1fr auto;padding:6px 10px;"><div><div style="font-size:.88rem;font-weight:600;">${g.peña}</div><div style="font-size:.68rem;color:var(--muted);">${g.dia}</div></div><div class="rpts-wrap"><div class="rpts">${g.pts}</div><div class="rpts-lbl">pts</div></div></div>`;
+        box.innerHTML+=`<div class="rrow rrow-n" style="grid-template-columns:1fr auto;padding:7px 10px;">
+          <div><div style="font-size:.88rem;font-weight:600;">${g.peña}</div>
+          <div style="font-size:.65rem;color:var(--muted);">${g.fecha?formatFechaDia(g.fecha):g.dia||''}</div></div>
+          <div class="rpts-wrap"><div class="rpts">${g.pts}</div><div class="rpts-lbl">pts</div></div>
+        </div>`;
       });
+      box.innerHTML+=`</div>`;
     }
     return;
   }
-  // Active night - show leader + prize
+
+  // Active night
   const lider=ranked.find(([,v])=>v>0);
   box.innerHTML+=`<div class="noche-leader">
     ${lider?`
@@ -940,60 +1169,33 @@ function renderNocheBox(){
       <div class="nl-label">Líder de la noche <span style="color:var(--orange);font-size:.75em;">(temporal)</span></div>
       <div class="nl-name">${lider[0].length>20?lider[0].slice(0,20)+'…':lider[0]}</div>
       ${activa.premio?`<div style="font-size:.76rem;color:var(--gold);margin-top:4px;text-align:center;">🏆 ${activa.premio}</div>`:''}
-      <div style="font-size:.7rem;color:var(--muted);margin-top:3px;text-align:center;">${formatFecha(activa.fecha)}</div>
+      <div style="font-size:.68rem;color:var(--muted);margin-top:3px;text-align:center;">${formatFechaDia(activa.fecha)}</div>
     `:'<div class="nl-empty">🌙<br>¡Que empiece la noche!</div>'}
   </div>`;
   box.innerHTML+=`<div class="section-lbl">Ranking de noche</div><div class="rlist">`;
-  ranked.forEach(([n,p],i)=>{const pos=i+1,rc=pos<=3?`r${pos}`:'';box.innerHTML+=`<div class="rrow rrow-n ${rc}"><div class="rn">${pos}</div><div class="rname">${n}</div><div class="rpts-wrap"><div class="rpts">${p}</div><div class="rpts-lbl">pts</div></div></div>`;});
-  box.innerHTML+='</div>';
+  ranked.forEach(([n,p],i)=>{
+    const pos=i+1,rc=pos<=3?`r${pos}`:'';
+    box.innerHTML+=`<div class="rrow rrow-n ${rc}"><div class="rn">${pos}</div><div class="rname">${n}</div><div class="rpts-wrap"><div class="rpts">${p}</div><div class="rpts-lbl">pts</div></div></div>`;
+  });
+  box.innerHTML+=`</div>`;
 }
 
-// ── Info panel noche (premios tab) ──
-function renderNocheContenidoNew(){
-  const el=document.getElementById('noche-proxima-box');if(!el)return;
-  const activa=getNocheActiva();
-  const proxima=getNocheMasProxima();
-  const ranked=getRanked(S.noche);
-  const lider=ranked.find(([,v])=>v>0);
-  const now=new Date();
-  const dias=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
-  const meses=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-  const hoyStr=`HOY · ${dias[now.getDay()]} ${now.getDate()} de ${meses[now.getMonth()]} de ${now.getFullYear()}`;
-  let out='';
-  if(activa){
-    out+=`<div style="font-size:.72rem;color:var(--orange);text-transform:uppercase;letter-spacing:.15em;margin-bottom:4px;">${hoyStr} <span class="en-juego-badge">En juego</span></div>`;
-    if(activa.premio)out+=`<div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--gold);letter-spacing:.06em;margin-bottom:5px;">🏆 ${activa.premio}</div>`;
-    if(lider){
-      out+=`<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
-        <span style="font-size:1.4rem;">🥇</span>
-        <span style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--gold-b);line-height:1;">${lider[1]}</span>
-        <span style="font-size:.7rem;color:var(--muted);text-transform:uppercase;">pts</span>
-      </div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--orange);letter-spacing:.04em;">${lider[0].length>22?lider[0].slice(0,22)+'…':lider[0]}</div>
-      <div style="font-size:.7rem;color:var(--orange);letter-spacing:.06em;margin-bottom:4px;">(temporal)</div>`;
-    } else {
-      out+=`<div style="font-size:.85rem;color:var(--muted);margin-bottom:4px;">🌙 Sin puntos aún esta noche</div>`;
-    }
-    if(activa.entrega)out+=`<div style="font-size:.78rem;color:var(--muted);margin-top:3px;">📍 ${activa.entrega}</div>`;
+// ── HELPER: build entrega string ──
+function _buildEntregaStr(obj){
+  let s='';
+  if(obj.efecha||obj.ehora){
+    if(obj.efecha)s+=formatFechaEntrega(obj.efecha);
+    if(obj.ehora)s+=(s?' · ':'')+obj.ehora+'h';
+  } else if(obj.entrega){
+    s=obj.entrega;
   }
-  // Próxima si es distinta a la activa
-  const proximaDist=proxima&&(!activa||proxima.fecha!==activa.fecha)?proxima:null;
-  if(proximaDist){
-    out+=`<div style="border-top:1px solid var(--border);margin:10px 0 6px;padding-top:8px;">
-      <div style="font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.15em;margin-bottom:4px;">Próxima noche con premio</div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--orange);">${formatFecha(proximaDist.fecha)}</div>
-      ${proximaDist.premio?`<div style="font-size:.82rem;color:#bbb;margin-top:2px;">🏆 ${proximaDist.premio}</div>`:''}
-      ${proximaDist.entrega?`<div style="font-size:.72rem;color:var(--muted);margin-top:2px;">📍 ${proximaDist.entrega}</div>`:''}
-    </div>`;
-  }
-  if(!activa&&!proxima){
-    out=`<div style="font-size:.82rem;color:var(--muted);">Sin noches con premio programadas</div>`;
-  }
-  el.innerHTML=out;
+  if(obj.elugar)s+=(s?' · ':'')+obj.elugar;
+  return s;
 }
 
-// Check every minute if noche activa has changed
-setInterval(()=>{updateNocheActivaState();},60000);
+// Check every 60s if noche state changed
+setInterval(()=>{renderNocheAdmin();renderAll();},60000);
+// ══ END NOCHE SYSTEM ══
 
 function initSplash(){setTimeout(()=>{const sp=document.getElementById('splash');if(sp&&!sp.classList.contains('hide'))enterApp();},2500);}
 function enterApp(){const sp=document.getElementById('splash');const app=document.getElementById('app');if(sp)sp.classList.add('hide');if(app)app.style.display='block';renderAll();renderCountdown();applyHoraState();applyChupitoDia();updateMsgBadge();fbCargar(true);}
@@ -1002,7 +1204,7 @@ let pinBuf="";function pinKey(d){if(pinBuf.length>=8)return;pinBuf+=d;updPinDots
 function pinBksp(){pinBuf=pinBuf.slice(0,-1);updPinDots();}
 function pinClear(){pinBuf="";updPinDots();document.getElementById('pin-error').textContent="";}
 function updPinDots(){for(let i=0;i<8;i++){const d=document.getElementById('pd'+i);if(d)d.classList.toggle('filled',i<pinBuf.length);}}
-async function checkPin(){const _b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(pinBuf));const _x=Array.from(new Uint8Array(_b)).map(n=>n.toString(16).padStart(2,'0')).join('');if(_x===P1H){document.getElementById('pin-screen').style.display='none';document.getElementById('admin-inner').classList.add('on');document.getElementById('lock-btn').style.display='block';S.adminOpen=true;renderOpList();renderInsc();updateNocheLiderAdmin();renderContenidoAdmin();renderLedAdmin();guardar();}else{document.getElementById('pin-error').textContent="PIN incorrecto";pinBuf="";updPinDots();setTimeout(()=>document.getElementById('pin-error').textContent="",2000);}}
+async function checkPin(){const _b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(pinBuf));const _x=Array.from(new Uint8Array(_b)).map(n=>n.toString(16).padStart(2,'0')).join('');if(_x===P1H){document.getElementById('pin-screen').style.display='none';document.getElementById('admin-inner').classList.add('on');document.getElementById('lock-btn').style.display='block';S.adminOpen=true;renderOpList();renderInsc();updateNocheLiderAdmin();renderContenidoAdmin();renderLedAdmin();renderNocheAdmin();guardar();}else{document.getElementById('pin-error').textContent="PIN incorrecto";pinBuf="";updPinDots();setTimeout(()=>document.getElementById('pin-error').textContent="",2000);}}
 function lockAdmin(){pinBuf="";updPinDots();document.getElementById('pin-screen').style.display='block';document.getElementById('admin-inner').classList.remove('on');document.getElementById('lock-btn').style.display='none';S.adminOpen=false;lockAdmin2();if(S.tab==='admin')setTab('ranking');guardar();}
 let pin2Buf="";function pin2Key(d){if(pin2Buf.length>=8)return;pin2Buf+=d;updPin2Dots();if(pin2Buf.length===8)setTimeout(checkPin2,150);}
 function pin2Bksp(){pin2Buf=pin2Buf.slice(0,-1);updPin2Dots();}
@@ -1013,10 +1215,10 @@ function lockAdmin2(){pin2Buf="";updPin2Dots();document.getElementById('admin2-l
 function setTab(t){S.tab=t;['ranking','info','admin'].forEach(x=>{const tb=document.getElementById('tab-'+x);const pn=document.getElementById('panel-'+x);if(tb)tb.classList.toggle('on',x===t);if(pn)pn.classList.toggle('on',x===t);});if(t==='ranking')renderRanking();if(t==='admin'&&S.adminOpen){renderOpList();renderInsc();}
 if(t==='info'){renderInfoPanels();const itabMsg=document.getElementById('itab-mensajes');if(itabMsg&&itabMsg.classList.contains('on')){S.msgVisto=true;updateMsgBadge();guardar();renderMensajesPublic();}}
 guardar();}
-function setAdminTab(t){S.adminTab=t;['op','contenido','hora','admin2','insc'].forEach(x=>{const tb=document.getElementById('atab-'+x);const pn=document.getElementById('apanel-'+x);if(tb)tb.classList.toggle('on',x===t);if(pn)pn.classList.toggle('on',x===t);});if(t==='hora'){renderNocheHist();updateNocheLiderAdmin();renderCalNocheAdmin();updateNocheActivaState();}
+function setAdminTab(t){S.adminTab=t;['op','contenido','hora','admin2','insc'].forEach(x=>{const tb=document.getElementById('atab-'+x);const pn=document.getElementById('apanel-'+x);if(tb)tb.classList.toggle('on',x===t);if(pn)pn.classList.toggle('on',x===t);});if(t==='hora'){renderNocheHist();updateNocheLiderAdmin();if(typeof renderNocheAdmin==='function')renderNocheAdmin();}
 if(t==='contenido'){renderContenidoAdmin();renderLedAdmin();}if(t==='admin2'&&S.admin2Open)renderAdmin2();guardar();}
 function setInfoTab(t){['mensajes','premios','func','proyecto'].forEach(x=>{const tb=document.getElementById('itab-'+x);const pn=document.getElementById('ipanel-'+x);if(tb)tb.classList.toggle('on',x===t);if(pn)pn.classList.toggle('on',x===t);});if(t==='premios')renderPremiosInfo();if(t==='mensajes'){S.msgVisto=true;updateMsgBadge();guardar();renderMensajesPublic();}}
-function setPremiosTab(t){['general','noche'].forEach(x=>{const tb=document.getElementById('ptab-'+x);const pn=document.getElementById('ppanel-'+x);if(tb)tb.classList.toggle('on',x===t);if(pn)pn.classList.toggle('on',x===t);});if(t==='general')renderPremiosPodio();if(t==='noche')if(typeof renderNocheContenidoNew==="function")renderNocheContenidoNew();else renderNocheContenido_OLD();}
+function setPremiosTab(t){['general','noche'].forEach(x=>{const tb=document.getElementById('ptab-'+x);const pn=document.getElementById('ppanel-'+x);if(tb)tb.classList.toggle('on',x===t);if(pn)pn.classList.toggle('on',x===t);});if(t==='general')renderPremiosPodio();if(t==='noche'){if(typeof renderNocheContenido==='function')renderNocheContenido();}}
 function getActivas(){return S.nombres.filter(p=>S.activas[p]&&p&&p.trim()!=='');}
 function toggleActiva(p){S.activas[p]=!S.activas[p];renderAll();showToast(p,S.activas[p]?'✅ Inscrita':'❌ Baja',S.activas[p]?'#27AE60':'#CC1A1A');guardar();}
 function toggleActivaIdx(i){const p=S.nombres[i];if(!p||!p.trim()){showToast('Sin nombre','Edita el nombre antes','#FF7A00');return;}
@@ -1090,7 +1292,7 @@ const top3=ranked.slice(0,3);if(top3.some(([,v])=>v>0)){const order=[top3[1],top
 if(S.lastOpReciente){const{peña:lp,label:ll,tipo:lt}=S.lastOpReciente;const col=lt==='pos'?'#4cde84':'#ff7070';box.innerHTML+=`<div style="font-size:.82rem;padding:6px 14px 4px;color:#555;border-bottom:1px solid #111;letter-spacing:.04em;"><span style="color:#444;">Última:</span><strong style="color:#888;">${lp}</strong><span style="color:${col};font-weight:700;">${ll}</span></div>`;}
 box.innerHTML+=`<div class="section-lbl">Ranking en vivo</div><div class="rlist">`;ranked.forEach(([n,p],i)=>{const pos=i+1,rc=pos<=3?`r${pos}`:'';const prev=S.prevRank[n];let chg='<span class="rchg eq">—</span>';if(prev&&prev!==pos){const d=prev-pos;chg=d>0?`<span class="rchg up">▲${d}</span>`:`<span class="rchg dn">▼${Math.abs(d)}</span>`;}
 const op=S.lastOp[n];const opHtml=op?`<span class="rop ${op.tipo}">${op.label}</span>`:`<span class="rop empty">—</span>`;box.innerHTML+=`<div class="rrow ${rc}"><div class="rn">${pos}</div><div class="rname">${n}</div><div class="rpts-wrap"><div class="rpts">${p}</div><div class="rpts-lbl">pts</div></div>${opHtml}${chg}</div>`;});box.innerHTML+='</div>';}
-function renderNocheBox_OLD(){const box=document.getElementById('box-noche');if(!box)return;const ranked=getRanked(S.noche);box.innerHTML=`<div class="panel-box-hdr"><div class="panel-box-title">🌙 Ganador de la Noche</div><div class="panel-box-sub">${S.nocheVisible?'activo':'oculto'}</div></div>`;if(!getActivas().length){box.innerHTML+=`<div class="empty"><div class="ei">🌙</div><p>Sin peñas inscritas</p></div>`;return;}
+function renderNocheBox(){const box=document.getElementById('box-noche');if(!box)return;const ranked=getRanked(S.noche);box.innerHTML=`<div class="panel-box-hdr"><div class="panel-box-title">🌙 Ganador de la Noche</div><div class="panel-box-sub">${S.nocheVisible?'activo':'oculto'}</div></div>`;if(!getActivas().length){box.innerHTML+=`<div class="empty"><div class="ei">🌙</div><p>Sin peñas inscritas</p></div>`;return;}
 if(!S.nocheVisible){box.innerHTML+=`<div class="noche-off-msg">🌙 Premio de noche no activo esta jornada</div>`;return;}
 const lider=ranked.find(([,v])=>v>0);box.innerHTML+=`<div class="noche-leader">${lider?`<div style="display:flex;align-items:center;justify-content:center;gap:6px;"><span class="nl-crown">🥇</span><span class="nl-pts">${lider[1]}</span><span class="nl-pts-lbl">pts noche</span></div><div class="nl-label">Líder de la noche</div><div class="nl-name">${lider[0].length>20?lider[0].slice(0,20)+'…':lider[0]}</div>`:'<div class="nl-empty">🌙<br>¡Que empiece la noche!</div>'}</div>`;box.innerHTML+=`<div class="section-lbl">Ranking de noche</div><div class="rlist">`;ranked.forEach(([n,p],i)=>{const pos=i+1,rc=pos<=3?`r${pos}`:'';box.innerHTML+=`<div class="rrow rrow-n ${rc}"><div class="rn">${pos}</div><div class="rname">${n}</div><div class="rpts-wrap"><div class="rpts">${p}</div><div class="rpts-lbl">pts</div></div></div>`;});box.innerHTML+='</div>';}
 function renderOpList(){const el=document.getElementById('op-list');if(!el)return;const act=getActivas().sort((a,b)=>S.general[b]-S.general[a]);if(!act.length){el.innerHTML='<p style="color:var(--muted);font-size:.82rem;padding:8px;">No hay peñas inscritas</p>';return;}
@@ -1103,10 +1305,10 @@ function saveName(i){const txt=document.getElementById('int-'+i),inp=document.ge
 txt.textContent=S.nombres[i];inp.value=S.nombres[i];txt.style.display='block';inp.style.display='none';btn.textContent='✏️';btn.classList.remove('saving');renderAll();guardar();}
 function inpKey(e,i){if(e.key==='Enter')saveName(i);if(e.key==='Escape'){const txt=document.getElementById('int-'+i),inp=document.getElementById('ini-'+i),btn=document.getElementById('ibe-'+i);inp.value=S.nombres[i];txt.style.display='block';inp.style.display='none';btn.textContent='✏️';btn.classList.remove('saving');}}
 function renderInfoPanels(){renderMensajesPublic();renderPremiosInfo();}
-function renderPremiosInfo(){renderPremiosPodio();if(typeof renderNocheContenidoNew==="function")renderNocheContenidoNew();else renderNocheContenido_OLD();renderHistGanadoresPublic();}
+function renderPremiosInfo(){renderPremiosPodio();renderNocheContenido();renderHistGanadoresPublic();}
 function renderPremiosPodio(){const box=document.getElementById('premios-podio-box');if(!box)return;const ranked=getRanked(S.general);box.innerHTML=`<div class="panel-box-hdr"><div class="panel-box-title">🏆 Podio actual</div><div class="panel-box-sub">En tiempo real</div></div>`;if(!getActivas().length||!ranked.some(([,v])=>v>0)){box.innerHTML+=`<div class="empty"style="padding:16px;"><p>Sin puntos aún</p></div>`;return;}
 const top3=ranked.slice(0,3);const order=[top3[1],top3[0],top3[2]],cls=['p2','p1','p3'],crowns=['🥈','🥇','🥉'],nums=['2','1','3'];let h='<div class="podio" style="padding:10px 8px 0;">';order.forEach((item,i)=>{if(!item)return;const[n,p]=item;const sh=n.length>14?n.slice(0,14)+'…':n;h+=`<div class="pi ${cls[i]}"><div style="display:flex;align-items:center;justify-content:center;gap:5px;"><span class="pi-crown">${crowns[i]}</span><span class="pi-pts">${p}</span><span class="pi-lbl">pts</span></div><div class="pi-name">${sh}</div><div class="pi-block">${nums[i]}</div></div>`;});h+='</div>';const p1=ranked[0]?ranked[0][1]:0,p2=ranked[1]?ranked[1][1]:0,p3=ranked[2]?ranked[2][1]:0,p4=ranked[3]?ranked[3][1]:0;let gaps='<div class="gap-row" style="padding:7px 10px 10px;">';if(ranked[0])gaps+=`<div class="gap-item">1º→2º:<strong>+${p1-p2}</strong></div>`;if(ranked[1])gaps+=`<div class="gap-item">2º→3º:<strong>+${p2-p3}</strong></div>`;if(ranked[3])gaps+=`<div class="gap-item fourth">4º al podio:<strong>${p3-p4}</strong></div>`;gaps+='</div>';box.innerHTML+=h+gaps;const pc=document.getElementById('premios-general-content');if(!pc)return;pc.innerHTML='<h3>Premios</h3>';[{icon:'🥇',t:'Primer Premio',d:S.premios.oro},{icon:'🥈',t:'Segundo Premio',d:S.premios.plata},{icon:'🥉',t:'Tercer Premio',d:S.premios.bronce}].forEach(item=>{pc.innerHTML+=`<div class="premio-item"><div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;"><span class="premio-icon">${item.icon}</span><span class="premio-title">${item.t}</span></div><div class="premio-desc">${item.d||'Premio por confirmar'}</div></div>`;});}
-function renderNocheContenido_OLD(){const box=document.getElementById('noche-proxima-box');if(!box)return;box.innerHTML=`<div class="noche-proxima-lbl">Próxima noche con premio</div><div class="noche-proxima-fecha">${S.nocheContenido.fecha||'Por confirmar'}</div><div class="noche-proxima-premio">${S.nocheContenido.premio||'Premio por confirmar'}</div>`;}
+function renderNocheContenido(){const box=document.getElementById('noche-proxima-box');if(!box)return;box.innerHTML=`<div class="noche-proxima-lbl">Próxima noche con premio</div><div class="noche-proxima-fecha">${S.nocheContenido.fecha||'Por confirmar'}</div><div class="noche-proxima-premio">${S.nocheContenido.premio||'Premio por confirmar'}</div>`;}
 function renderHistGanadoresPublic(){
   const el=document.getElementById('hist-ganadores-list');if(!el)return;
   const vis=S.histGanadores.filter(g=>g.visible);
@@ -1142,7 +1344,7 @@ function renderHistGanadoresPublic(){
 function renderAll(){renderRanking();if(S.adminOpen){renderOpList();renderInsc();updateNocheLiderAdmin();if(S.admin2Open)renderAdmin2();}
 if(S.tab==='info')renderInfoPanels();const el=document.getElementById('insc-cnt');if(el)el.textContent=getActivas().length+'/40';applyChupitoDia();updateMsgBadge();if(typeof applyLed==="function")applyLed();}
 let toastT=null;function showToast(name,msg,color='#C9A84C'){const t=document.getElementById('toast');if(!t)return;t.style.borderLeftColor=color;document.getElementById('toast-name').textContent=name;document.getElementById('toast-msg').textContent=msg?' · '+msg:'';t.classList.add('on');if(toastT)clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),3000);}
-document.getElementById('np-overlay').addEventListener('click',function(e){if(e.target===this)closeNp();});initSplash();document.getElementById('btn-entrar').addEventListener('click',checkPin);updateNocheActivaState();setTimeout(()=>{const app=document.getElementById('app');if(app&&app.style.display==='none'){fbCargar(true);}},100);
+document.getElementById('np-overlay').addEventListener('click',function(e){if(e.target===this)closeNp();});initSplash();document.getElementById('btn-entrar').addEventListener('click',checkPin);if(typeof renderNocheAdmin==='function')renderNocheAdmin();setTimeout(()=>{const app=document.getElementById('app');if(app&&app.style.display==='none'){fbCargar(true);}},100);
 
 </script>
 </body>
