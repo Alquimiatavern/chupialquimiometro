@@ -182,7 +182,7 @@
       </div>
       <div class="premios-panel" id="ppanel-noche">
         <div class="noche-proxima" id="noche-proxima-box"></div>
-        <div class="info-block"><h3>Ganadores anteriores</h3><div id="hist-ganadores-list"></div></div>
+        <div id="hist-ganadores-list" style="display:none;"></div>
       </div>
     </div>
     <div class="info-panel" id="ipanel-func">
@@ -510,9 +510,9 @@
 </div><!-- /app -->
 
 <button class="lock-btn" id="lock-btn" onclick="lockAdmin()" style="display:none">🔒 Cerrar admin</button>
-<div style="position:fixed;bottom:10px;left:50%;transform:translateX(-50%);z-index:9000;background:rgba(0,0,0,.75);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:4px 12px;display:flex;align-items:center;gap:5px;pointer-events:none;">
-  <span style="font-size:.85rem;">🔞</span>
-  <span style="font-size:.62rem;color:rgba(255,255,255,.6);letter-spacing:.08em;text-transform:uppercase;font-family:'Barlow Condensed',sans-serif;font-weight:700;">Prohibido menores de 18 años</span>
+<div style="position:fixed;bottom:14px;right:14px;z-index:9000;background:rgba(0,0,0,.75);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:7px 14px;display:flex;align-items:center;gap:6px;pointer-events:none;opacity:.7;">
+  <span style="font-size:1rem;">🔞</span>
+  <span style="font-size:.68rem;color:rgba(255,255,255,.85);letter-spacing:.08em;text-transform:uppercase;font-family:'Barlow Condensed',sans-serif;font-weight:700;">Prohibido menores de 18 años</span>
 </div>
 <div class="toast" id="toast"><span class="tn" id="toast-name"></span><span id="toast-msg"></span></div>
 
@@ -751,9 +751,8 @@ function formatFechaEntrega(isoDate){
 
 // ── Queries sobre nocheProgramada ──
 function ncGetActiva(){
-  // Noche activa = fecha es hoy, visible, no finalizada
-  const hoy=todayKey();
-  return (S.nocheProgramada||[]).find(n=>n.fecha===hoy&&n.visible&&!n.finalizada)||null;
+  // Noche activa = activada=true y no finalizada
+  return (S.nocheProgramada||[]).find(n=>n.activada&&!n.finalizada)||null;
 }
 function ncGetProximaActivable(){
   // La noche más próxima que es hoy o la primera futura, visible, no finalizada
@@ -771,12 +770,11 @@ function ncGetProximaFutura(){
     .sort((a,b)=>a.fecha.localeCompare(b.fecha))[0]||null;
 }
 function ncPuedeActivar(n){
-  // Toggle activar visible solo en: hoy o la próxima inmediata
-  const hoy=todayKey();
-  if(n.fecha===hoy)return true;
-  // Es la primera futura?
-  const prox=ncGetProximaFutura();
-  return prox&&prox.fecha===n.fecha;
+  // Can activate any night that is not finalizada and not currently active
+  const activa=ncGetActiva();
+  if(n.finalizada)return false;
+  if(activa&&activa.fecha===n.fecha)return false; // already active = locked
+  return true;
 }
 
 // ── CALENDAR MODAL ──
@@ -880,7 +878,7 @@ function nocheDetGuardar(){
   const elugar=document.getElementById('noche-det-elugar').value.trim();
   const visible=document.getElementById('noche-det-visible').classList.contains('on');
   const existing=_ncEditIdx>=0?S.nocheProgramada[_ncEditIdx]:{};
-  const obj={...existing,fecha:fechaKey,premio,horaFin,efecha,ehora,elugar,visible,finalizada:existing.finalizada||false};
+  const obj={...existing,fecha:fechaKey,premio,horaFin,efecha,ehora,elugar,visible,activada:existing.activada||false,finalizada:existing.finalizada||false};
   if(_ncEditIdx>=0){S.nocheProgramada[_ncEditIdx]=obj;}
   else{S.nocheProgramada.push(obj);}
   S.nocheProgramada.sort((a,b)=>a.fecha.localeCompare(b.fecha));
@@ -889,15 +887,20 @@ function nocheDetGuardar(){
 }
 function nocheEliminar(idx){
   if(!confirm('¿Eliminar esta noche del calendario?'))return;
+  if(!confirm('Segunda confirmación: ¿seguro que quieres eliminarla?'))return;
   S.nocheProgramada.splice(idx,1);
   guardar();renderNocheAdmin();renderAll();
 }
 function nocheActivarToggle(idx){
   if(!S.nocheProgramada[idx])return;
-  S.nocheProgramada[idx].visible=!S.nocheProgramada[idx].visible;
+  const n=S.nocheProgramada[idx];
+  if(n.finalizada){showToast('Noche finalizada','No se puede reactivar','#CC1A1A');return;}
+  const activa=ncGetActiva();
+  if(activa&&activa.fecha===n.fecha){showToast('Noche EN JUEGO','Finaliza con Guardar ganador','#CC1A1A');return;}
+  // Toggle activada
+  n.activada=!n.activada;
   guardar();renderNocheAdmin();renderAll();
-  showToast(S.nocheProgramada[idx].visible?'✅ Noche activada':'⛔ Noche desactivada',
-    formatFechaDia(S.nocheProgramada[idx].fecha),'#FF7A00');
+  showToast(n.activada?'✅ Noche activada':'⛔ Noche desactivada',formatFechaDia(n.fecha),'#FF7A00');
 }
 
 // ── GUARDAR GANADOR Y FINALIZAR ──
@@ -914,10 +917,15 @@ function renderNocheAdmin(){
   // ── Líder actual ──
   const ranked=getRanked(S.noche);
   const lider=ranked.find(([,v])=>v>0);
-  h+=`<div style="background:rgba(255,122,0,.06);border:1px solid rgba(255,122,0,.2);border-radius:4px;padding:9px 11px;margin-bottom:10px;">
-    <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px;">Líder actual de la noche</div>
+  const entregaAdmin=activa?_buildEntregaStr(activa):'';
+  h+=`<div style="background:rgba(255,122,0,.06);border:1px solid rgba(255,122,0,.2);border-radius:4px;padding:10px 12px;margin-bottom:10px;">
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+      ${activa?'<span class="badge-en-juego">En juego</span>':'<span style=\'font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;\'>Sin noche activa</span>'}
+    </div>
+    ${activa?`<div style="font-size:.72rem;color:var(--muted);margin-bottom:3px;">🌙 ${formatFechaDia(activa.fecha)}</div>`:''}
+    ${activa&&activa.premio?`<div style="font-size:.85rem;color:var(--gold);margin-bottom:4px;">🏆 ${activa.premio}</div>`:''}
     <div id="noche-lider-admin" style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--orange);">${lider?`${lider[0]} · ${lider[1]} pts`:'— Sin puntos aún'}</div>
-    ${activa?`<div style="font-size:.72rem;color:var(--muted);margin-top:2px;">🌙 Noche activa: ${formatFechaDia(activa.fecha)}</div>`:''}
+    ${entregaAdmin?`<div style="font-size:.72rem;color:var(--muted);margin-top:3px;">📍 Entrega: ${entregaAdmin}</div>`:''}
   </div>`;
 
   // ── Acciones ──
@@ -928,28 +936,42 @@ function renderNocheAdmin(){
 
   // ── Historial ganadores ──
   h+=`<div style="margin-bottom:14px;">
-    <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;">📋 Historial ganadores · edición actual</div>`;
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;">
+      <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;">📋 Historial ganadores · edición actual</div>
+      <button style="background:rgba(204,26,26,.12);border:1px solid rgba(204,26,26,.3);color:#ff7070;padding:4px 10px;font-size:.68rem;border-radius:3px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;white-space:nowrap;" onclick="if(confirm('¿Borrar TODO el historial de ganadores? Esta acción no se puede deshacer.')){S.histGanadores=[];S.nocheHist=[];guardar();renderNocheAdmin();renderNocheContenido();}">🗑 Borrar todo</button>
+    </div>`;
   if(!S.histGanadores||!S.histGanadores.length){
     h+=`<p style="font-size:.78rem;color:var(--muted);">Sin ganadores registrados aún</p>`;
   } else {
     [...S.histGanadores].reverse().forEach((g,ri)=>{
       const realIdx=S.histGanadores.length-1-ri;
-      const entregaStr=_buildEntregaStr(g);
-      h+=`<div style="background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--orange);border-radius:4px;padding:9px 11px;margin-bottom:5px;">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
-          <div style="flex:1;">
-            <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;">Noche</div>
+      h+=`<div style="background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--orange);border-radius:4px;padding:10px 12px;margin-bottom:6px;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:7px;">
+          <div>
+            <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;">Noche · Peña ganadora</div>
             <div style="font-family:'Bebas Neue',sans-serif;font-size:.95rem;color:var(--orange);">${g.fecha?formatFechaDia(g.fecha):g.dia||'—'}</div>
-            <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:4px;">Peña ganadora</div>
-            <div style="font-size:.9rem;font-weight:700;">${g.peña} · <span style="color:var(--gold);font-family:'Bebas Neue',sans-serif;">${g.pts} pts</span></div>
-            ${g.premio?`<div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:3px;">Premio</div><div style="font-size:.82rem;color:var(--gold);">🏆 ${g.premio}</div>`:''}
-            ${entregaStr?`<div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:3px;">Entrega</div><div style="font-size:.78rem;color:#bbb;">📍 ${entregaStr}</div>`:''}
+            <div style="font-size:.95rem;font-weight:700;">${g.peña} · <span style="color:var(--gold);font-family:'Bebas Neue',sans-serif;">${g.pts} pts</span></div>
           </div>
-          <div style="display:flex;flex-direction:column;gap:4px;align-items:center;">
-            <button class="tog-sw${g.visible?' on':''}" onclick="S.histGanadores[${realIdx}].visible=!S.histGanadores[${realIdx}].visible;guardar();renderNocheAdmin();renderAll();" title="Visible al público"></button>
+          <div style="display:flex;flex-direction:column;gap:4px;align-items:center;flex-shrink:0;">
             <div style="font-size:.55rem;color:var(--muted);text-align:center;">${g.visible?'Visible':'Oculto'}</div>
+            <button class="tog-sw${g.visible?' on':''}" onclick="S.histGanadores[${realIdx}].visible=!S.histGanadores[${realIdx}].visible;guardar();renderNocheAdmin();renderNocheContenido();" title="Visible al público"></button>
+            <button style="background:rgba(204,26,26,.12);border:1px solid rgba(204,26,26,.3);color:#ff7070;padding:4px 8px;font-size:.68rem;border-radius:3px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;margin-top:2px;" onclick="if(confirm('¿Eliminar este ganador?')){S.histGanadores.splice(${realIdx},1);guardar();renderNocheAdmin();renderNocheContenido();}">✕ Eliminar</button>
           </div>
         </div>
+        <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;">🏆 Premio</div>
+        <input class="admin-edit-field" style="margin-bottom:7px;font-size:.88rem;" value="${(g.premio||'').replace(/"/g,'&quot;')}" placeholder="Premio entregado" oninput="S.histGanadores[${realIdx}].premio=this.value;guardar();renderNocheContenido();">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px;">
+          <div>
+            <div style="font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;">📅 Fecha entrega</div>
+            <input type="date" class="admin-edit-field" style="margin:0;font-size:.82rem;" value="${g.efecha||''}" oninput="S.histGanadores[${realIdx}].efecha=this.value;guardar();renderNocheContenido();">
+          </div>
+          <div>
+            <div style="font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;">⏰ Hora entrega</div>
+            <input type="time" class="admin-edit-field" style="margin:0;font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--gold);" value="${g.ehora||''}" oninput="S.histGanadores[${realIdx}].ehora=this.value;guardar();renderNocheContenido();">
+          </div>
+        </div>
+        <div style="font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;">📍 Lugar entrega</div>
+        <input class="admin-edit-field" style="margin:0;font-size:.88rem;" value="${(g.elugar||'').replace(/"/g,'&quot;')}" placeholder="Ej: Escenario principal · Caseta Alquimia" oninput="S.histGanadores[${realIdx}].elugar=this.value;guardar();renderNocheContenido();">
       </div>`;
     });
   }
@@ -966,34 +988,43 @@ function renderNocheAdmin(){
       const esHoy=n.fecha===hoy;
       const esPasada=n.fecha<hoy;
       const esFinalizada=!!n.finalizada;
-      const puedeActivar=ncPuedeActivar(n)&&!esFinalizada;
-      let estado='próxima';
-      if(esFinalizada)estado='finalizada';
-      else if(n.visible&&esHoy)estado='activa';
-      else if(esPasada)estado='pasada';
+      const esActivada=!!n.activada;
+      const esEnJuego=esActivada&&!esFinalizada; // EN JUEGO = activada y no finalizada
+      const puedeActivar=ncPuedeActivar(n); // any non-finalizada, non-active-locked
       const entregaStr=_buildEntregaStr(n);
-      h+=`<div class="noche-cal-entry ${estado}" style="${esPasada&&!esFinalizada?'opacity:.5':''}">
+      let borderColor=esFinalizada?'var(--red-b)':esEnJuego?'var(--green)':n.visible?'var(--orange)':'var(--muted)';
+      h+=`<div style="background:var(--bg3);border:1px solid var(--border);border-left:4px solid ${borderColor};border-radius:4px;padding:10px 12px;margin-bottom:6px;${esPasada&&!esFinalizada&&!esActivada?'opacity:.5':''}">
         <div style="display:flex;align-items:flex-start;gap:8px;">
           <div style="flex:1;">
-            <div class="noche-cal-entry-fecha">
-              ${esFinalizada?'<span class="badge-finalizado">Finalizada</span>':n.visible&&esHoy?'<span class="badge-en-juego">En juego</span>':''}
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:.06em;margin-bottom:4px;">
+              ${esFinalizada?'<span class="badge-finalizado">Finalizada</span>':esEnJuego?'<span class="badge-en-juego">En juego</span>':''}
               ${formatFechaDia(n.fecha)}
             </div>
-            ${n.premio?`<div class="noche-cal-entry-premio">🏆 ${n.premio}</div>`:''}
-            ${n.horaFin?`<div class="noche-cal-entry-entrega"><span style="color:var(--muted);">Fin estimado:</span> ${n.horaFin}h</div>`:''}
-            ${entregaStr?`<div class="noche-cal-entry-entrega"><span style="color:var(--muted);">📍 Entrega:</span> ${entregaStr}</div>`:''}
+            ${n.premio?`<div style="font-size:.82rem;color:var(--gold);margin-bottom:2px;">🏆 ${n.premio}</div>`:''}
+            ${n.horaFin?`<div style="font-size:.72rem;color:var(--muted);">⏰ <span style="color:var(--muted);">Fin estimado:</span> ${n.horaFin}h</div>`:''}
+            ${entregaStr?`<div style="font-size:.72rem;color:var(--muted);">📍 <span style="color:var(--muted);">Entrega:</span> ${entregaStr}</div>`:''}
+            <div style="display:flex;gap:6px;margin-top:4px;flex-wrap:wrap;">
+              <span style="font-size:.6rem;padding:2px 6px;border-radius:3px;background:${n.visible?'rgba(39,174,96,.15)':'rgba(100,100,100,.15)'};color:${n.visible?'#4cde84':'var(--muted)'};border:1px solid ${n.visible?'rgba(39,174,96,.3)':'var(--border)'};">
+                ${n.visible?'✅ Visible público':'⛔ Oculto público'}
+              </span>
+            </div>
           </div>
-          <div style="display:flex;flex-direction:column;gap:5px;align-items:center;flex-shrink:0;">
-            ${puedeActivar?`<div style="font-size:.55rem;color:var(--muted);text-align:center;">${n.visible?'Activada':'Activar'}</div>
-            <button class="tog-sw${n.visible?' on':''}" onclick="nocheActivarToggle(${i});" title="${n.visible?'Desactivar':'Activar noche'}"></button>`:''}
-            <button class="btn-sm" style="background:rgba(201,168,76,.12);border:1px solid var(--gold-d);color:var(--gold);padding:4px 8px;font-size:.7rem;border-radius:3px;cursor:pointer;" onclick="nocheDetAbrir('${n.fecha}')">✏️</button>
-            ${!esFinalizada?`<button class="btn-sm btn-ghost" style="padding:4px 8px;font-size:.7rem;" onclick="nocheEliminar(${i})">✕</button>`:''}
+          <div style="display:flex;flex-direction:column;gap:5px;align-items:center;flex-shrink:0;min-width:50px;">
+            ${puedeActivar?`<div style="font-size:.55rem;color:var(--muted);text-align:center;">${esActivada?'Activada':'Activar'}</div>
+            <button class="tog-sw${esActivada?' on':''}" onclick="nocheActivarToggle(${i});" title="${esActivada?'Desactivar':'Activar para ranking noche'}"></button>`
+            :esFinalizada?'<span style="font-size:.6rem;color:var(--red-b);text-align:center;">Finalizada</span>'
+            :'<span style="font-size:.55rem;color:var(--orange);text-align:center;">🔒 En juego</span>'}
+            <button style="background:rgba(201,168,76,.12);border:1px solid var(--gold-d);color:var(--gold);padding:4px 8px;font-size:.7rem;border-radius:3px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;" onclick="nocheDetAbrir('${n.fecha}')">✏️</button>
+            ${!esEnJuego?`<button style="background:rgba(204,26,26,.08);border:1px solid rgba(204,26,26,.25);color:#ff7070;padding:4px 8px;font-size:.7rem;border-radius:3px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;" onclick="nocheEliminar(${i})">✕</button>`:''}
           </div>
         </div>
       </div>`;
     });
   }
-  h+=`<button class="btn-gold" style="width:100%;margin-top:8px;font-size:.9rem;" onclick="nocheCalAbrir()">+ Añadir noche con premio</button>
+  h+=`<div style="display:flex;gap:7px;margin-top:8px;">
+    <button class="btn-gold" style="flex:1;font-size:.9rem;" onclick="nocheCalAbrir()">+ Añadir noche con premio</button>
+    <button style="background:rgba(204,26,26,.12);border:1px solid rgba(204,26,26,.3);color:#ff7070;padding:9px 12px;font-size:.82rem;border-radius:5px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;white-space:nowrap;" onclick="if(confirm('¿Borrar TODAS las noches del calendario?')&&confirm('Segunda confirmación: esta acción no se puede deshacer.')){S.nocheProgramada=[];guardar();renderNocheAdmin();renderAll();}">🗑 Borrar todo</button>
+  </div>
   </div>`;
 
   el.innerHTML=h;
@@ -1031,13 +1062,22 @@ function renderHistGanadoresPublicInto(container){
 // ── HELPER: build entrega string ──
 function _buildEntregaStr(obj){
   let s='';
+  // Try new fields first (efecha/ehora/elugar)
   if(obj.efecha||obj.ehora){
     if(obj.efecha)s+=formatFechaEntrega(obj.efecha);
     if(obj.ehora)s+=(s?' · ':'')+obj.ehora+'h';
+    if(obj.elugar)s+=(s?' · ':'')+obj.elugar;
+  } else if(obj.entregaFecha||obj.entregaHora){
+    // Legacy field names
+    if(obj.entregaFecha)s+=formatFechaEntrega(obj.entregaFecha);
+    if(obj.entregaHora)s+=(s?' · ':'')+obj.entregaHora+'h';
+    if(obj.entregaLugar)s+=(s?' · ':'')+obj.entregaLugar;
   } else if(obj.entrega){
+    // Oldest format: single string
     s=obj.entrega;
+    if(obj.elugar)s+=(s?' · ':'')+obj.elugar;
+    else if(obj.entregaLugar)s+=(s?' · ':'')+obj.entregaLugar;
   }
-  if(obj.elugar)s+=(s?' · ':'')+obj.elugar;
   return s;
 }
 
@@ -1128,7 +1168,7 @@ function saveNocheWinner(){
   S.nocheHist.push({dia:activa?formatFechaLarga(activa.fecha):getDiaLabel(),nombre:name,pts});
   if(activa){
     const idx=S.nocheProgramada.findIndex(n=>n.fecha===activa.fecha);
-    if(idx>=0)S.nocheProgramada[idx].finalizada=true;
+    if(idx>=0){S.nocheProgramada[idx].finalizada=true;S.nocheProgramada[idx].activada=false;}
   }
   S.nombres.forEach(p=>{if(p)S.noche[p]=0;});
   renderNocheHist();if(typeof renderNocheAdmin==='function')renderNocheAdmin();renderAll();updateNocheLiderAdmin();guardar();
@@ -1163,9 +1203,71 @@ const top3=ranked.slice(0,3);if(top3.some(([,v])=>v>0)){const order=[top3[1],top
 if(S.lastOpReciente){const{peña:lp,label:ll,tipo:lt}=S.lastOpReciente;const col=lt==='pos'?'#4cde84':'#ff7070';box.innerHTML+=`<div style="font-size:.82rem;padding:6px 14px 4px;color:#555;border-bottom:1px solid #111;letter-spacing:.04em;"><span style="color:#444;">Última:</span><strong style="color:#888;">${lp}</strong><span style="color:${col};font-weight:700;">${ll}</span></div>`;}
 box.innerHTML+=`<div class="section-lbl">Ranking en vivo</div><div class="rlist">`;ranked.forEach(([n,p],i)=>{const pos=i+1,rc=pos<=3?`r${pos}`:'';const prev=S.prevRank[n];let chg='<span class="rchg eq">—</span>';if(prev&&prev!==pos){const d=prev-pos;chg=d>0?`<span class="rchg up">▲${d}</span>`:`<span class="rchg dn">▼${Math.abs(d)}</span>`;}
 const op=S.lastOp[n];const opHtml=op?`<span class="rop ${op.tipo}">${op.label}</span>`:`<span class="rop empty">—</span>`;box.innerHTML+=`<div class="rrow ${rc}"><div class="rn">${pos}</div><div class="rname">${n}</div><div class="rpts-wrap"><div class="rpts">${p}</div><div class="rpts-lbl">pts</div></div>${opHtml}${chg}</div>`;});box.innerHTML+='</div>';}
-function renderNocheBox(){const box=document.getElementById('box-noche');if(!box)return;const ranked=getRanked(S.noche);box.innerHTML=`<div class="panel-box-hdr"><div class="panel-box-title">🌙 Ganador de la Noche</div><div class="panel-box-sub">${S.nocheVisible?'activo':'oculto'}</div></div>`;if(!getActivas().length){box.innerHTML+=`<div class="empty"><div class="ei">🌙</div><p>Sin peñas inscritas</p></div>`;return;}
-if(!S.nocheVisible){box.innerHTML+=`<div class="noche-off-msg">🌙 Premio de noche no activo esta jornada</div>`;return;}
-const lider=ranked.find(([,v])=>v>0);box.innerHTML+=`<div class="noche-leader">${lider?`<div style="display:flex;align-items:center;justify-content:center;gap:6px;"><span class="nl-crown">🥇</span><span class="nl-pts">${lider[1]}</span><span class="nl-pts-lbl">pts noche</span></div><div class="nl-label">Líder de la noche</div><div class="nl-name">${lider[0].length>20?lider[0].slice(0,20)+'…':lider[0]}</div>`:'<div class="nl-empty">🌙<br>¡Que empiece la noche!</div>'}</div>`;box.innerHTML+=`<div class="section-lbl">Ranking de noche</div><div class="rlist">`;ranked.forEach(([n,p],i)=>{const pos=i+1,rc=pos<=3?`r${pos}`:'';box.innerHTML+=`<div class="rrow rrow-n ${rc}"><div class="rn">${pos}</div><div class="rname">${n}</div><div class="rpts-wrap"><div class="rpts">${p}</div><div class="rpts-lbl">pts</div></div></div>`;});box.innerHTML+='</div>';}
+function renderNocheBox(){
+  const box=document.getElementById('box-noche');if(!box)return;
+  const activa=ncGetActiva();
+  const ranked=getRanked(S.noche);
+  const lider=ranked.find(([,v])=>v>0);
+  const proxima=ncGetProximaFutura();
+  const entregaActiva=activa?_buildEntregaStr(activa):'';
+
+  // Header badge
+  const badge=activa?'<span class="badge-en-juego">En juego</span>':'';
+  box.innerHTML=`<div class="panel-box-hdr"><div class="panel-box-title">🌙 Ganador de la Noche${badge}</div><div class="panel-box-sub">${activa?'activo':'oculto'}</div></div>`;
+
+  if(!getActivas().length){box.innerHTML+=`<div class="empty"><div class="ei">🌙</div><p>Sin peñas inscritas</p></div>`;return;}
+
+  if(activa){
+    // EN JUEGO — show current leader + prize info
+    box.innerHTML+=`<div class="noche-leader">
+      <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:4px;">
+        <span class="badge-en-juego">EN JUEGO</span>
+        <span style="font-size:.78rem;color:var(--muted);">${formatFechaDia(activa.fecha)}</span>
+      </div>
+      ${activa.premio?`<div style="font-family:'Bebas Neue',sans-serif;font-size:.95rem;color:var(--gold);text-align:center;margin-bottom:6px;">🏆 ${activa.premio}</div>`:''}
+      ${lider?`
+        <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:2px;">
+          <span class="nl-crown">🥇</span><span class="nl-pts">${lider[1]}</span><span class="nl-pts-lbl">pts noche</span>
+        </div>
+        <div class="nl-label">Líder de la noche</div>
+        <div class="nl-name">${lider[0].length>20?lider[0].slice(0,20)+'…':lider[0]}</div>
+        <div style="font-size:.72rem;color:var(--orange);margin-top:2px;">(provisional)</div>
+      `:'<div class="nl-empty">🌙<br>¡Que empiece la noche!</div>'}
+      ${entregaActiva?`<div style="font-size:.7rem;color:var(--muted);margin-top:6px;text-align:center;padding:0 8px;">📍 ${entregaActiva}</div>`:''}
+    </div>`;
+  } else {
+    // No active night — show last finalizada + next
+    const lastFin=(S.histGanadores||[]).filter(g=>g.visible).slice(-1)[0]||null;
+    let offMsg=`<div class="noche-off-msg">`;
+    if(lastFin){
+      offMsg+=`<div style="margin-bottom:8px;">
+        <span class="badge-finalizado">JUEGO FINALIZADO</span>
+        <div style="font-size:.75rem;color:var(--muted);margin-top:4px;">${lastFin.fecha?formatFechaDia(lastFin.fecha):lastFin.dia||''}</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--gold-b);margin-top:2px;">🥇 ${lastFin.pts} pts · ${lastFin.peña}</div>
+        ${lastFin.premio?`<div style="font-size:.78rem;color:var(--gold);">🏆 ${lastFin.premio}</div>`:''}
+      </div>`;
+    } else {
+      offMsg+=`<div style="margin-bottom:8px;">🌙 Premio de noche no activo esta jornada</div>`;
+    }
+    if(proxima){
+      offMsg+=`<div style="border-top:1px solid rgba(255,255,255,.08);padding-top:7px;margin-top:4px;">
+        <div style="font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;">📅 Próxima noche con premio</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:.95rem;color:var(--orange);margin-top:3px;">${formatFechaDia(proxima.fecha)}</div>
+        ${proxima.premio?`<div style="font-size:.78rem;color:var(--gold);">🏆 ${proxima.premio}</div>`:''}
+      </div>`;
+    }
+    offMsg+=`</div>`;
+    box.innerHTML+=offMsg;
+  }
+
+  // Ranking list
+  box.innerHTML+=`<div class="section-lbl">Ranking de noche</div><div class="rlist">`;
+  ranked.forEach(([n,p],i)=>{
+    const pos=i+1,rc=pos<=3?`r${pos}`:'';
+    box.innerHTML+=`<div class="rrow rrow-n ${rc}"><div class="rn">${pos}</div><div class="rname">${n}</div><div class="rpts-wrap"><div class="rpts">${p}</div><div class="rpts-lbl">pts</div></div></div>`;
+  });
+  box.innerHTML+=`</div>`;
+}
 function renderOpList(){const el=document.getElementById('op-list');if(!el)return;const act=getActivas().sort((a,b)=>S.general[b]-S.general[a]);if(!act.length){el.innerHTML='<p style="color:var(--muted);font-size:.82rem;padding:8px;">No hay peñas inscritas</p>';return;}
 el.innerHTML='';act.forEach((p,i)=>{const row=document.createElement('div');row.className='op-row';row.innerHTML=`<div><span style="font-family:Bebas Neue,sans-serif;font-size:.88rem;color:var(--muted)">${i+1}.</span><span class="op-row-name">${p}</span></div><div class="op-row-pts"><div class="op-row-gen">${S.general[p]||0}</div><div class="op-row-lbl">gral</div></div><div class="op-row-pts"><div class="op-row-noche">${S.noche[p]||0}</div><div class="op-row-lbl">noche</div></div>`;row.onclick=()=>openNp(p);el.appendChild(row);});}
 function renderInsc(){const grid=document.getElementById('insc-grid');if(!grid)return;grid.innerHTML='';S.nombres.forEach((p,i)=>{if(i===27){const sep=document.createElement('div');sep.style.cssText='grid-column:1/-1;padding:8px 0 3px;font-family:Bebas Neue,sans-serif;font-size:.82rem;letter-spacing:.15em;color:var(--orange);border-top:1px solid var(--border);margin-top:5px;';sep.textContent='— 13 PLAZAS ADICIONALES —';grid.appendChild(sep);}
@@ -1176,41 +1278,121 @@ function saveName(i){const txt=document.getElementById('int-'+i),inp=document.ge
 txt.textContent=S.nombres[i];inp.value=S.nombres[i];txt.style.display='block';inp.style.display='none';btn.textContent='✏️';btn.classList.remove('saving');renderAll();guardar();}
 function inpKey(e,i){if(e.key==='Enter')saveName(i);if(e.key==='Escape'){const txt=document.getElementById('int-'+i),inp=document.getElementById('ini-'+i),btn=document.getElementById('ibe-'+i);inp.value=S.nombres[i];txt.style.display='block';inp.style.display='none';btn.textContent='✏️';btn.classList.remove('saving');}}
 function renderInfoPanels(){renderMensajesPublic();renderPremiosInfo();}
-function renderPremiosInfo(){renderPremiosPodio();renderNocheContenido();renderHistGanadoresPublic();}
+function renderPremiosInfo(){renderPremiosPodio();renderNocheContenido();}
 function renderPremiosPodio(){const box=document.getElementById('premios-podio-box');if(!box)return;const ranked=getRanked(S.general);box.innerHTML=`<div class="panel-box-hdr"><div class="panel-box-title">🏆 Podio actual</div><div class="panel-box-sub">En tiempo real</div></div>`;if(!getActivas().length||!ranked.some(([,v])=>v>0)){box.innerHTML+=`<div class="empty"style="padding:16px;"><p>Sin puntos aún</p></div>`;return;}
 const top3=ranked.slice(0,3);const order=[top3[1],top3[0],top3[2]],cls=['p2','p1','p3'],crowns=['🥈','🥇','🥉'],nums=['2','1','3'];let h='<div class="podio" style="padding:10px 8px 0;">';order.forEach((item,i)=>{if(!item)return;const[n,p]=item;const sh=n.length>14?n.slice(0,14)+'…':n;h+=`<div class="pi ${cls[i]}"><div style="display:flex;align-items:center;justify-content:center;gap:5px;"><span class="pi-crown">${crowns[i]}</span><span class="pi-pts">${p}</span><span class="pi-lbl">pts</span></div><div class="pi-name">${sh}</div><div class="pi-block">${nums[i]}</div></div>`;});h+='</div>';const p1=ranked[0]?ranked[0][1]:0,p2=ranked[1]?ranked[1][1]:0,p3=ranked[2]?ranked[2][1]:0,p4=ranked[3]?ranked[3][1]:0;let gaps='<div class="gap-row" style="padding:7px 10px 10px;">';if(ranked[0])gaps+=`<div class="gap-item">1º→2º:<strong>+${p1-p2}</strong></div>`;if(ranked[1])gaps+=`<div class="gap-item">2º→3º:<strong>+${p2-p3}</strong></div>`;if(ranked[3])gaps+=`<div class="gap-item fourth">4º al podio:<strong>${p3-p4}</strong></div>`;gaps+='</div>';box.innerHTML+=h+gaps;const pc=document.getElementById('premios-general-content');if(!pc)return;pc.innerHTML='<h3>Premios</h3>';[{icon:'🥇',t:'Primer Premio',d:S.premios.oro},{icon:'🥈',t:'Segundo Premio',d:S.premios.plata},{icon:'🥉',t:'Tercer Premio',d:S.premios.bronce}].forEach(item=>{pc.innerHTML+=`<div class="premio-item"><div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;"><span class="premio-icon">${item.icon}</span><span class="premio-title">${item.t}</span></div><div class="premio-desc">${item.d||'Premio por confirmar'}</div></div>`;});}
-function renderNocheContenido(){const box=document.getElementById('noche-proxima-box');if(!box)return;box.innerHTML=`<div class="noche-proxima-lbl">Próxima noche con premio</div><div class="noche-proxima-fecha">${S.nocheContenido.fecha||'Por confirmar'}</div><div class="noche-proxima-premio">${S.nocheContenido.premio||'Premio por confirmar'}</div>`;}
+function renderNocheContenido(){
+  const el=document.getElementById('noche-proxima-box');if(!el)return;
+  const activa=ncGetActiva();
+  const ranked=getRanked(S.noche);
+  const lider=ranked.find(([,v])=>v>0);
+  const hoy=todayKey();
+  let out='';
+
+  // ── BLOQUE 1a: Noche ACTIVA (EN JUEGO) ──
+  if(activa){
+    const entregaStr=_buildEntregaStr(activa);
+    out+=`<div style="background:rgba(39,174,96,.06);border:1px solid rgba(39,174,96,.25);border-radius:6px;padding:14px;margin-bottom:10px;">
+      <div style="margin-bottom:5px;"><span class="badge-en-juego">EN JUEGO</span></div>
+      <div style="font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Noche</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--orange);margin-bottom:6px;">${formatFechaDia(activa.fecha)}</div>
+      ${activa.premio?`<div style="font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Premio en juego</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--gold);margin-bottom:7px;">🏆 ${activa.premio}</div>`:''}
+      ${lider?`<div style="font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Líder provisional</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--gold-b);line-height:1;margin-bottom:2px;">🥇 ${lider[1]} <span style="font-size:.65rem;color:var(--muted);">pts</span></div>
+      <div style="font-size:1rem;font-weight:700;margin-bottom:2px;">${lider[0]} <span style="font-size:.7rem;color:var(--orange);font-family:'Barlow Condensed',sans-serif;">(provisional)</span></div>`
+      :`<div style="font-size:.85rem;color:var(--muted);margin-bottom:4px;">🌙 Sin puntos aún esta noche</div>`}
+      ${entregaStr?`<div style="font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:5px;margin-bottom:2px;">Entrega del premio</div>
+      <div style="font-size:.82rem;color:#bbb;">📍 ${entregaStr}</div>`:''}
+    </div>`;
+  }
+
+  // ── BLOQUE 1b: Noche FINALIZADA hoy ──
+  const nocheFinHoy=(S.nocheProgramada||[]).find(n=>n.fecha===hoy&&n.finalizada)||null;
+  if(nocheFinHoy){
+    const entregaStr=_buildEntregaStr(nocheFinHoy);
+    const ganadorHoy=(S.histGanadores||[]).filter(g=>g.fecha===hoy).slice(-1)[0]||null;
+    out+=`<div style="background:rgba(204,26,26,.06);border:1px solid rgba(204,26,26,.25);border-radius:6px;padding:14px;margin-bottom:10px;">
+      <div style="margin-bottom:5px;"><span class="badge-finalizado">JUEGO FINALIZADO</span></div>
+      <div style="font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Noche</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--orange);margin-bottom:6px;">${formatFechaDia(hoy)}</div>
+      ${nocheFinHoy.premio?`<div style="font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Premio en juego</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--gold);margin-bottom:7px;">🏆 ${nocheFinHoy.premio}</div>`:''}
+      ${ganadorHoy?`<div style="font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Ganador</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--gold-b);line-height:1;margin-bottom:2px;">🥇 ${ganadorHoy.pts} <span style="font-size:.65rem;color:var(--muted);">pts</span></div>
+      <div style="font-size:1rem;font-weight:700;margin-bottom:5px;">${ganadorHoy.peña}</div>`
+      :`<div style="font-size:.85rem;color:var(--muted);margin-bottom:4px;">Sin ganador registrado</div>`}
+      ${entregaStr?`<div style="font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Entrega del premio</div>
+      <div style="font-size:.82rem;color:#bbb;">📍 ${entregaStr}</div>`:''}
+    </div>`;
+  }
+
+  // ── BLOQUE 2: Próximas noches visibles no finalizadas ──
+  const proximas=(S.nocheProgramada||[])
+    .filter(n=>n.fecha>hoy&&n.visible&&!n.finalizada)
+    .sort((a,b)=>a.fecha.localeCompare(b.fecha));
+  if(proximas.length){
+    out+=`<div style="margin-bottom:12px;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.15em;color:var(--gold);padding:8px 0 6px;border-bottom:2px solid rgba(201,168,76,.3);margin-bottom:8px;">📅 Próximas noches con premio</div>`;
+    proximas.forEach(n=>{
+      const entregaStr=_buildEntregaStr(n);
+      out+=`<div style="background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--orange);border-radius:4px;padding:10px 12px;margin-bottom:6px;">
+        <div style="font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Noche</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:.95rem;color:var(--orange);margin-bottom:4px;">${formatFechaDia(n.fecha)}</div>
+        ${n.premio?`<div style="font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Premio en juego</div>
+        <div style="font-size:.85rem;color:var(--gold);margin-bottom:${_buildEntregaStr(n)?'4':'0'}px;">🏆 ${n.premio}</div>`:''}
+        ${entregaStr?`<div style="font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Entrega del premio</div>
+        <div style="font-size:.78rem;color:#bbb;">📍 ${entregaStr}</div>`:''}
+      </div>`;
+    });
+    out+=`</div>`;
+  }
+
+  // ── BLOQUE 3: Ganadores anteriores ──
+  const ganadores=(S.histGanadores||[]).filter(g=>g.visible);
+  if(ganadores.length){
+    out+=`<div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.15em;color:var(--gold);padding:8px 0 6px;border-bottom:2px solid rgba(201,168,76,.3);margin-bottom:8px;">🏆 Ganadores anteriores</div>`;
+    [...ganadores].reverse().forEach(g=>{
+      const entregaStr=_buildEntregaStr(g);
+      out+=`<div style="background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--orange);border-radius:4px;padding:10px 12px;margin-bottom:7px;">
+        <div style="font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Noche</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:.92rem;color:var(--orange);margin-bottom:4px;">${g.fecha?formatFechaDia(g.fecha):g.dia||'—'}</div>
+        <div style="font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Peña ganadora</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--gold-b);line-height:1;">🥇 ${g.pts} <span style="font-size:.6rem;color:var(--muted);">pts</span></div>
+        <div style="font-size:.92rem;font-weight:700;margin-bottom:${g.premio?'5':'0'}px;">${g.peña}</div>
+        ${g.premio?`<div style="font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Premio</div>
+        <div style="font-size:.82rem;color:var(--gold);margin-bottom:${entregaStr?'4':'0'}px;">🏆 ${g.premio}</div>`:''}
+        ${entregaStr?`<div style="font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Entrega del premio</div>
+        <div style="font-size:.78rem;color:#bbb;">📍 ${entregaStr}</div>`:''}
+      </div>`;
+    });
+    out+=`</div>`;
+  }
+
+  if(!out)out=`<div style="font-size:.82rem;color:var(--muted);text-align:center;padding:20px 0;">Sin información de noches disponible</div>`;
+  el.innerHTML=out;
+}
 function renderHistGanadoresPublic(){
-  const el=document.getElementById('hist-ganadores-list');if(!el)return;
-  const vis=S.histGanadores.filter(g=>g.visible);
-  if(!vis.length){el.innerHTML='<p style="font-size:.82rem;color:var(--muted);">Sin resultados publicados aún</p>';return;}
-  el.innerHTML='';
-  [...vis].reverse().forEach(g=>{
-    const sp=g.premio&&g.premio.toUpperCase().includes('SIN PREMIO');
-    // Build entrega string
-    let entregaStr='';
-    if(g.entregaFecha||g.entregaHora){
-      if(g.entregaFecha){
-        const[y,m,d]=g.entregaFecha.split('-').map(Number);
-        const dias=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
-        const f=new Date(y,m-1,d);
-        entregaStr=`${dias[f.getDay()]} ${String(d).padStart(2,'0')}/${String(m).padStart(2,'0')}/${y}`;
-      }
-      if(g.entregaHora)entregaStr+=(entregaStr?' · ':'')+g.entregaHora+'h';
-    } else if(g.entrega){
-      entregaStr=g.entrega;
-    }
-    if(g.entregaLugar)entregaStr+=(entregaStr?' · ':'')+g.entregaLugar;
-    el.innerHTML+=`<div style="background:var(--bg3);border:1px solid var(--border);border-left:3px solid ${sp?'var(--muted)':'var(--orange)'};border-radius:4px;padding:10px 12px;margin-bottom:7px;${sp?'opacity:.6':''}">
-      <div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px;">${g.dia||'—'}</div>
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:${sp?'0':'5px'};">
-        <strong style="font-size:1rem;">${g.peña||'—'}</strong>
-        <span style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:${sp?'var(--muted)':'var(--gold)'};">${sp?'—':g.pts||'—'}<span style="font-size:.6rem;color:var(--muted);"> pts</span></span>
-      </div>
-      ${!sp&&g.premio?`<div style="font-size:.82rem;color:var(--gold);margin-bottom:${entregaStr?'4px':'0'};">🏆 ${g.premio}</div>`:''}
-      ${entregaStr?`<div style="font-size:.76rem;color:var(--muted);"><span style="color:#888;">📍 Entrega:</span> ${entregaStr}</div>`:''}
+  // Now delegated to renderNocheContenido which handles all three blocks
+  // This function updates the dedicated list element if it exists
+  const el=document.getElementById('hist-ganadores-list');
+  if(!el)return;
+  const ganadores=(S.histGanadores||[]).filter(g=>g.visible);
+  if(!ganadores.length){el.innerHTML='<p style="font-size:.82rem;color:var(--muted);">Sin resultados publicados aún</p>';return;}
+  let h='';
+  [...ganadores].reverse().forEach(g=>{
+    const entregaStr=_buildEntregaStr(g);
+    h+=`<div style="background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--orange);border-radius:4px;padding:10px 12px;margin-bottom:7px;">
+      <div style="font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Noche</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:.92rem;color:var(--orange);margin-bottom:4px;">${g.fecha?formatFechaDia(g.fecha):g.dia||'—'}</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--gold-b);line-height:1;">🥇 ${g.pts} <span style="font-size:.6rem;color:var(--muted);">pts</span></div>
+      <div style="font-size:.92rem;font-weight:700;margin-bottom:${g.premio?'5':'0'}px;">${g.peña}</div>
+      ${g.premio?`<div style="font-size:.82rem;color:var(--gold);margin-bottom:${entregaStr?'4':'0'}px;">🏆 ${g.premio}</div>`:''}
+      ${entregaStr?`<div style="font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Entrega del premio</div><div style="font-size:.78rem;color:#bbb;">📍 ${entregaStr}</div>`:''}
     </div>`;
   });
+  el.innerHTML=h;
 }
 function renderAll(){renderRanking();if(S.adminOpen){renderOpList();renderInsc();updateNocheLiderAdmin();if(S.admin2Open)renderAdmin2();}
 if(S.tab==='info')renderInfoPanels();const el=document.getElementById('insc-cnt');if(el)el.textContent=getActivas().length+'/40';applyChupitoDia();updateMsgBadge();if(typeof applyLed==="function")applyLed();}
