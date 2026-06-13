@@ -277,10 +277,13 @@
             </div>
             <p style="font-size:.78rem;color:var(--muted);margin-bottom:8px;">Ordenadas por clasificación · Toca una peña para abrir el teclado</p>
             <div class="op-list" id="op-list"></div>
-            <div class="op-last" id="op-last" style="padding:0;background:none;border:none;min-height:0;"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;" id="last-ops-public"></div></div>
-              <button class="tog-sw" id="tog-chupito" onclick="toggleChupitoDia()"></button>
+            <div class="op-last" id="op-last"></div>
             </div>
-            <input class="admin-edit-field" type="text" id="chupito-input" placeholder="Ej: Licor de Piruleta" oninput="updateChupitoDia()">
+            <div class="admin-section" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              <span style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;">Chupito del día:</span>
+              <button class="tog-sw" id="tog-chupito" onclick="toggleChupitoDia()"></button>
+              <input class="admin-edit-field" type="text" id="chupito-input" placeholder="Ej: Licor de Piruleta" oninput="updateChupitoDia()" style="flex:1;min-width:120px;margin:0;">
+            </div>
           </div>
           <div class="admin-section">
             <div class="admin-section-title">🏆 Premios Ranking General</div>
@@ -1199,7 +1202,7 @@ function _checkRemoteFlash(remoteState){
   }
 }
 
-function initSplash(){setTimeout(()=>{const sp=document.getElementById('splash');if(sp&&!sp.classList.contains('hide'))enterApp();},1400);}
+function initSplash(){setTimeout(()=>{const sp=document.getElementById('splash');if(sp&&!sp.classList.contains('hide'))enterApp();},3500);}
 function enterApp(){const sp=document.getElementById('splash');const app=document.getElementById('app');if(sp)sp.classList.add('hide');if(app)app.style.display='block';renderAll();renderCountdown();applyHoraState();applyChupitoDia();updateMsgBadge();fbCargar(true);}
 function fmtCD(s){const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),ss=s%60;const p=n=>String(n).padStart(2,'0');const u=t=>`<span style="font-size:.58em;opacity:.6;font-family:Barlow Condensed,sans-serif">${t}</span>`;return`${p(h)}${u('h')}:${p(m)}${u('m')}:${p(ss)}${u('s')}`;}
 let pinBuf="";function pinKey(d){if(pinBuf.length>=8)return;pinBuf+=d;updPinDots();}
@@ -1342,7 +1345,29 @@ function getRanked(obj){return getActivas().map(p=>[p,obj[p]||0]).sort((a,b)=>b[
 function renderRanking(){renderGeneral();renderNocheBox();}
 function renderGeneral(){const box=document.getElementById('box-general');if(!box)return;const ranked=getRanked(S.general);const act=getActivas();box.innerHTML=`<div class="panel-box-hdr"><div class="panel-box-title">🏆 Clasificación General${getActivas().some(p=>S.general[p]>0)?'<span class="en-juego-badge">En juego</span>':''}</div><div class="panel-box-sub">${act.length}peñas</div></div>`;if(!act.length){box.innerHTML+=`<div class="empty"><div class="ei">📋</div><p>Activa peñas en Admin → Insc.</p></div>`;return;}
 const top3=ranked.slice(0,3);if(top3.some(([,v])=>v>0)){const order=[top3[1],top3[0],top3[2]],cls=['p2','p1','p3'],crowns=['🥈','🥇','🥉'],nums=['2','1','3'];let h='<div class="podio">';order.forEach((item,i)=>{if(!item)return;const[n,p]=item;const sh=n.length>16?n.slice(0,16)+'…':n;h+=`<div class="pi ${cls[i]}"><div style="display:flex;align-items:center;justify-content:center;gap:5px;"><span class="pi-crown">${crowns[i]}</span><span class="pi-pts">${p}</span><span class="pi-lbl">pts</span></div><div class="pi-name">${sh}</div><div class="pi-block">${nums[i]}</div></div>`;});h+='</div>';const p1=ranked[0]?ranked[0][1]:0,p2=ranked[1]?ranked[1][1]:0,p3=ranked[2]?ranked[2][1]:0,p4=ranked[3]?ranked[3][1]:0;let gaps='<div class="gap-row">';if(ranked[0])gaps+=`<div class="gap-item">1º→2º:<strong>+${p1-p2}</strong></div>`;if(ranked[1])gaps+=`<div class="gap-item">2º→3º:<strong>+${p2-p3}</strong></div>`;if(ranked[3])gaps+=`<div class="gap-item fourth">4º al podio:<strong>${p3-p4}</strong></div>`;gaps+='</div>';box.innerHTML+=h+gaps;}
-if(S.lastOpReciente){const{peña:lp,label:ll,tipo:lt}=S.lastOpReciente;const col=lt==='pos'?'#4cde84':'#ff7070';box.innerHTML+=`<div style="font-size:.82rem;padding:6px 14px 4px;color:#555;border-bottom:1px solid #111;letter-spacing:.04em;"><span style="color:#444;">Última:</span><strong style="color:#888;">${lp}</strong><span style="color:${col};font-weight:700;">${ll}</span></div>`;}
+if(S.lastOpReciente){const{peña:lp,label:ll,tipo:lt}=S.lastOpReciente;const col=lt==='pos'?'#4cde84':'#ff7070';box.innerHTML+=`<div id="ranking-last-ops" style="padding:5px 14px 4px;border-bottom:1px solid #111;"></div>`;}
+  // Render last ops into the container
+  setTimeout(()=>{
+    const lopEl=document.getElementById('ranking-last-ops');
+    if(!lopEl)return;
+    const ops=S.lastOps||[];
+    if(!ops.length){lopEl.innerHTML='';return;}
+    lopEl.innerHTML='<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">'+ops.map((o,i)=>{
+      const isLatest=i===0;
+      const isPos=o.tipo==='pos';
+      const color=isPos?'#4cde84':'#ff6060';
+      const bg=isPos?'rgba(39,174,96,.15)':'rgba(204,26,26,.15)';
+      const border=isPos?'rgba(39,174,96,.35)':'rgba(204,26,26,.35)';
+      if(isLatest){
+        return '<div class="lop-pill lop-latest" style="background:'+bg+';border:1px solid '+border+';">'
+          +'<span class="lop-peña">'+o.peña+'</span>'
+          +'<span class="lop-pts" style="color:'+color+';">'+o.label+'</span></div>';
+      }
+      return '<div class="lop-pill" style="background:'+bg+';border:1px solid '+border+';opacity:.72;">'
+        +'<span class="lop-peña-sm">'+o.peña+'</span>'
+        +'<span class="lop-pts-sm" style="color:'+color+';">'+o.label+'</span></div>';
+    }).join('')+'</div>';
+  },0);
 box.innerHTML+=`<div class="section-lbl">Ranking en vivo</div><div class="rlist">`;ranked.forEach(([n,p],i)=>{const pos=i+1,rc=pos<=3?`r${pos}`:'';const prev=S.prevRank[n];let chg='<span class="rchg eq">—</span>';if(prev&&prev!==pos){const d=prev-pos;chg=d>0?`<span class="rchg up">▲${d}</span>`:`<span class="rchg dn">▼${Math.abs(d)}</span>`;}
 const op=S.lastOp[n];const opHtml=op?`<span class="rop ${op.tipo}">${op.label}</span>`:`<span class="rop empty">—</span>`;box.innerHTML+=`<div class="rrow ${rc}"><div class="rn">${pos}</div><div class="rname">${n}</div><div class="rpts-wrap"><div class="rpts">${p}</div><div class="rpts-lbl">pts</div></div>${opHtml}${chg}</div>`;});box.innerHTML+='</div>';}
 function renderNocheBox(){
