@@ -277,13 +277,21 @@
             </div>
             <p style="font-size:.78rem;color:var(--muted);margin-bottom:8px;">Ordenadas por clasificación · Toca una peña para abrir el teclado</p>
             <div class="op-list" id="op-list"></div>
-            <div class="op-last" id="op-last"></div>
-            </div>
-            <div class="admin-section" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-              <span style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;">Chupito del día:</span>
+            <div class="op-last" id="op-last">Última operación: <em style="color:var(--muted)">ninguna aún</em></div>
+          </div>
+        </div>
+
+        <!-- CONTENIDO -->
+        <div class="admin-panel" <div class="admin-panel" id="apanel-contenido">
+          <div class="admin-section" id="led-admin-panel" style="min-height:60px;"></div>
+
+          <div class="admin-section">
+            <div class="admin-section-title">🥃 Chupito del día</div>
+            <div class="toggle-row" style="margin-bottom:8px;">
+              <div><div class="toggle-row-label">Mostrar en pantalla principal</div></div>
               <button class="tog-sw" id="tog-chupito" onclick="toggleChupitoDia()"></button>
-              <input class="admin-edit-field" type="text" id="chupito-input" placeholder="Ej: Licor de Piruleta" oninput="updateChupitoDia()" style="flex:1;min-width:120px;margin:0;">
             </div>
+            <input class="admin-edit-field" type="text" id="chupito-input" placeholder="Ej: Licor de Piruleta" oninput="updateChupitoDia()">
           </div>
           <div class="admin-section">
             <div class="admin-section-title">🏆 Premios Ranking General</div>
